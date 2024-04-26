@@ -14,6 +14,8 @@ import { View } from "react-native";
 import { SessionProvider } from "@/providers/AuthProviders";
 import { DefaultTheme } from "@/constants/Theme";
 import { CustomThemeProvider } from "@/providers/CustomThemeProviders";
+import { RootSiblingParent } from "react-native-root-siblings";
+import Toast from "react-native-toast-message";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -28,12 +30,6 @@ export default function RootLayout() {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
 
   if (!loaded) {
     return null;
@@ -51,26 +47,21 @@ function RootLayoutNav() {
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <CustomThemeProvider>
         <SessionProvider>
-          <Stack>
-            <Stack.Screen
-              name="(app)"
-              options={{
-                headerShown: false,
-              }}
-            ></Stack.Screen>
-            <Stack.Screen
-              name="(auth)/login"
-              options={{
-                headerShown: false,
-              }}
-            ></Stack.Screen>
-            <Stack.Screen
-              name="(auth)/register"
-              options={{
-                headerShown: false,
-              }}
-            ></Stack.Screen>
-          </Stack>
+            <Stack>
+              <Stack.Screen
+                name="(app)"
+                options={{
+                  headerShown: false,
+                }}
+              ></Stack.Screen>
+              <Stack.Screen
+                name="(auth)/login"
+                options={{
+                  headerShown: false,
+                }}
+              ></Stack.Screen>
+            </Stack>
+            <Toast />
         </SessionProvider>
       </CustomThemeProvider>
     </View>

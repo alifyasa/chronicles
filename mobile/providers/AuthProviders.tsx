@@ -1,3 +1,4 @@
+import * as SplashScreen from "expo-splash-screen";
 import { supabase } from "@/utils/supabase";
 import { Session } from "@supabase/supabase-js";
 import {
@@ -16,17 +17,31 @@ export function useSession() {
 }
 
 export function SessionProvider(props: PropsWithChildren) {
+  const [isGettingSession, setIsGettingSession] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      console.log("Session Updated")
+      setIsGettingSession(false);
     });
 
     supabase.auth.onAuthStateChange((_event, session) => {
+      setIsGettingSession(true);
       setSession(session);
-      console.log("Session Updated")
+      console.log(`[AUTH] ${_event}`);
+      setIsGettingSession(false);
     });
   }, []);
-  return <SessionContext.Provider value={session}>{props.children}</SessionContext.Provider>;
+
+  useEffect(() => {
+    if (!isGettingSession) {
+      SplashScreen.hideAsync();
+    }
+  }, [isGettingSession]);
+
+  return (
+    <SessionContext.Provider value={session}>
+      {props.children}
+    </SessionContext.Provider>
+  );
 }

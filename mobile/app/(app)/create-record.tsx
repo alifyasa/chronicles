@@ -1,5 +1,6 @@
 import { CustomTheme } from "@/constants/Theme";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
+import { useRecord } from "@/providers/RecordProviders";
 import { supabase } from "@/utils/supabase";
 import { Theme, useTheme } from "@react-navigation/native";
 import { router } from "expo-router";
@@ -13,10 +14,12 @@ import {
   TextInput,
   View,
 } from "react-native";
+import Toast, { InfoToast } from "react-native-toast-message";
 
-export default function CreateJourneyScreen() {
+export default function CreateRecordScreen() {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
+  const { isAddingRecord, addRecord } = useRecord();
 
   const inputRefs = useRef<(TextInput | null)[]>([]);
   const focusNextInput = (index: number) => {
@@ -25,36 +28,40 @@ export default function CreateJourneyScreen() {
     }
   };
 
-  const [journeyName, setJourneyName] = useState("");
-  const [journeyDescription, setJourneyDescription] = useState("");
-  const [isCreatingJourney, setIsCreatingJourney] = useState(false);
-  const createJourneyCallback = useCallback(() => {
-    async function createJourney() {
-      setIsCreatingJourney(true);
-      let { error } = await supabase.rpc("create_journey", {
-        // if empty, replace with null
-        journey_name: journeyName.trim() || null,
-        journey_description: journeyDescription.trim() || null,
-      });
-      if (!error) {
-        router.back();
+  const [recordName, setRecordName] = useState("");
+  const [recordDescription, setRecordDescription] = useState("");
+  const createRecordCallback = useCallback(() => {
+    async function createRecord() {
+      const {error, message} = await addRecord(
+        recordName.trim() || null,
+        recordDescription.trim() || null,
+        "GENERAL"
+      );
+        InfoToast({
+          text1: "Hello"
+        })
+      if (error) {
+        return console.log(message)
       }
-      setIsCreatingJourney(false);
+      return router.back()
     }
-    createJourney();
-  }, [journeyName, journeyDescription]);
+    createRecord();
+  }, [recordName, recordDescription]);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Start a New Journey</Text>
+      <Text style={styles.title}>Create a New Record</Text>
       <ScrollView>
         <Text style={styles.textInputLabel}>
           Name (
           <Text
             style={{
-              color: journeyName.length < 3 ? theme.custom.palette.errorRed : theme.colors.text,
+              color:
+                recordName.length < 3
+                  ? theme.custom.palette.errorRed
+                  : theme.colors.text,
             }}
           >
-            {journeyName.length}
+            {recordName.length}
           </Text>
           /100)
         </Text>
@@ -64,36 +71,36 @@ export default function CreateJourneyScreen() {
           ref={(input) => (inputRefs.current[0] = input)}
           onSubmitEditing={() => focusNextInput(0)}
           style={styles.textInput}
-          value={journeyName}
-          onChangeText={setJourneyName}
+          value={recordName}
+          onChangeText={setRecordName}
           maxLength={100}
         />
         <Text style={styles.textInputLabel}>
-          Description ({journeyDescription.length}/4000)
+          Description ({recordDescription.length}/4000)
         </Text>
         <TextInput
           multiline
           scrollEnabled
           placeholder="Insert description here (optional)"
           ref={(input) => (inputRefs.current[1] = input)}
-          value={journeyDescription}
-          onChangeText={setJourneyDescription}
+          value={recordDescription}
+          onChangeText={setRecordDescription}
           maxLength={4000}
           style={styles.textInput}
         />
       </ScrollView>
       <Pressable
         style={styles.floatingButton}
-        onPress={createJourneyCallback}
-        disabled={isCreatingJourney}
+        onPress={createRecordCallback}
+        disabled={isAddingRecord}
       >
-        {isCreatingJourney ? (
+        {isAddingRecord ? (
           <ActivityIndicator
             style={styles.floatingButtonIndicator}
             color={theme.colors.background}
           />
         ) : (
-          <Text style={styles.floatingButtonText}>Create</Text>
+          <Text style={styles.floatingButtonText}>Create Record</Text>
         )}
       </Pressable>
     </View>

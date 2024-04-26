@@ -1,4 +1,4 @@
-import { ActivityIndicator, Pressable, StyleSheet } from "react-native";
+import { ActivityIndicator, Modal, Pressable, StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
 import { Theme, useTheme } from "@react-navigation/native";
@@ -23,18 +23,28 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
+      {/* <Modal
+        transparent
+      >
+        <Text style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: 'red'
+        }}>Log Out Modal</Text>
+      </Modal> */}
       <Pressable
-        style={styles.floatingButton}
+        style={styles.button}
         onPress={logOutCallback}
         disabled={isLoggingOut}
       >
         {isLoggingOut ? (
           <ActivityIndicator
-            style={styles.floatingButtonIndicator}
-            color={theme.colors.background}
+            style={styles.buttonIndicator}
+            color={styles.buttonText.color}
           />
         ) : (
-          <Text style={styles.floatingButtonText}>Log Out</Text>
+          <Text style={styles.buttonText}>Log Out</Text>
         )}
       </Pressable>
     </View>
@@ -47,17 +57,16 @@ const stylesFromTheme = (theme: CustomTheme) =>
       flex: 1,
       padding: 12,
     },
-    floatingButtonIndicator: {},
-    floatingButtonText: {
+    buttonIndicator: {},
+    buttonText: {
       color: theme.colors.background,
       textAlign: "center",
       fontSize: 16,
     },
-    floatingButton: {
+    button: {
       height: 48,
       width: "100%",
       padding: 12,
-      borderWidth: 1,
       borderRadius: 5,
       backgroundColor: theme.custom.palette.errorRed,
       flexDirection: "column",

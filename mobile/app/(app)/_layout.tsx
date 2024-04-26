@@ -1,4 +1,5 @@
 import { useSession } from "@/providers/AuthProviders";
+import { RecordProvider } from "@/providers/RecordProviders";
 import { Redirect, Stack } from "expo-router";
 
 export default function Layout() {
@@ -9,19 +10,21 @@ export default function Layout() {
   }
 
   return (
-    <Stack>
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          headerShown: false,
-        }}
-      ></Stack.Screen>
-      <Stack.Screen
-        name="create-journey"
-        options={{
-          title: "Create Journey"
-        }}
-      ></Stack.Screen>
-    </Stack>
+    <RecordProvider>
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+          }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="create-record"
+          options={{
+            title: "Create Record",
+          }}
+        ></Stack.Screen>
+      </Stack>
+    </RecordProvider>
   );
 }

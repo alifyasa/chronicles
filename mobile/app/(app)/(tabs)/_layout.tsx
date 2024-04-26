@@ -30,8 +30,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Journeys',
-          tabBarIcon: ({ color }: { color: string }) => <FontAwesome6 name="route" size={28} color={color} />,
+          title: 'Records',
+          tabBarIcon: ({ color }: { color: string }) => <FontAwesome6 name="folder-open" size={28} color={color} />,
           tabBarStyle: {
             height: 56
           } as ViewStyle,

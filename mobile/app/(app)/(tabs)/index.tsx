@@ -9,27 +9,18 @@ import {
 import { Text, View } from "@/components/Themed";
 import { Theme, useFocusEffect, useTheme } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useCallback, useEffect, useState } from "react";
-import { Journey, supabase } from "@/utils/supabase";
 import { router } from "expo-router";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { CustomTheme } from "@/constants/Theme";
+import { useRecord } from "@/providers/RecordProviders";
+import { Record } from "@/utils/supabase/types";
 
-export default function JourneyListScreen() {
+export default function RecordListScreen() {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
-  const [journeys, setJourneys] = useState<Journey[]>([]);
-  const [isFetchingData, setIsFetchingData] = useState(false);
-  const getJourneysCallback = useCallback(() => {
-    async function getJourneysFromSupabase() {
-      setIsFetchingData(true);
-      let { data: journey, error } = await supabase.from("journey").select("*");
-      setJourneys(journey as Journey[]);
-      setIsFetchingData(false);
-    }
-    getJourneysFromSupabase();
-  }, []);
-  useFocusEffect(getJourneysCallback);
+
+  const { record, isFetchingRecord, fetchRecord: fetchRecord } = useRecord();
+  useFocusEffect(fetchRecord);
   return (
     <View style={styles.container}>
       <FlatList
@@ -40,29 +31,18 @@ export default function JourneyListScreen() {
             styles.floatingButtonContainer.height +
             2 * styles.floatingButtonContainer.bottom,
         }}
-        data={journeys}
-        renderItem={({ item: journey }) => DisplayJourney(journey, theme)}
+        data={record}
+        renderItem={({ item: record }) => DisplayRecord(record, theme)}
         refreshControl={
           <RefreshControl
-            refreshing={isFetchingData}
-            onRefresh={getJourneysCallback}
+            refreshing={isFetchingRecord}
+            onRefresh={fetchRecord}
           />
         }
       ></FlatList>
-      {/* <ScrollView
-        style={{ flex: 1, flexDirection: "column", gap: 4 }}
-        refreshControl={
-          <RefreshControl
-            refreshing={isFetchingData}
-            onRefresh={getJourneysCallback}
-          />
-        }
-      >
-        {journeys.map((journey) => DisplayJourney(journey, theme))}
-      </ScrollView> */}
       <Pressable
         style={styles.floatingButtonContainer}
-        onPress={() => router.push("/(app)/create-journey")}
+        onPress={() => router.push("/(app)/create-record")}
       >
         <FontAwesome6 name="plus" size={32} style={styles.floatingButtonIcon} />
       </Pressable>
@@ -70,29 +50,42 @@ export default function JourneyListScreen() {
   );
 }
 
-function DisplayJourney(journey: Journey, theme: CustomTheme) {
+function DisplayRecord(record: Record, theme: CustomTheme) {
   const styles = stylesFromTheme(theme);
   return (
-    <View key={journey.id} style={styles.displayJourneyContainer}>
+    <Pressable
+      key={record.record_id}
+      onPress={() => router.push(`/(app)/record/${record.record_id}`)}
+      style={({ pressed }) => [
+        styles.displayRecordContainer,
+        {
+          backgroundColor: pressed
+            ? theme.colors.border
+            : theme.colors.background,
+        },
+      ]}
+    >
       <Text
         numberOfLines={2}
         ellipsizeMode="tail"
         style={{ fontSize: 18, fontWeight: "500", marginBottom: 8 }}
       >
-        {journey.name}
+        {record.name}
       </Text>
       <Text
         numberOfLines={5}
         ellipsizeMode="tail"
         style={{
           fontSize: 14,
-          fontStyle: journey.description ? "normal" : "italic",
-          color: journey.description ? theme.colors.text : theme.custom.palette.textDim
+          fontStyle: record.description ? "normal" : "italic",
+          color: record.description
+            ? theme.colors.text
+            : theme.custom.palette.textDim,
         }}
       >
-        {journey.description ?? "No Description"}
+        {record.description ?? "No Description"}
       </Text>
-    </View>
+    </Pressable>
   );
 }
 
@@ -131,7 +124,7 @@ const stylesFromTheme = (theme: Theme) =>
       color: theme.colors.text,
       margin: "auto",
     },
-    displayJourneyContainer: {
+    displayRecordContainer: {
       padding: 16,
       borderRadius: 5,
       borderWidth: 1,

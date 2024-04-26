@@ -23,7 +23,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isSigningIn, setIsSigningIn] = useState(false);
-  const sendMagicLink = async () => {
+  const logInWithPassword = async () => {
     setIsSigningIn(true);
     let { error } = await supabase.auth.signInWithPassword({
       email,
@@ -57,7 +57,7 @@ export default function LoginScreen() {
       />
       <Pressable
         disabled={isSigningIn}
-        onPress={sendMagicLink}
+        onPress={logInWithPassword}
         style={styles.floatingButton}
       >
         {isSigningIn ? (
