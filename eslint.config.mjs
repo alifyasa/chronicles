@@ -2,7 +2,8 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
-import unusedImports from "eslint-plugin-unused-imports"
+import unusedImports from "eslint-plugin-unused-imports";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
   {
@@ -14,7 +15,8 @@ export default [
     },
     plugins: {
       tseslint,
-      "unused-imports": unusedImports
+      "unused-imports": unusedImports,
+      eslintConfigPrettier,
       // "unused-imports": pluginObject,
     },
     rules: {
@@ -25,10 +27,6 @@ export default [
   ...tseslint.configs.recommended,
   pluginReactConfig,
   {
-    ignores: [
-      "node_modules",
-      ".expo",
-      "babel.config.js"
-    ]
-  }
+    ignores: ["node_modules", ".expo", "babel.config.js"],
+  },
 ];

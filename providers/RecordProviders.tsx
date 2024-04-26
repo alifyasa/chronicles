@@ -20,7 +20,7 @@ interface RecordContextInterface {
   addRecord: (
     recordName: string | null,
     recordDescription: string | null,
-    recordType: Record["type"]
+    recordType: Record["type"],
   ) => Promise<{ error: boolean; message: string }>;
 }
 const defaultRecordContext: RecordContextInterface = {
@@ -33,7 +33,7 @@ const defaultRecordContext: RecordContextInterface = {
   isAddingRecord: false,
   addRecord: async () => ({
     error: false,
-    message: "Placeholder Message"
+    message: "Placeholder Message",
   }),
 };
 const RecordContext =
@@ -50,7 +50,7 @@ function RecordProvider(props: PropsWithChildren) {
       ...prev,
       [curr.record_id]: curr,
     }),
-    {}
+    {},
   );
   const [isFetching, setIsFetching] = useState(false);
   const getRecordCallback = useCallback(() => {
@@ -69,7 +69,7 @@ function RecordProvider(props: PropsWithChildren) {
   const addRecord: RecordContextInterface["addRecord"] = async (
     recordName,
     recordDescription,
-    recordType
+    recordType,
   ) => {
     setIsAddingRecord(true);
     const { data } = await supabase.rpc("create_record", {

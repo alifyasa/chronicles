@@ -31,18 +31,18 @@ export default function CreateRecordScreen() {
   const [recordDescription, setRecordDescription] = useState("");
   const createRecordCallback = useCallback(() => {
     async function createRecord() {
-      const {error, message} = await addRecord(
+      const { error, message } = await addRecord(
         recordName.trim() || null,
         recordDescription.trim() || null,
-        "GENERAL"
+        "GENERAL",
       );
-        InfoToast({
-          text1: "Hello"
-        })
+      InfoToast({
+        text1: "Hello",
+      });
       if (error) {
-        return console.log(message)
+        return console.log(message);
       }
-      return router.back()
+      return router.back();
     }
     createRecord();
   }, [recordName, recordDescription]);
@@ -118,13 +118,13 @@ const stylesFromTheme = (theme: CustomTheme) =>
       fontWeight: "500",
       marginTop: 4,
       marginBottom: 16,
-      color: theme.colors.text
+      color: theme.colors.text,
     },
     textInputLabel: {
       fontSize: 18,
       fontWeight: "500",
       marginBottom: 4,
-      color: theme.colors.text
+      color: theme.colors.text,
     },
     textInput: {
       borderWidth: 1,
@@ -136,7 +136,7 @@ const stylesFromTheme = (theme: CustomTheme) =>
       maxHeight: 100 + 16,
       overflow: "scroll",
       marginBottom: 16,
-      color: theme.colors.text
+      color: theme.colors.text,
     },
     floatingButtonIndicator: {},
     floatingButtonText: {

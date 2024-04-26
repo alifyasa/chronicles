@@ -1,9 +1,4 @@
-import {
-  FlatList,
-  Pressable,
-  RefreshControl,
-  StyleSheet,
-} from "react-native";
+import { FlatList, Pressable, RefreshControl, StyleSheet } from "react-native";
 
 import React from "react";
 import { Text, View } from "@/components/Themed";

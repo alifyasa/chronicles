@@ -16,15 +16,15 @@ export const DefaultBlueTheme: CustomTheme = {
       errorRed: "#DC143C",
       pressable: {
         active: BluePalette.background["300"],
-        inactive: BluePalette.background["200"]
+        inactive: BluePalette.background["200"],
       },
       text: {
         normal: BluePalette.text["950"],
         dim: BluePalette.text["700"],
-        error: "hsl(350, 80%, 40%)"
-      }
+        error: "hsl(350, 80%, 40%)",
+      },
     },
-    palette: BluePalette
+    palette: BluePalette,
   },
 };
 
@@ -43,14 +43,14 @@ export const DarkBlueTheme: CustomTheme = {
       errorRed: "rgb(142, 15, 36)",
       pressable: {
         active: BluePalette.background["700"],
-        inactive: BluePalette.background["800"]
+        inactive: BluePalette.background["800"],
       },
       text: {
         normal: BluePalette.text["50"],
         dim: BluePalette.text["300"],
-        error: "hsl(350, 80%, 40%)"
-      }
+        error: "hsl(350, 80%, 40%)",
+      },
     },
-    palette: BluePalette
+    palette: BluePalette,
   },
 };

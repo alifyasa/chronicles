@@ -19,7 +19,7 @@ export default function RecordDetailScreen() {
     navigation.setOptions({
       title: recordKV[recordId].name,
       headerRight: () => (
-        <Pressable style={{marginRight: 8}}>
+        <Pressable style={{ marginRight: 8 }}>
           <FontAwesome6 name="pen" size={20} color={theme.colors.text} />
         </Pressable>
       ),
@@ -27,7 +27,9 @@ export default function RecordDetailScreen() {
   });
   return (
     <View style={styles.container}>
-      <Text style={{color: theme.colors.text}}>{recordKV[recordId].name}</Text>
+      <Text style={{ color: theme.colors.text }}>
+        {recordKV[recordId].name}
+      </Text>
     </View>
   );
 }

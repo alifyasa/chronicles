@@ -7,16 +7,16 @@ export type CustomTheme = Theme & {
     colors: {
       errorRed: ViewStyle["backgroundColor"] | TextStyle["color"];
       pressable: {
-        active: string,
-        inactive: string
-      },
+        active: string;
+        inactive: string;
+      };
       text: {
-        normal: string,
-        dim: string,
-        error: string
-      }
-    },
-    palette: Palette
+        normal: string;
+        dim: string;
+        error: string;
+      };
+    };
+    palette: Palette;
   };
 };
 

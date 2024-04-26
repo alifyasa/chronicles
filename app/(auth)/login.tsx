@@ -60,7 +60,10 @@ export default function LoginScreen() {
         style={styles.floatingButton}
       >
         {isSigningIn ? (
-          <ActivityIndicator style={styles.floatingButtonIndicator} color={styles.floatingButtonText.color} />
+          <ActivityIndicator
+            style={styles.floatingButtonIndicator}
+            color={styles.floatingButtonText.color}
+          />
         ) : (
           <Text style={styles.floatingButtonText}>Login</Text>
         )}

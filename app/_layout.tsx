@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { useColorScheme } from "@/components/useColorScheme";
 import { View } from "react-native";
 import { SessionProvider } from "@/providers/AuthProviders";
-import { CustomTheme  } from "@/constants/themes";
+import { CustomTheme } from "@/constants/themes";
 import { CustomThemeProvider } from "@/providers/CustomThemeProviders";
 import Toast from "react-native-toast-message";
 import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
@@ -36,7 +36,8 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const theme: CustomTheme = colorScheme === "dark" ? DarkBlueTheme : DefaultBlueTheme;
+  const theme: CustomTheme =
+    colorScheme === "dark" ? DarkBlueTheme : DefaultBlueTheme;
 
   return (
     // https://github.com/expo/expo/issues/27099#issuecomment-1959010092
@@ -49,7 +50,7 @@ function RootLayoutNav() {
                 backgroundColor: theme.colors.background,
               },
               statusBarColor: theme.colors.background,
-              headerShown: false
+              headerShown: false,
             }}
           >
             <Stack.Screen
