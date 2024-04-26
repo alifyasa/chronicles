@@ -6,6 +6,7 @@ import { Pressable, ViewStyle } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import { FontAwesome6 } from '@expo/vector-icons';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -30,13 +31,20 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Journeys',
-          tabBarIcon: ({ color }: { color: string }) => <TabBarIcon name="compass" color={color}/>,
+          tabBarIcon: ({ color }: { color: string }) => <FontAwesome6 name="route" size={28} color={color} />,
           tabBarStyle: {
             height: 56
           } as ViewStyle,
-          tabBarLabelStyle: {
-            marginBottom: 8,
-          },
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }: { color: string }) => <FontAwesome6 name="gear" size={28} color={color} />,
+          tabBarStyle: {
+            height: 56
+          } as ViewStyle,
         }}
       />
     </Tabs>

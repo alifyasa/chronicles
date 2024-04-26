@@ -13,6 +13,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import { View } from "react-native";
 import { SessionProvider } from "@/providers/AuthProviders";
 import { DefaultTheme } from "@/constants/Theme";
+import { CustomThemeProvider } from "@/providers/CustomThemeProviders";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -48,7 +49,7 @@ function RootLayoutNav() {
   return (
     // https://github.com/expo/expo/issues/27099#issuecomment-1959010092
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <ThemeProvider value={theme}>
+      <CustomThemeProvider>
         <SessionProvider>
           <Stack>
             <Stack.Screen
@@ -71,7 +72,7 @@ function RootLayoutNav() {
             ></Stack.Screen>
           </Stack>
         </SessionProvider>
-      </ThemeProvider>
+      </CustomThemeProvider>
     </View>
   );
 }

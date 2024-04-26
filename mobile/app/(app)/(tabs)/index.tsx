@@ -12,9 +12,11 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { useCallback, useEffect, useState } from "react";
 import { Journey, supabase } from "@/utils/supabase";
 import { router } from "expo-router";
+import { useCustomTheme } from "@/providers/CustomThemeProviders";
+import { CustomTheme } from "@/constants/Theme";
 
 export default function JourneyListScreen() {
-  const theme = useTheme();
+  const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
   const [journeys, setJourneys] = useState<Journey[]>([]);
   const [isFetchingData, setIsFetchingData] = useState(false);
@@ -31,8 +33,13 @@ export default function JourneyListScreen() {
   return (
     <View style={styles.container}>
       <FlatList
-        style={{ flex: 1, flexDirection: "column" }}
-        contentContainerStyle={{ gap: 12 }}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          gap: 12,
+          paddingBottom:
+            styles.floatingButtonContainer.height +
+            2 * styles.floatingButtonContainer.bottom,
+        }}
         data={journeys}
         renderItem={({ item: journey }) => DisplayJourney(journey, theme)}
         refreshControl={
@@ -63,17 +70,24 @@ export default function JourneyListScreen() {
   );
 }
 
-function DisplayJourney(journey: Journey, theme: Theme) {
+function DisplayJourney(journey: Journey, theme: CustomTheme) {
   const styles = stylesFromTheme(theme);
   return (
     <View key={journey.id} style={styles.displayJourneyContainer}>
-      <Text style={{ fontSize: 18, fontWeight: "500", marginBottom: 8 }}>
+      <Text
+        numberOfLines={2}
+        ellipsizeMode="tail"
+        style={{ fontSize: 18, fontWeight: "500", marginBottom: 8 }}
+      >
         {journey.name}
       </Text>
       <Text
+        numberOfLines={5}
+        ellipsizeMode="tail"
         style={{
           fontSize: 14,
           fontStyle: journey.description ? "normal" : "italic",
+          color: journey.description ? theme.colors.text : theme.custom.palette.textDim
         }}
       >
         {journey.description ?? "No Description"}
@@ -99,8 +113,10 @@ const stylesFromTheme = (theme: Theme) =>
     },
     floatingButtonContainer: {
       position: "absolute",
-      bottom: 0,
-      right: 0,
+      bottom: 12,
+      right: 12,
+      marginBottom: 8,
+      marginRight: 8,
       borderWidth: 1,
       borderColor: theme.colors.border,
       borderRadius: 90,
@@ -109,9 +125,7 @@ const stylesFromTheme = (theme: Theme) =>
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      marginRight: 12,
-      marginBottom: 12,
-      backgroundColor: theme.colors.background,
+      backgroundColor: `rgba(255, 255, 255, 0.9)`,
     },
     floatingButtonIcon: {
       color: theme.colors.text,

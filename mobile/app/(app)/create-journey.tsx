@@ -1,3 +1,5 @@
+import { CustomTheme } from "@/constants/Theme";
+import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { supabase } from "@/utils/supabase";
 import { Theme, useTheme } from "@react-navigation/native";
 import { router } from "expo-router";
@@ -13,8 +15,8 @@ import {
 } from "react-native";
 
 export default function CreateJourneyScreen() {
-  const theme = useTheme();
-  const styles = createStyles(theme);
+  const theme = useCustomTheme();
+  const styles = stylesFromTheme(theme);
 
   const inputRefs = useRef<(TextInput | null)[]>([]);
   const focusNextInput = (index: number) => {
@@ -43,14 +45,22 @@ export default function CreateJourneyScreen() {
   }, [journeyName, journeyDescription]);
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Start a New Journey</Text>
       <ScrollView>
         <Text style={styles.textInputLabel}>
-          Name ({journeyName.length}/100)
+          Name (
+          <Text
+            style={{
+              color: journeyName.length < 3 ? theme.custom.palette.errorRed : theme.colors.text,
+            }}
+          >
+            {journeyName.length}
+          </Text>
+          /100)
         </Text>
         <TextInput
           autoFocus
-          autoCapitalize="words"
-          placeholder="Journey Name (Required)"
+          placeholder="Insert name here (required)"
           ref={(input) => (inputRefs.current[0] = input)}
           onSubmitEditing={() => focusNextInput(0)}
           style={styles.textInput}
@@ -64,7 +74,7 @@ export default function CreateJourneyScreen() {
         <TextInput
           multiline
           scrollEnabled
-          placeholder="Journey Description (Optional)"
+          placeholder="Insert description here (optional)"
           ref={(input) => (inputRefs.current[1] = input)}
           value={journeyDescription}
           onChangeText={setJourneyDescription}
@@ -90,17 +100,23 @@ export default function CreateJourneyScreen() {
   );
 }
 
-const createStyles = (theme: Theme) =>
+const stylesFromTheme = (theme: CustomTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
       padding: 12,
       backgroundColor: theme.colors.background,
     },
+    title: {
+      fontSize: 24,
+      fontWeight: "500",
+      marginTop: 4,
+      marginBottom: 16,
+    },
     textInputLabel: {
       fontSize: 18,
       fontWeight: "500",
-      marginBottom: 8,
+      marginBottom: 4,
     },
     textInput: {
       borderWidth: 1,
@@ -111,7 +127,7 @@ const createStyles = (theme: Theme) =>
       fontSize: 16,
       maxHeight: 100 + 16,
       overflow: "scroll",
-      marginBottom: 12,
+      marginBottom: 16,
     },
     floatingButtonIndicator: {},
     floatingButtonText: {
@@ -123,7 +139,7 @@ const createStyles = (theme: Theme) =>
       position: "absolute",
       bottom: 12,
       left: 12,
-      height: 52,
+      height: 48,
       width: "100%",
       padding: 12,
       borderWidth: 1,

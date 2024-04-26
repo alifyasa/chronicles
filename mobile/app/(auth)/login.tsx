@@ -1,16 +1,25 @@
 import { Text, View } from "@/components/Themed";
+import { CustomTheme } from "@/constants/Theme";
 import { useSession } from "@/providers/AuthProviders";
+import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { supabase } from "@/utils/supabase";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import { router } from "expo-router";
 import { Redirect } from "expo-router/build/link/Link";
 import { useState } from "react";
-import { ActivityIndicator, Button, Pressable, TextInput } from "react-native";
+import {
+  ActivityIndicator,
+  Button,
+  Pressable,
+  StyleSheet,
+  TextInput,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LoginScreen() {
-  const theme = useTheme();
-  const session = useSession()
+  const theme = useCustomTheme();
+  const styles = stylesFromTheme(theme);
+  const session = useSession();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isSigningIn, setIsSigningIn] = useState(false);
@@ -23,103 +32,92 @@ export default function LoginScreen() {
     setIsSigningIn(false);
   };
 
-  if(session) {
-    return <Redirect href="/(app)/" />
+  if (session) {
+    return <Redirect href="/(app)/" />;
   }
 
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: theme.colors.background,
-        height: "100%",
-        paddingTop: 8,
-        paddingHorizontal: 16,
-      }}
-    >
-      <Text
-        style={{
-          fontSize: 32,
-          fontWeight: "bold",
-          paddingBottom: 16,
-          color: theme.colors.text,
-        }}
-      >
-        Login
-      </Text>
-      <Text style={{ marginBottom: 4, fontSize: 16 }}>e-mail address</Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Login</Text>
+      <Text style={styles.textInputLabel}>E-mail address</Text>
       <TextInput
         autoFocus
         inputMode="email"
         autoCapitalize="none"
-        cursorColor={theme.colors.primary}
         onChangeText={setEmail}
-        style={{
-          borderWidth: 1,
-          borderColor: theme.colors.border,
-          paddingHorizontal: 12,
-          paddingVertical: 8,
-          borderRadius: 5,
-          marginTop: 4,
-          fontSize: 18,
-          lineHeight: 1,
-          color: theme.colors.text,
-        }}
+        style={styles.textInput}
       />
-      <Text style={{ marginBottom: 4, fontSize: 16 }}>password</Text>
+      <Text style={styles.textInputLabel}>Password</Text>
       <TextInput
         inputMode="text"
         secureTextEntry
         autoCapitalize="none"
-        cursorColor={theme.colors.primary}
         onChangeText={setPassword}
-        style={{
-          borderWidth: 1,
-          borderColor: theme.colors.border,
-          paddingHorizontal: 12,
-          paddingVertical: 8,
-          borderRadius: 5,
-          marginTop: 4,
-          fontSize: 18,
-          lineHeight: 1,
-          color: theme.colors.text,
-        }}
+        style={styles.textInput}
       />
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 16,
-          marginBottom: 16,
-          flex: 1,
-          width: "100%",
-          flexDirection: "column",
-        }}
+      <Pressable
+        disabled={isSigningIn}
+        onPress={sendMagicLink}
+        style={styles.floatingButton}
       >
-        <Pressable
-          disabled={isSigningIn}
-          onPress={sendMagicLink}
-          style={{
-            borderWidth: 1,
-            borderRadius: 5,
-            padding: 8,
-            borderColor: theme.colors.border,
-          }}
-        >
-          {isSigningIn ? (
-            <ActivityIndicator />
-          ) : (
-            <Text
-              style={{
-                color: theme.colors.text,
-                fontSize: 16,
-                textAlign: "center",
-              }}
-            >
-              Login
-            </Text>
-          )}
-        </Pressable>
-      </View>
+        {isSigningIn ? (
+          <ActivityIndicator style={styles.floatingButtonIndicator} color={styles.floatingButtonText.color} />
+        ) : (
+          <Text style={styles.floatingButtonText}>Login</Text>
+        )}
+      </Pressable>
     </SafeAreaView>
   );
 }
+
+const stylesFromTheme = (theme: CustomTheme) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: theme.colors.background,
+      flex: 1,
+      paddingTop: 8,
+      paddingHorizontal: 16,
+    },
+    title: {
+      fontSize: 32,
+      fontWeight: "bold",
+      paddingBottom: 16,
+      color: theme.colors.text,
+    },
+    textInputLabel: {
+      fontSize: 18,
+      fontWeight: "500",
+      marginBottom: 4,
+    },
+    textInput: {
+      borderWidth: 1,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderRadius: 5,
+      borderColor: theme.colors.border,
+      fontSize: 16,
+      marginBottom: 16,
+    },
+    floatingButtonIndicator: {},
+    floatingButtonText: {
+      color: theme.colors.background,
+      textAlign: "center",
+      fontSize: 16,
+    },
+    floatingButton: {
+      position: "absolute",
+      bottom: 12,
+      left: 12,
+      height: 48,
+      width: "100%",
+      padding: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      borderRadius: 5,
+      backgroundColor: theme.colors.primary,
+      flex: 1,
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  });
