@@ -1,5 +1,4 @@
 import React from "react";
-import { Text } from "@/components/Themed";
 import { CustomTheme } from "@/constants/themes";
 import { useSession } from "@/providers/AuthProviders";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
@@ -10,6 +9,7 @@ import {
   ActivityIndicator,
   Pressable,
   StyleSheet,
+  Text,
   TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

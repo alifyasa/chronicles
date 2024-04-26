@@ -1,7 +1,13 @@
-import { FlatList, Pressable, RefreshControl, StyleSheet } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import React from "react";
-import { Text, View } from "@/components/Themed";
 import { Theme, useFocusEffect } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";

@@ -1,7 +1,12 @@
-import { ActivityIndicator, Pressable, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import React from "react";
-import { Text, View } from "@/components/Themed";
 import { useCallback, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
