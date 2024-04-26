@@ -1,7 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
   DarkTheme,
-  DefaultTheme,
   ThemeProvider,
   useNavigation,
 } from "@react-navigation/native";
@@ -13,6 +12,7 @@ import { useEffect } from "react";
 import { useColorScheme } from "@/components/useColorScheme";
 import { View } from "react-native";
 import { SessionProvider } from "@/providers/AuthProviders";
+import { DefaultTheme } from "@/constants/Theme";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();

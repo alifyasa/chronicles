@@ -1,58 +1,72 @@
-import { Pressable, ScrollView, StyleSheet } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { Theme, useFocusEffect, useTheme } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useCallback, useEffect, useState } from "react";
 import { Journey, supabase } from "@/utils/supabase";
+import { router } from "expo-router";
 
 export default function JourneyListScreen() {
   const theme = useTheme();
   const styles = stylesFromTheme(theme);
   const [journeys, setJourneys] = useState<Journey[]>([]);
-  const getJourneys = useCallback(() => {
-    async function _() {
+  const [isFetchingData, setIsFetchingData] = useState(false);
+  const getJourneysCallback = useCallback(() => {
+    async function getJourneysFromSupabase() {
+      setIsFetchingData(true);
       let { data: journey, error } = await supabase.from("journey").select("*");
-      setJourneys(journey?.concat(journey) as Journey[]);
-      console.log(journey);
+      setJourneys(journey as Journey[]);
+      setIsFetchingData(false);
     }
-    _();
+    getJourneysFromSupabase();
   }, []);
-  useFocusEffect(getJourneys);
+  useFocusEffect(getJourneysCallback);
   return (
     <View style={styles.container}>
-      <ScrollView style={{flex: 1, flexDirection: 'column', gap:4}}>
-        {journeys.map((journey) => DisplayJourney(journey))}
-      </ScrollView>
-      {/* <Text style={styles.title}>Tab One</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(tabs)/index.tsx" /> */}
-
-      <Pressable style={styles.createJourneyContainer}>
-        <FontAwesome6 name="plus" size={32} style={styles.createJourneyIcon} />
+      <FlatList
+        style={{ flex: 1, flexDirection: "column" }}
+        contentContainerStyle={{ gap: 12 }}
+        data={journeys}
+        renderItem={({ item: journey }) => DisplayJourney(journey, theme)}
+        refreshControl={
+          <RefreshControl
+            refreshing={isFetchingData}
+            onRefresh={getJourneysCallback}
+          />
+        }
+      ></FlatList>
+      {/* <ScrollView
+        style={{ flex: 1, flexDirection: "column", gap: 4 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={isFetchingData}
+            onRefresh={getJourneysCallback}
+          />
+        }
+      >
+        {journeys.map((journey) => DisplayJourney(journey, theme))}
+      </ScrollView> */}
+      <Pressable
+        style={styles.floatingButtonContainer}
+        onPress={() => router.push("/(app)/create-journey")}
+      >
+        <FontAwesome6 name="plus" size={32} style={styles.floatingButtonIcon} />
       </Pressable>
     </View>
   );
 }
 
-function DisplayJourney(journey: Journey) {
-  const theme = useTheme();
+function DisplayJourney(journey: Journey, theme: Theme) {
+  const styles = stylesFromTheme(theme);
   return (
-    <View
-      key={journey.id}
-      style={{
-        padding: 16,
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: theme.colors.border,
-        maxHeight: 256,
-      }}
-    >
+    <View key={journey.id} style={styles.displayJourneyContainer}>
       <Text style={{ fontSize: 18, fontWeight: "500", marginBottom: 8 }}>
         {journey.name}
       </Text>
@@ -83,7 +97,7 @@ const stylesFromTheme = (theme: Theme) =>
       height: 1,
       width: "80%",
     },
-    createJourneyContainer: {
+    floatingButtonContainer: {
       position: "absolute",
       bottom: 0,
       right: 0,
@@ -97,9 +111,17 @@ const stylesFromTheme = (theme: Theme) =>
       alignItems: "center",
       marginRight: 12,
       marginBottom: 12,
+      backgroundColor: theme.colors.background,
     },
-    createJourneyIcon: {
+    floatingButtonIcon: {
       color: theme.colors.text,
       margin: "auto",
+    },
+    displayJourneyContainer: {
+      padding: 16,
+      borderRadius: 5,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      maxHeight: 256,
     },
   });

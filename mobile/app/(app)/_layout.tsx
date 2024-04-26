@@ -16,6 +16,12 @@ export default function Layout() {
           headerShown: false,
         }}
       ></Stack.Screen>
+      <Stack.Screen
+        name="create-journey"
+        options={{
+          title: "Create Journey"
+        }}
+      ></Stack.Screen>
     </Stack>
   );
 }
