@@ -1,0 +1,8 @@
+{
+  "editor.formatOnSave": true, // Run Prettier on save
+  "eslint.validate": ["typescript", "typescriptreact"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  }
+}
