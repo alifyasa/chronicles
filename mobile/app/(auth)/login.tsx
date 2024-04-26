@@ -1,5 +1,5 @@
 import { Text, View } from "@/components/Themed";
-import { CustomTheme } from "@/constants/Theme";
+import { CustomTheme } from "@/constants/themes";
 import { useSession } from "@/providers/AuthProviders";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { supabase } from "@/utils/supabase";
@@ -88,6 +88,7 @@ const stylesFromTheme = (theme: CustomTheme) =>
       fontSize: 18,
       fontWeight: "500",
       marginBottom: 4,
+      color: theme.colors.text,
     },
     textInput: {
       borderWidth: 1,
@@ -97,6 +98,7 @@ const stylesFromTheme = (theme: CustomTheme) =>
       borderColor: theme.colors.border,
       fontSize: 16,
       marginBottom: 16,
+      color: theme.colors.text,
     },
     floatingButtonIndicator: {},
     floatingButtonText: {

@@ -1,4 +1,4 @@
-import { CustomTheme } from "@/constants/Theme";
+import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { useRecord } from "@/providers/RecordProviders";
 import { FontAwesome6 } from "@expo/vector-icons";
@@ -19,14 +19,14 @@ export default function RecordDetailScreen() {
       title: recordKV[recordId].name,
       headerRight: () => (
         <Pressable style={{marginRight: 8}}>
-          <FontAwesome6 name="pen" size={20} />
+          <FontAwesome6 name="pen" size={20} color={theme.colors.text} />
         </Pressable>
       ),
     });
   });
   return (
     <View style={styles.container}>
-      <Text>{recordKV[recordId].name}</Text>
+      <Text style={{color: theme.colors.text}}>{recordKV[recordId].name}</Text>
     </View>
   );
 }

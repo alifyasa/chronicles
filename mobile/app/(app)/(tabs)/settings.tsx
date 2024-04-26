@@ -5,7 +5,7 @@ import { Theme, useTheme } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
-import { CustomTheme } from "@/constants/Theme";
+import { CustomTheme } from "@/constants/themes";
 
 export default function SettingsScreen() {
   const theme = useCustomTheme();
@@ -59,7 +59,7 @@ const stylesFromTheme = (theme: CustomTheme) =>
     },
     buttonIndicator: {},
     buttonText: {
-      color: theme.colors.background,
+      color: theme.colors.text,
       textAlign: "center",
       fontSize: 16,
     },
@@ -68,7 +68,7 @@ const stylesFromTheme = (theme: CustomTheme) =>
       width: "100%",
       padding: 12,
       borderRadius: 5,
-      backgroundColor: theme.custom.palette.errorRed,
+      backgroundColor: theme.custom.colors.errorRed,
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",

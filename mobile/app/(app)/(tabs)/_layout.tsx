@@ -27,13 +27,16 @@ export default function TabLayout() {
           tabBarInactiveBackgroundColor: theme.colors.background,
 
           tabBarIconStyle: {
-            marginBottom: -12
+            marginBottom: -8
+          },
+          tabBarLabelStyle: {
+            marginBottom: 8
           },
           tabBarStyle: {
               // Spent too much time debugging this
-              backgroundColor: theme.colors.border,
-              borderTopColor: theme.colors.border,
-              height: 60,
+              backgroundColor: theme.colors.background,
+              borderTopColor: theme.colors.background,
+              height: 64,
           }
         }}
       >

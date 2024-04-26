@@ -1,4 +1,4 @@
-import { CustomTheme } from "@/constants/Theme";
+import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { useRecord } from "@/providers/RecordProviders";
 import { supabase } from "@/utils/supabase";
@@ -57,7 +57,7 @@ export default function CreateRecordScreen() {
             style={{
               color:
                 recordName.length < 3
-                  ? theme.custom.palette.errorRed
+                  ? theme.custom.colors.text.error
                   : theme.colors.text,
             }}
           >

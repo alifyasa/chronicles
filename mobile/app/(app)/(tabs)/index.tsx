@@ -11,7 +11,7 @@ import { Theme, useFocusEffect, useTheme } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
-import { CustomTheme } from "@/constants/Theme";
+import { CustomTheme } from "@/constants/themes";
 import { useRecord } from "@/providers/RecordProviders";
 import { Record } from "@/utils/supabase/types";
 
@@ -60,15 +60,15 @@ function DisplayRecord(record: Record, theme: CustomTheme) {
         styles.displayRecordContainer,
         {
           backgroundColor: pressed
-            ? theme.colors.border
-            : theme.colors.background,
+            ? theme.custom.colors.pressable.active
+            : theme.custom.colors.pressable.inactive,
         },
       ]}
     >
       <Text
         numberOfLines={2}
         ellipsizeMode="tail"
-        style={{ fontSize: 18, fontWeight: "500", marginBottom: 8 }}
+        style={styles.displayRecordText}
       >
         {record.name}
       </Text>
@@ -79,8 +79,8 @@ function DisplayRecord(record: Record, theme: CustomTheme) {
           fontSize: 14,
           fontStyle: record.description ? "normal" : "italic",
           color: record.description
-            ? theme.colors.text
-            : theme.custom.palette.textDim,
+            ? theme.custom.colors.text.normal
+            : theme.custom.colors.text.dim,
         }}
       >
         {record.description ?? "No Description"}
@@ -127,8 +127,12 @@ const stylesFromTheme = (theme: Theme) =>
     displayRecordContainer: {
       padding: 16,
       borderRadius: 5,
-      borderWidth: 1,
-      borderColor: theme.colors.border,
       maxHeight: 256,
+    },
+    displayRecordText: {
+      color: theme.colors.text,
+      fontSize: 18,
+      fontWeight: "500",
+      marginBottom: 8,
     },
   });
