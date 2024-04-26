@@ -1,9 +1,12 @@
 import { useSession } from "@/providers/AuthProviders";
+import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { RecordProvider } from "@/providers/RecordProviders";
 import { Redirect, Stack } from "expo-router";
+import { View } from "react-native";
 
 export default function Layout() {
   const session = useSession();
+  const theme = useCustomTheme();
 
   if (!session) {
     return <Redirect href="/(auth)/login" />;
@@ -11,7 +14,14 @@ export default function Layout() {
 
   return (
     <RecordProvider>
-      <Stack>
+      <Stack
+        screenOptions={{
+          headerTintColor: theme.colors.text,
+          headerStyle: {
+            backgroundColor: theme.colors.background,
+          },
+        }}
+      >
         <Stack.Screen
           name="(tabs)"
           options={{

@@ -13,7 +13,6 @@ import { useColorScheme } from "react-native";
 export const CustomThemeContext = createContext<CustomTheme>(DefaultTheme);
 export function useCustomTheme() {
   const value = useContext(CustomThemeContext);
-
   return value;
 }
 

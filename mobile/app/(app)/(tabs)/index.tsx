@@ -118,7 +118,7 @@ const stylesFromTheme = (theme: Theme) =>
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: `rgba(255, 255, 255, 0.9)`,
+      backgroundColor: theme.colors.background,
     },
     floatingButtonIcon: {
       color: theme.colors.text,

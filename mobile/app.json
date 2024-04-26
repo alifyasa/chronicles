@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "first-step",
-    "slug": "first-step",
+    "name": "Records",
+    "slug": "records",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "firststep",
+    "scheme": "records",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "id.alifyasa.records"
     },
     "web": {
       "bundler": "metro",
@@ -40,7 +41,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "ed8a1c0b-b2fb-4d99-bbd1-42bade41750d"
+        "projectId": "0e2bbd8f-6ec4-44b2-9034-769d706b9833"
       }
     },
     "owner": "alifyasa"

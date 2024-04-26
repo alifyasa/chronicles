@@ -1,9 +1,4 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  DarkTheme,
-  ThemeProvider,
-  useNavigation,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -12,7 +7,7 @@ import { useEffect } from "react";
 import { useColorScheme } from "@/components/useColorScheme";
 import { View } from "react-native";
 import { SessionProvider } from "@/providers/AuthProviders";
-import { DefaultTheme } from "@/constants/Theme";
+import { CustomTheme, DarkTheme, DefaultTheme } from "@/constants/Theme";
 import { CustomThemeProvider } from "@/providers/CustomThemeProviders";
 import { RootSiblingParent } from "react-native-root-siblings";
 import Toast from "react-native-toast-message";
@@ -40,28 +35,36 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const theme = colorScheme === "dark" ? DarkTheme : DefaultTheme;
+  const theme: CustomTheme = colorScheme === "dark" ? DarkTheme : DefaultTheme;
 
   return (
     // https://github.com/expo/expo/issues/27099#issuecomment-1959010092
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <CustomThemeProvider>
         <SessionProvider>
-            <Stack>
-              <Stack.Screen
-                name="(app)"
-                options={{
-                  headerShown: false,
-                }}
-              ></Stack.Screen>
-              <Stack.Screen
-                name="(auth)/login"
-                options={{
-                  headerShown: false,
-                }}
-              ></Stack.Screen>
-            </Stack>
-            <Toast />
+          <Stack
+            screenOptions={{
+              contentStyle: {
+                backgroundColor: theme.colors.background,
+              },
+              statusBarColor: theme.colors.background,
+              headerShown: false
+            }}
+          >
+            <Stack.Screen
+              name="(app)"
+              options={{
+                headerShown: false,
+              }}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="(auth)/login"
+              options={{
+                headerShown: false,
+              }}
+            ></Stack.Screen>
+          </Stack>
+          <Toast />
         </SessionProvider>
       </CustomThemeProvider>
     </View>
