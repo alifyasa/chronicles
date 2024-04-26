@@ -1,3 +1,4 @@
+import React from "react";
 import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { useRecord } from "@/providers/RecordProviders";

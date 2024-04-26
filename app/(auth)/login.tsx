@@ -1,15 +1,13 @@
-import { Text, View } from "@/components/Themed";
+import React from "react";
+import { Text } from "@/components/Themed";
 import { CustomTheme } from "@/constants/themes";
 import { useSession } from "@/providers/AuthProviders";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { supabase } from "@/utils/supabase";
-import { useNavigation, useTheme } from "@react-navigation/native";
-import { router } from "expo-router";
 import { Redirect } from "expo-router/build/link/Link";
 import { useState } from "react";
 import {
   ActivityIndicator,
-  Button,
   Pressable,
   StyleSheet,
   TextInput,
@@ -25,7 +23,8 @@ export default function LoginScreen() {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const logInWithPassword = async () => {
     setIsSigningIn(true);
-    let { error } = await supabase.auth.signInWithPassword({
+    // Returns { error }
+    await supabase.auth.signInWithPassword({
       email,
       password,
     });

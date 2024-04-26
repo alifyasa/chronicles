@@ -1,3 +1,4 @@
+import React from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { supabase } from "@/utils/supabase";
 import { Session } from "@supabase/supabase-js";

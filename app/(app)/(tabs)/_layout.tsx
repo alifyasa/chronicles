@@ -1,6 +1,6 @@
 import React from "react";
-import { Link, Tabs } from "expo-router";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Tabs } from "expo-router";
+import { View } from "react-native";
 
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { FontAwesome6 } from "@expo/vector-icons";

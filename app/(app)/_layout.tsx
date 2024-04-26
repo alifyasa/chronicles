@@ -1,8 +1,8 @@
+import React from "react";
 import { useSession } from "@/providers/AuthProviders";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { RecordProvider } from "@/providers/RecordProviders";
 import { Redirect, Stack } from "expo-router";
-import { View } from "react-native";
 
 export default function Layout() {
   const session = useSession();

@@ -1,8 +1,7 @@
+import React from "react";
 import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { useRecord } from "@/providers/RecordProviders";
-import { supabase } from "@/utils/supabase";
-import { Theme, useTheme } from "@react-navigation/native";
 import { router } from "expo-router";
 import { useCallback, useRef, useState } from "react";
 import {
@@ -14,7 +13,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import Toast, { InfoToast } from "react-native-toast-message";
+import { InfoToast } from "react-native-toast-message";
 
 export default function CreateRecordScreen() {
   const theme = useCustomTheme();

@@ -1,3 +1,4 @@
+import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -9,7 +10,6 @@ import { View } from "react-native";
 import { SessionProvider } from "@/providers/AuthProviders";
 import { CustomTheme  } from "@/constants/themes";
 import { CustomThemeProvider } from "@/providers/CustomThemeProviders";
-import { RootSiblingParent } from "react-native-root-siblings";
 import Toast from "react-native-toast-message";
 import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
 

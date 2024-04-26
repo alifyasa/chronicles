@@ -1,6 +1,5 @@
 import { Theme } from "@react-navigation/native";
 import { TextStyle, ViewStyle } from "react-native";
-import { BluePalette } from "../palettes/BluePalette";
 import { Palette } from "../palettes";
 
 export type CustomTheme = Theme & {

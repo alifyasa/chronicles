@@ -1,7 +1,7 @@
-import { ActivityIndicator, Modal, Pressable, StyleSheet } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet } from "react-native";
 
+import React from "react";
 import { Text, View } from "@/components/Themed";
-import { Theme, useTheme } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
@@ -15,7 +15,8 @@ export default function SettingsScreen() {
   const logOutCallback = useCallback(() => {
     async function logOut() {
       setIsLoggingOut(true);
-      let { error } = await supabase.auth.signOut();
+      // Returns { error }
+      await supabase.auth.signOut();
       setIsLoggingOut(false);
     }
     logOut();

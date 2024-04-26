@@ -1,6 +1,6 @@
-import { Journey, supabase } from "@/utils/supabase";
+import React from "react";
+import { supabase } from "@/utils/supabase";
 import { Record } from "@/utils/supabase/types";
-import { PostgrestError } from "@supabase/supabase-js";
 import {
   PropsWithChildren,
   createContext,
@@ -57,7 +57,7 @@ function RecordProvider(props: PropsWithChildren) {
     async function getRecordFromSupabase() {
       setIsFetching(true);
       console.log(`[RECORD] Fetching Records`);
-      let { data: record } = await supabase.rpc("all_records");
+      const { data: record } = await supabase.rpc("all_records");
       setIsRecord(record as Record[]);
       setIsFetching(false);
       console.log(`[RECORD] Fetched ${record?.length} Record(s)`);
@@ -72,7 +72,7 @@ function RecordProvider(props: PropsWithChildren) {
     recordType
   ) => {
     setIsAddingRecord(true);
-    let { data } = await supabase.rpc("create_record", {
+    const { data } = await supabase.rpc("create_record", {
       record_name: recordName,
       record_description: recordDescription,
       record_type_: recordType,

@@ -1,13 +1,10 @@
+import React from "react";
 import { CustomTheme } from "@/constants/themes";
 import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
-import { supabase } from "@/utils/supabase";
-import { Session } from "@supabase/supabase-js";
 import {
   PropsWithChildren,
   createContext,
   useContext,
-  useEffect,
-  useState,
 } from "react";
 import { useColorScheme } from "react-native";
 
