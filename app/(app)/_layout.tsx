@@ -40,6 +40,12 @@ export default function Layout() {
               title: "Create Record",
             }}
           ></Stack.Screen>
+          <Stack.Screen
+            name="tests/secret"
+            options={{
+              title: "Test: Secret",
+            }}
+          ></Stack.Screen>
         </Stack>
       </RecordProvider>
     </View>

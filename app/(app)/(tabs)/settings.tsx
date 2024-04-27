@@ -11,6 +11,7 @@ import { useCallback, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { CustomTheme } from "@/constants/themes";
+import { router } from "expo-router";
 
 export default function SettingsScreen() {
   const theme = useCustomTheme();
@@ -29,16 +30,20 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
-      {/* <Modal
-        transparent
+      <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          {
+            backgroundColor: pressed
+              ? theme.colors.pressable.pressed
+              : theme.colors.pressable.normal,
+            marginBottom: 12,
+          },
+        ]}
+        onPress={() => router.push("/tests/secret")}
       >
-        <Text style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: 'red'
-        }}>Log Out Modal</Text>
-      </Modal> */}
+        <Text style={styles.buttonText}>Go to Secret Page</Text>
+      </Pressable>
       <Pressable
         style={styles.button}
         onPress={logOutCallback}

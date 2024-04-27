@@ -37,6 +37,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+
   const theme: CustomTheme =
     colorScheme === "dark" ? DarkBlueTheme : DefaultBlueTheme;
 

@@ -22,6 +22,10 @@ export const DefaultBlueTheme: CustomTheme = {
       dim: BluePalette.text["700"],
       error: "hsl(350, 80%, 60%)",
     },
+    card: {
+      background: BluePalette.secondary["500"],
+      text: BluePalette.text["500"],
+    },
   },
 };
 
@@ -45,6 +49,10 @@ export const DarkBlueTheme: CustomTheme = {
       normal: BluePalette.text["50"],
       dim: BluePalette.text["300"],
       error: "hsl(350, 80%, 40%)",
+    },
+    card: {
+      background: BluePalette.secondary["500"],
+      text: BluePalette.text["500"],
     },
   },
 };

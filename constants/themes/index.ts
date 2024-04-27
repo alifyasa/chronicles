@@ -9,5 +9,9 @@ export type CustomTheme = {
       background: Record<"pressed" | "normal", string>;
       text: string;
     };
+    card: {
+      background: string;
+      text: string;
+    };
   };
 };

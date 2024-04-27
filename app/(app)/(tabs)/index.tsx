@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
