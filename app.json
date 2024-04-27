@@ -27,16 +27,14 @@
         "backgroundColor": "#ffffff"
       },
       "package": "id.alifyasa.records",
-      "android": {
-        "splash": {
+      "splash": {
+        "image": "./assets/images/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#f0f1f5",
+        "dark": {
           "image": "./assets/images/splash.png",
           "resizeMode": "contain",
-          "backgroundColor": "#f0f1f5",
-          "dark": {
-            "image": "./assets/images/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#0a0c0f"
-          }
+          "backgroundColor": "#0a0c0f"
         }
       }
     },
