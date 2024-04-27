@@ -62,19 +62,21 @@ const stylesFromTheme = (theme: CustomTheme) =>
     container: {
       flex: 1,
       padding: 12,
+      backgroundColor: theme.colors.background,
     },
     buttonIndicator: {},
     buttonText: {
-      color: theme.colors.text,
+      color: theme.colors.dangerousPressable.text,
       textAlign: "center",
       fontSize: 16,
+      fontWeight: "500",
     },
     button: {
       height: 48,
       width: "100%",
       padding: 12,
       borderRadius: 5,
-      backgroundColor: theme.custom.colors.errorRed,
+      backgroundColor: theme.colors.dangerousPressable.background.normal,
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",

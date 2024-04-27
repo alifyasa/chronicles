@@ -2,21 +2,27 @@ import { Theme } from "@react-navigation/native";
 import { TextStyle, ViewStyle } from "react-native";
 import { Palette } from "../palettes";
 
-export type CustomTheme = Theme & {
-  custom: {
-    colors: {
-      errorRed: ViewStyle["backgroundColor"] | TextStyle["color"];
-      pressable: {
-        active: string;
-        inactive: string;
-      };
-      text: {
-        normal: string;
-        dim: string;
-        error: string;
-      };
+export type CustomTheme = {
+  dark: boolean;
+  colors: {
+    background: string;
+    border: string;
+    text: {
+      normal: string;
+      dim: string;
+      error: string;
     };
-    palette: Palette;
+    pressable: {
+      pressed: string;
+      normal: string;
+    };
+    dangerousPressable: {
+      background: {
+        pressed: string;
+        normal: string;
+      };
+      text: string;
+    };
   };
 };
 

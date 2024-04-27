@@ -34,11 +34,8 @@ export default function CreateRecordScreen() {
       const { error, message } = await addRecord(
         recordName.trim() || null,
         recordDescription.trim() || null,
-        "GENERAL",
+        "GENERAL"
       );
-      InfoToast({
-        text1: "Hello",
-      });
       if (error) {
         return console.log(message);
       }
@@ -56,8 +53,8 @@ export default function CreateRecordScreen() {
             style={{
               color:
                 recordName.length < 3
-                  ? theme.custom.colors.text.error
-                  : theme.colors.text,
+                  ? theme.colors.text.error
+                  : theme.colors.text.normal,
             }}
           >
             {recordName.length}
@@ -73,6 +70,7 @@ export default function CreateRecordScreen() {
           value={recordName}
           onChangeText={setRecordName}
           maxLength={100}
+          placeholderTextColor={theme.colors.text.dim}
         />
         <Text style={styles.textInputLabel}>
           Description ({recordDescription.length}/4000)
@@ -86,6 +84,7 @@ export default function CreateRecordScreen() {
           onChangeText={setRecordDescription}
           maxLength={4000}
           style={styles.textInput}
+          placeholderTextColor={theme.colors.text.dim}
         />
       </ScrollView>
       <Pressable
@@ -118,13 +117,13 @@ const stylesFromTheme = (theme: CustomTheme) =>
       fontWeight: "500",
       marginTop: 4,
       marginBottom: 16,
-      color: theme.colors.text,
+      color: theme.colors.text.normal,
     },
     textInputLabel: {
       fontSize: 18,
       fontWeight: "500",
       marginBottom: 4,
-      color: theme.colors.text,
+      color: theme.colors.text.normal,
     },
     textInput: {
       borderWidth: 1,
@@ -136,11 +135,11 @@ const stylesFromTheme = (theme: CustomTheme) =>
       maxHeight: 100 + 16,
       overflow: "scroll",
       marginBottom: 16,
-      color: theme.colors.text,
+      color: theme.colors.text.normal,
     },
     floatingButtonIndicator: {},
     floatingButtonText: {
-      color: theme.colors.background,
+      color: theme.colors.text.normal,
       textAlign: "center",
       fontSize: 16,
     },
@@ -151,10 +150,8 @@ const stylesFromTheme = (theme: CustomTheme) =>
       height: 48,
       width: "100%",
       padding: 12,
-      borderWidth: 1,
-      borderColor: theme.colors.border,
       borderRadius: 5,
-      backgroundColor: theme.colors.primary,
+      backgroundColor: theme.colors.pressable.normal,
       flex: 1,
       flexDirection: "column",
       justifyContent: "center",

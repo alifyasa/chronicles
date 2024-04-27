@@ -61,8 +61,8 @@ function DisplayRecord(record: Record, theme: CustomTheme) {
         styles.displayRecordContainer,
         {
           backgroundColor: pressed
-            ? theme.custom.colors.pressable.active
-            : theme.custom.colors.pressable.inactive,
+            ? theme.colors.pressable.pressed
+            : theme.colors.pressable.normal,
         },
       ]}
     >
@@ -80,8 +80,8 @@ function DisplayRecord(record: Record, theme: CustomTheme) {
           fontSize: 14,
           fontStyle: record.description ? "normal" : "italic",
           color: record.description
-            ? theme.custom.colors.text.normal
-            : theme.custom.colors.text.dim,
+            ? theme.colors.text.normal
+            : theme.colors.text.dim,
         }}
       >
         {record.description ?? "No Description"}
@@ -90,11 +90,12 @@ function DisplayRecord(record: Record, theme: CustomTheme) {
   );
 }
 
-const stylesFromTheme = (theme: Theme) =>
+const stylesFromTheme = (theme: CustomTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
       padding: 12,
+      backgroundColor: theme.colors.background,
     },
     title: {
       fontSize: 20,
@@ -111,18 +112,16 @@ const stylesFromTheme = (theme: Theme) =>
       right: 12,
       marginBottom: 8,
       marginRight: 8,
-      borderWidth: 1,
-      borderColor: theme.colors.border,
       borderRadius: 90,
       width: 52,
       height: 52,
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: theme.colors.background,
+      backgroundColor: theme.colors.pressable.normal,
     },
     floatingButtonIcon: {
-      color: theme.colors.text,
+      color: theme.colors.text.normal,
       margin: "auto",
     },
     displayRecordContainer: {
@@ -131,7 +130,7 @@ const stylesFromTheme = (theme: Theme) =>
       maxHeight: 256,
     },
     displayRecordText: {
-      color: theme.colors.text,
+      color: theme.colors.text.normal,
       fontSize: 18,
       fontWeight: "500",
       marginBottom: 8,

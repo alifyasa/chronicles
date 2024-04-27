@@ -20,14 +20,14 @@ export default function RecordDetailScreen() {
       title: recordKV[recordId].name,
       headerRight: () => (
         <Pressable style={{ marginRight: 8 }}>
-          <FontAwesome6 name="pen" size={20} color={theme.colors.text} />
+          <FontAwesome6 name="pen" size={20} color={theme.colors.text.normal} />
         </Pressable>
       ),
     });
   });
   return (
     <View style={styles.container}>
-      <Text style={{ color: theme.colors.text }}>
+      <Text style={{ color: theme.colors.text.normal }}>
         {recordKV[recordId].name}
       </Text>
     </View>

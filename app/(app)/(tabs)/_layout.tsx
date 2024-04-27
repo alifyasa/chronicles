@@ -1,10 +1,10 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import { View } from "react-native";
 
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
+import { View } from "react-native";
 
 export default function TabLayout() {
   const theme = useCustomTheme();
@@ -13,16 +13,14 @@ export default function TabLayout() {
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Tabs
         screenOptions={{
-          // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-          // Disable the static render of the header on web
-          // to prevent a hydration error in React Navigation v6.
           headerShown: useClientOnlyValue(false, true),
-          headerTintColor: theme.colors.text,
+          headerTintColor: theme.colors.text.normal,
           headerStyle: {
             backgroundColor: theme.colors.background,
+            shadowColor: theme.colors.text.normal,
           },
 
-          tabBarActiveTintColor: theme.colors.text,
+          tabBarActiveTintColor: theme.colors.text.normal,
           tabBarActiveBackgroundColor: theme.colors.background,
           tabBarInactiveBackgroundColor: theme.colors.background,
 
@@ -34,8 +32,9 @@ export default function TabLayout() {
           },
           tabBarStyle: {
             // Spent too much time debugging this
-            backgroundColor: theme.colors.background,
-            borderTopColor: theme.colors.background,
+            backgroundColor: "transparent",
+            borderTopColor: "transparent",
+            shadowColor: theme.colors.text.normal,
             height: 64,
           },
         }}
