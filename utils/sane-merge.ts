@@ -1,4 +1,3 @@
-type Mergable = Record<string, unknown>;
 /**
  * Consider the following example
  * ```
@@ -33,17 +32,26 @@ type Mergable = Record<string, unknown>;
  * @param ...objects Any amount of objects
  * @returns Merged object but with null and undefined ignored
  */
-function pruneMerge<T extends Mergable>(
-  ...objects: T[]
-): Record<string, unknown> {
+type Mergable = Record<string, unknown>;
+function truthyMerge<T extends Mergable>(...objects: T[]): Required<T> {
   return objects.reduce((result, obj) => {
     Object.keys(obj).forEach((key) => {
       if (obj[key]) {
         result[key] = obj[key];
       }
     });
-    return result as Mergable;
-  }, {} as Mergable);
+    return result;
+  }, {} as Mergable) as Required<T>;
 }
 
-export { pruneMerge as saneMerge };
+function definedMerge<T extends Mergable>(...objects: T[]): Required<T> {
+  return objects.reduce((result, obj) => {
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] !== undefined) {
+        result[key] = obj[key];
+      }
+    });
+    return result;
+  }, {} as Mergable) as Required<T>;
+}
+export { truthyMerge, definedMerge };

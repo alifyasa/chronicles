@@ -27,16 +27,14 @@ export default function SecretPage() {
       "salt",
       100000,
       64,
-      "sha512",
+      "sha512"
     );
     pbkdf2Result
       .then((value) => {
         setPbkdf2(value);
         setIsCalculatingPBKDF2(false);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.info(err));
 
     return cleanUp;
   }, [password]);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { CustomTheme } from "@/constants/themes";
 import { useSession } from "@/providers/AuthProviders";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
@@ -13,11 +13,13 @@ import {
   TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useFocusEffect } from "expo-router";
 
 export default function LoginScreen() {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
-  const session = useSession();
+  const { session, isInitDone } = useSession();
+  const ref = useRef<TextInput | null>(null);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isSigningIn, setIsSigningIn] = useState(false);
@@ -31,7 +33,11 @@ export default function LoginScreen() {
     setIsSigningIn(false);
   };
 
-  if (session) {
+  useFocusEffect(() => {
+    ref?.current?.focus();
+  });
+
+  if (session && isInitDone) {
     return <Redirect href="/(app)/" />;
   }
 
@@ -40,7 +46,7 @@ export default function LoginScreen() {
       <Text style={styles.title}>Login</Text>
       <Text style={styles.textInputLabel}>E-mail address</Text>
       <TextInput
-        autoFocus
+        ref={(input) => (ref.current = input)}
         inputMode="email"
         autoCapitalize="none"
         onChangeText={setEmail}

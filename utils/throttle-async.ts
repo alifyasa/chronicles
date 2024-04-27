@@ -4,7 +4,7 @@ type AsyncFuncWrap<TArgs extends unknown[], TReturn> = (
 
 function throttleAsync<TArgs extends unknown[], TReturn>(
   asyncFunction: AsyncFuncWrap<TArgs, TReturn>,
-  delay: number,
+  delay: number
 ) {
   return function funcWrap(...args: TArgs) {
     const abortSignal = new AbortController();
@@ -14,16 +14,18 @@ function throttleAsync<TArgs extends unknown[], TReturn>(
           .then(resolve)
           .catch(reject);
       }, delay);
-      function abortListener(Ev: Event) {
+      function abortListener() {
         abortSignal.signal.removeEventListener("abort", abortListener);
         clearTimeout(timeout);
-        reject((Ev as PromiseRejectionEvent).reason);
+        reject(
+          `Aborted ${funcWrap.name}(${args.map((el) => JSON.stringify(el)).join(", ")})`
+        );
       }
       abortSignal.signal.addEventListener("abort", abortListener);
     });
     return {
       promise,
-      cleanUp: () => abortSignal.abort("ABORTED"),
+      cleanUp: () => abortSignal.abort(),
     };
   };
 }

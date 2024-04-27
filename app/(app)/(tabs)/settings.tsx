@@ -42,7 +42,18 @@ export default function SettingsScreen() {
         ]}
         onPress={() => router.push("/tests/secret")}
       >
-        <Text style={styles.buttonText}>Go to Secret Page</Text>
+        <Text
+          style={[
+            styles.buttonText,
+            {
+              color: theme.dark
+                ? theme.colors.dangerousPressable.text
+                : theme.colors.text.normal,
+            },
+          ]}
+        >
+          Go to Secret Page
+        </Text>
       </Pressable>
       <Pressable
         style={styles.button}

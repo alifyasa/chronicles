@@ -6,10 +6,10 @@ import { Redirect, Stack } from "expo-router";
 import { View } from "react-native";
 
 export default function Layout() {
-  const session = useSession();
+  const { session, isInitDone } = useSession();
   const theme = useCustomTheme();
 
-  if (!session) {
+  if (!session && isInitDone) {
     return <Redirect href="/(auth)/login" />;
   }
 

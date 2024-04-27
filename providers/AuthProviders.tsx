@@ -1,5 +1,4 @@
 import React from "react";
-import * as SplashScreen from "expo-splash-screen";
 import { supabase } from "@/utils/supabase";
 import { Session } from "@supabase/supabase-js";
 import {
@@ -9,8 +8,21 @@ import {
   useEffect,
   useState,
 } from "react";
+import Toast from "react-native-toast-message";
+import { SplashScreen } from "expo-router";
+import { definedMerge } from "@/utils/sane-merge";
 
-export const SessionContext = createContext<Session | null>(null);
+type SessionContextType = {
+  session: Session | null;
+  isInitDone: boolean;
+};
+const defaultSessionContext: SessionContextType = {
+  session: null,
+  isInitDone: false,
+};
+export const SessionContext = createContext<SessionContextType>(
+  defaultSessionContext
+);
 export function useSession() {
   const value = useContext(SessionContext);
 
@@ -18,30 +30,40 @@ export function useSession() {
 }
 
 export function SessionProvider(props: PropsWithChildren) {
-  const [isGettingSession, setIsGettingSession] = useState(true);
-  const [session, setSession] = useState<Session | null>(null);
+  const [sessionContext, setSessionContext] = useState(defaultSessionContext);
+  const updateSession = (partSession: Partial<SessionContextType>) => {
+    setSessionContext((prev) => definedMerge(prev, partSession));
+  };
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setIsGettingSession(false);
+    supabase.auth.onAuthStateChange((_event, session) => {
+      let newSession: Partial<SessionContextType> = {
+        session,
+      };
+      if (_event === "INITIAL_SESSION") {
+        newSession = {
+          session,
+          isInitDone: true,
+        };
+      }
+      updateSession(newSession);
+      console.log(`[AUTH] ${_event}`);
+      Toast.show({
+        text1: "Auth Event",
+        text2: _event,
+        type: "info",
+      });
     });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setIsGettingSession(true);
-      setSession(session);
-      console.log(`[AUTH] ${_event}`);
-      setIsGettingSession(false);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      updateSession({
+        session,
+      });
+      SplashScreen.hideAsync();
     });
   }, []);
 
-  useEffect(() => {
-    if (!isGettingSession) {
-      SplashScreen.hideAsync();
-    }
-  }, [isGettingSession]);
-
   return (
-    <SessionContext.Provider value={session}>
+    <SessionContext.Provider value={sessionContext}>
       {props.children}
     </SessionContext.Provider>
   );

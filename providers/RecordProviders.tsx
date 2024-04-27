@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import Toast from "react-native-toast-message";
+import { useSession } from "./AuthProviders";
 
 interface RecordContextInterface {
   record: Record[];
@@ -21,7 +22,7 @@ interface RecordContextInterface {
   addRecord: (
     recordName: string | null,
     recordDescription: string | null,
-    recordType: Record["type"],
+    recordType: Record["type"]
   ) => Promise<{ error: boolean; message: string }>;
 }
 const defaultRecordContext: RecordContextInterface = {
@@ -45,39 +46,42 @@ const useRecord = () => {
 };
 
 function RecordProvider(props: PropsWithChildren) {
+  const { isInitDone } = useSession();
   const [record, setIsRecord] = useState<Record[]>([]);
   const recordKV = record.reduce(
     (prev, curr) => ({
       ...prev,
       [curr.record_id]: curr,
     }),
-    {},
+    {}
   );
   const [isFetching, setIsFetching] = useState(false);
-  const getRecordCallback = useCallback(() => {
-    async function getRecordFromSupabase() {
-      setIsFetching(true);
-      console.log(`[RECORD] Fetching Records`);
-      const { data: record, error } = await supabase.rpc("all_records");
-      setIsFetching(false);
-      if (error || !record) {
-        return Toast.show({
-          type: "error",
-          text1: "Error Fetching Records",
-          text2: error?.message,
-        });
-      }
-      setIsRecord(record as Record[]);
-      console.log(`[RECORD] Fetched ${record?.length} Record(s)`);
+  async function getRecordFromSupabase() {
+    setIsFetching(true);
+    console.log(`[RECORD] Fetching Records`);
+    const { data: record, error } = await supabase.rpc("all_records");
+    setIsFetching(false);
+    if (error || !record) {
+      return Toast.show({
+        type: "error",
+        text1: "Error Fetching Records",
+        text2: error?.message,
+      });
     }
-    getRecordFromSupabase();
-  }, []);
+    setIsRecord(record as Record[]);
+    console.log(`[RECORD] Fetched ${record?.length} Record(s)`);
+  }
+  const getRecordCallback = useCallback(() => {
+    if (isInitDone) {
+      getRecordFromSupabase();
+    }
+  }, [isInitDone]);
 
   const [isAddingRecord, setIsAddingRecord] = useState(false);
   const addRecord: RecordContextInterface["addRecord"] = async (
     recordName,
     recordDescription,
-    recordType,
+    recordType
   ) => {
     setIsAddingRecord(true);
     const { data } = await supabase.rpc("create_record", {

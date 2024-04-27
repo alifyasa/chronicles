@@ -1,6 +1,6 @@
 import React from "react";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
-import { saneMerge } from "@/utils/sane-merge";
+import { truthyMerge } from "@/utils/sane-merge";
 import { StyleSheet } from "react-native";
 import {
   BaseToast,
@@ -10,7 +10,7 @@ import {
 
 const CustomBaseToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
   const theme = useCustomTheme();
-  const mergedProps = saneMerge(
+  const mergedProps = truthyMerge(
     {
       text1Style: {
         color: theme.colors.text.normal,
@@ -19,15 +19,15 @@ const CustomBaseToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
         color: theme.colors.text.normal,
       },
     },
-    props,
+    props
   );
   return <BaseToast {...mergedProps} />;
 };
 const CustomSuccessToast: React.FC<BaseToastProps> = (
-  props: BaseToastProps,
+  props: BaseToastProps
 ) => {
   const theme = useCustomTheme();
-  const mergedProps = saneMerge(
+  const mergedProps = truthyMerge(
     {
       style: {
         backgroundColor: theme.colors.background,
@@ -36,13 +36,13 @@ const CustomSuccessToast: React.FC<BaseToastProps> = (
         borderColor: theme.colors.pressable.normal,
       },
     },
-    props,
+    props
   );
   return <CustomBaseToast {...mergedProps} />;
 };
 const CustomInfoToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
   const theme = useCustomTheme();
-  const mergedProps = saneMerge(
+  const mergedProps = truthyMerge(
     {
       style: {
         backgroundColor: theme.colors.background,
@@ -51,13 +51,13 @@ const CustomInfoToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
         borderColor: theme.colors.border,
       },
     },
-    props,
+    props
   );
   return <CustomBaseToast {...mergedProps} />;
 };
 const CustomErrorToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
   const theme = useCustomTheme();
-  const mergedProps = saneMerge(
+  const mergedProps = truthyMerge(
     {
       style: {
         backgroundColor: theme.colors.background,
@@ -66,7 +66,7 @@ const CustomErrorToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
         borderColor: theme.colors.dangerousPressable.background.normal,
       },
     },
-    props,
+    props
   );
   return <CustomBaseToast {...mergedProps} />;
 };
