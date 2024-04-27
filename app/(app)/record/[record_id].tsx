@@ -28,7 +28,19 @@ export default function RecordDetailScreen() {
   return (
     <View style={styles.container}>
       <Text style={{ color: theme.colors.text.normal }}>
+        {recordKV[recordId].record_id}
+      </Text>
+      <Text style={{ color: theme.colors.text.normal }}>
         {recordKV[recordId].name}
+      </Text>
+      <Text style={{ color: theme.colors.text.normal }}>
+        {recordKV[recordId].type}
+      </Text>
+      <Text style={{ color: theme.colors.text.normal }}>
+        {recordKV[recordId].created_at}
+      </Text>
+      <Text style={{ color: theme.colors.text.normal }}>
+        {recordKV[recordId].description}
       </Text>
     </View>
   );

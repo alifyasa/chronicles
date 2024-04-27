@@ -6,12 +6,13 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { SessionProvider } from "@/providers/AuthProviders";
 import { CustomTheme } from "@/constants/themes";
 import { CustomThemeProvider } from "@/providers/CustomThemeProviders";
-import Toast from "react-native-toast-message";
 import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
+import Toast, { BaseToast } from "react-native-toast-message";
+import toastConfig from "@/components/toastConfig";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -66,7 +67,7 @@ function RootLayoutNav() {
               }}
             ></Stack.Screen>
           </Stack>
-          <Toast />
+          <Toast config={toastConfig} />
         </SessionProvider>
       </CustomThemeProvider>
     </View>

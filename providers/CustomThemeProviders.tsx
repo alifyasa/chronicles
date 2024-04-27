@@ -4,7 +4,6 @@ import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
 import { PropsWithChildren, createContext, useContext } from "react";
 import { useColorScheme } from "react-native";
 import * as SystemUI from "expo-system-ui";
-import { useFocusEffect } from "expo-router";
 
 export const CustomThemeContext = createContext<CustomTheme>(DefaultBlueTheme);
 export function useCustomTheme() {

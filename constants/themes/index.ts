@@ -1,65 +1,13 @@
-import { Theme } from "@react-navigation/native";
-import { TextStyle, ViewStyle } from "react-native";
-import { Palette } from "../palettes";
-
 export type CustomTheme = {
   dark: boolean;
   colors: {
     background: string;
     border: string;
-    text: {
-      normal: string;
-      dim: string;
-      error: string;
-    };
-    pressable: {
-      pressed: string;
-      normal: string;
-    };
+    text: Record<"normal" | "dim" | "error", string>;
+    pressable: Record<"pressed" | "normal", string>;
     dangerousPressable: {
-      background: {
-        pressed: string;
-        normal: string;
-      };
+      background: Record<"pressed" | "normal", string>;
       text: string;
     };
   };
 };
-
-// export const DefaultTheme: CustomTheme = {
-//   dark: false,
-//   colors: {
-//     primary: "rgb(0, 122, 255)",
-//     background: "rgb(255, 255, 255)",
-//     card: "rgb(255, 255, 255)",
-//     text: "rgb(28, 28, 30)",
-//     border: "rgb(216, 216, 216)",
-//     notification: "rgb(255, 59, 48)",
-//   },
-//   custom: {
-//     colors: {
-//       errorRed: "#DC143C",
-//       textDim: "#9A9A9A",
-//     },
-//     palette: BluePalette
-//   },
-// };
-
-// export const DarkTheme: CustomTheme = {
-//   dark: true,
-//   colors: {
-//     primary: "rgb(10, 132, 255)",
-//     background: "rgb(1, 1, 1)",
-//     card: "rgb(18, 18, 18)",
-//     text: "rgb(229, 229, 231)",
-//     border: "rgb(39, 39, 41)",
-//     notification: "rgb(255, 69, 58)",
-//   },
-//   custom: {
-//     colors: {
-//       errorRed: "#DC143C",
-//       textDim: "#9A9A9A",
-//     },
-//     palette: BluePalette
-//   },
-// };

@@ -13,7 +13,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { InfoToast } from "react-native-toast-message";
 
 export default function CreateRecordScreen() {
   const theme = useCustomTheme();
@@ -34,7 +33,7 @@ export default function CreateRecordScreen() {
       const { error, message } = await addRecord(
         recordName.trim() || null,
         recordDescription.trim() || null,
-        "GENERAL"
+        "GENERAL",
       );
       if (error) {
         return console.log(message);

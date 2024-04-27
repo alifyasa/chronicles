@@ -8,13 +8,14 @@ import {
 } from "react-native";
 
 import React from "react";
-import { Theme, useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { CustomTheme } from "@/constants/themes";
 import { useRecord } from "@/providers/RecordProviders";
 import { Record } from "@/utils/supabase/types";
+import Toast from "react-native-toast-message";
 
 export default function RecordListScreen() {
   const theme = useCustomTheme();
@@ -43,7 +44,14 @@ export default function RecordListScreen() {
       ></FlatList>
       <Pressable
         style={styles.floatingButtonContainer}
-        onPress={() => router.push("/(app)/create-record")}
+        onPress={() => {
+          Toast.show({
+            text1: "Text1",
+            text2: "Text2",
+            type: "info",
+          });
+          router.push("/(app)/create-record");
+        }}
       >
         <FontAwesome6 name="plus" size={32} style={styles.floatingButtonIcon} />
       </Pressable>
