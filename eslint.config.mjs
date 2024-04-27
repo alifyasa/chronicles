@@ -17,10 +17,10 @@ export default [
       tseslint,
       "unused-imports": unusedImports,
       eslintConfigPrettier,
-      // "unused-imports": pluginObject,
     },
     rules: {
       "unused-imports/no-unused-imports-ts": "error",
+      "@typescript-eslint/no-explicit-any": "error",
     },
   },
   pluginJs.configs.recommended,

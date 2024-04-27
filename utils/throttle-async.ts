@@ -1,15 +1,10 @@
-import { useState } from "react";
-
-type AsyncFuncWrap<TArgs extends any[], TReturn> = (
+type AsyncFuncWrap<TArgs extends unknown[], TReturn> = (
   ...args: TArgs
 ) => Promise<TReturn>;
 
-// const funcA = throttleAsync(func)
-// const { promise, cleanup } = funcA(a, b, c, d)
-// await promise
-function throttleAsync<TArgs extends any[], TReturn>(
+function throttleAsync<TArgs extends unknown[], TReturn>(
   asyncFunction: AsyncFuncWrap<TArgs, TReturn>,
-  delay: number
+  delay: number,
 ) {
   return function funcWrap(...args: TArgs) {
     const abortSignal = new AbortController();
@@ -19,16 +14,16 @@ function throttleAsync<TArgs extends any[], TReturn>(
           .then(resolve)
           .catch(reject);
       }, delay);
-      function abortListener() {
+      function abortListener(Ev: Event) {
         abortSignal.signal.removeEventListener("abort", abortListener);
         clearTimeout(timeout);
-        reject("Aborted");
+        reject((Ev as PromiseRejectionEvent).reason);
       }
       abortSignal.signal.addEventListener("abort", abortListener);
     });
     return {
       promise,
-      cleanUp: abortSignal.abort(),
+      cleanUp: () => abortSignal.abort("ABORTED"),
     };
   };
 }

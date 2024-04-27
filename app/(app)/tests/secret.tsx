@@ -6,10 +6,11 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useCallback, useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import { useCustomTheme } from "@/providers/CustomThemeProviders";
 import { CustomTheme } from "@/constants/themes";
-import { debounce, throttle } from "lodash";
+import { throttleAsync } from "@/utils/throttle-async";
 
 export default function SecretPage() {
   const theme = useCustomTheme();
@@ -19,33 +20,25 @@ export default function SecretPage() {
   const [isCalculatingPBKDF2, setIsCalculatingPBKDF2] = useState(false);
   const [password, setPassword] = useState("");
   useEffect(() => {
-    // Truely Throttled
     setIsCalculatingPBKDF2(true);
-    const abortSignal = new AbortController();
-    const timeout = setTimeout(() => {
-      console.log(`[PBKDF2] [START] "${password}"`);
-      const doSomething: Promise<string> = new Promise((resolve, reject) => {
-        function abortListener() {
-          abortSignal.signal.removeEventListener("abort", abortListener);
-          reject(`[PBKDF2] [ABORT] "${password}"`);
-        }
-        abortSignal.signal.addEventListener("abort", abortListener);
-        Crypto.pbkdf2(password, "salt", 100000, 64, "sha512")
-          .then(resolve)
-          .catch(reject);
+    const throttledPBKDF2 = throttleAsync(Crypto.pbkdf2, 500);
+    const { promise: pbkdf2Result, cleanUp } = throttledPBKDF2(
+      password,
+      "salt",
+      100000,
+      64,
+      "sha512",
+    );
+    pbkdf2Result
+      .then((value) => {
+        setPbkdf2(value);
+        setIsCalculatingPBKDF2(false);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      doSomething
-        .then((value) => {
-          console.log(`[PBKDF2] [DONE ] "${password}"`);
-          setPbkdf2(value);
-          setIsCalculatingPBKDF2(false); // Turn off loading state after calculation
-        })
-        .catch((err) => console.log(err));
-    });
-    return () => {
-      abortSignal.abort();
-      clearTimeout(timeout);
-    };
+
+    return cleanUp;
   }, [password]);
 
   return (
