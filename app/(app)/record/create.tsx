@@ -9,12 +9,13 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  TextInput,
+  TextInput as RNTextInput,
   View,
 } from "react-native";
 import { z } from "zod";
 import Toast from "react-native-toast-message";
 import Text from "@/components/themed/Text";
+import TextInput from "@/components/themed/TextInput";
 
 // const logger = createDefaultLogger("APP/RECORD/CREATE");
 export default function CreateRecordScreen() {
@@ -22,7 +23,7 @@ export default function CreateRecordScreen() {
   const styles = stylesFromTheme(theme);
   const { isAddingRecord, addRecord } = useRecord();
 
-  const inputRefs = useRef<(TextInput | null)[]>([]);
+  const inputRefs = useRef<(RNTextInput | null)[]>([]);
   const focusNextInput = (index: number) => {
     if (inputRefs.current[index + 1]) {
       inputRefs.current[index + 1]?.focus();
@@ -71,7 +72,7 @@ export default function CreateRecordScreen() {
           >
             {recordName.length}
           </Text>
-          /100)
+          /40)
         </Text>
         <TextInput
           autoFocus
@@ -81,20 +82,19 @@ export default function CreateRecordScreen() {
           style={styles.textInput}
           value={recordName}
           onChangeText={setRecordName}
-          maxLength={100}
+          maxLength={40}
           placeholderTextColor={theme.colors.text.dim}
         />
         <Text style={styles.textInputLabel}>
-          Description ({recordDescription.length}/4000)
+          Description ({recordDescription.length}/400)
         </Text>
         <TextInput
           multiline
-          scrollEnabled
           placeholder="Insert description here (optional)"
           ref={(input) => (inputRefs.current[1] = input)}
           value={recordDescription}
           onChangeText={setRecordDescription}
-          maxLength={4000}
+          maxLength={400}
           style={styles.textInput}
           placeholderTextColor={theme.colors.text.dim}
         />
@@ -138,14 +138,7 @@ const stylesFromTheme = (theme: CustomTheme) =>
       color: theme.colors.text.normal,
     },
     textInput: {
-      borderWidth: 1,
-      paddingHorizontal: 12,
-      paddingVertical: 8,
-      borderRadius: 5,
-      borderColor: theme.colors.border,
       fontSize: 16,
-      maxHeight: 100 + 16,
-      overflow: "scroll",
       marginBottom: 16,
       color: theme.colors.text.normal,
     },
