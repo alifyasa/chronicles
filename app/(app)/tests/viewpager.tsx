@@ -3,9 +3,9 @@ import React, { memo, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import MessagesTab from "../(tabs)/messages";
-import RecordsTab from "../(tabs)/records";
-import SettingsTab from "../(tabs)/settings";
+import MessagesTab from "../(tabs)/tabs/messages";
+import RecordsTab from "../(tabs)/tabs/records";
+import SettingsTab from "../(tabs)/tabs/settings";
 import { BottomNavigation, Divider } from "react-native-paper";
 
 /**

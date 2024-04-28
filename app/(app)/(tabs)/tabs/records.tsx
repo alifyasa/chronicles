@@ -15,7 +15,7 @@ import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { Record } from "@/utils/supabase/records/schema";
 import Text from "@/components/themed/Text";
 
-export default function RecordListScreen() {
+export default function RecordsTab() {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
 
