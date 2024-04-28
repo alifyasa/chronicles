@@ -26,7 +26,6 @@ export default function Layout() {
             contentStyle: {
               backgroundColor: theme.colors.background,
             },
-            statusBarStyle: "auto",
           }}
         >
           <Stack.Screen

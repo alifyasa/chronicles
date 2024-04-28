@@ -6,13 +6,13 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
-import { View } from "react-native";
 import { SessionProvider } from "@/providers/AuthProvider";
 import { CustomTheme } from "@/constants/themes";
 import { CustomThemeProvider } from "@/providers/CustomThemeProvider";
 import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
 import Toast from "react-native-toast-message";
 import toastConfig from "@/components/toastConfig";
+import { View } from "react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -43,6 +43,7 @@ function RootLayoutNav() {
 
   return (
     // https://github.com/expo/expo/issues/27099#issuecomment-1959010092
+    // style={{ flex: 1, backgroundColor: theme.colors.background }}
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <CustomThemeProvider>
         <SessionProvider>
@@ -51,8 +52,8 @@ function RootLayoutNav() {
               contentStyle: {
                 backgroundColor: theme.colors.background,
               },
-              statusBarColor: theme.colors.background,
               headerShown: false,
+              statusBarStyle: "auto",
             }}
           >
             <Stack.Screen

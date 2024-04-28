@@ -10,8 +10,8 @@ import {
   Pressable,
   StyleSheet,
   TextInput,
+  View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "expo-router";
 import Text from "@/components/themed/Text";
 
@@ -42,7 +42,7 @@ export default function LoginScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
       <Text style={styles.textInputLabel}>E-mail address</Text>
       <TextInput
@@ -74,7 +74,7 @@ export default function LoginScreen() {
           <Text style={styles.floatingButtonText}>Login</Text>
         )}
       </Pressable>
-    </SafeAreaView>
+    </View>
   );
 }
 

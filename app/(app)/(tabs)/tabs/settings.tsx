@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { CustomTheme } from "@/constants/themes";
-import { router, useFocusEffect } from "expo-router";
+import { router } from "expo-router";
 import Text from "@/components/themed/Text";
 
 export default function SettingsTab() {
@@ -22,9 +22,6 @@ export default function SettingsTab() {
     }
     logOut();
   }, []);
-  useFocusEffect(() => {
-    console.log("Settings");
-  });
 
   return (
     <View style={styles.container}>
