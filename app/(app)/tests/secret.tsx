@@ -7,7 +7,9 @@ import { CustomTheme } from "@/constants/themes";
 import { throttleAsync } from "@/utils/throttle-async";
 import Timezone from "react-native-timezone";
 import Text from "@/components/themed/Text";
+import { createDefaultLogger } from "@/utils/logging";
 
+const logger = createDefaultLogger("APP/DEV/SECRET");
 export default function SecretPage() {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
@@ -30,7 +32,7 @@ export default function SecretPage() {
         setPbkdf2(value);
         setIsCalculatingPBKDF2(false);
       })
-      .catch((err) => console.info(err));
+      .catch((err) => logger.debug(err));
 
     return cleanUp;
   }, [password]);

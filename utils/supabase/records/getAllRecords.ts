@@ -14,7 +14,7 @@ async function getAllRecords() {
   try {
     return z.array(RecordSchema).parse(records);
   } catch (err) {
-    console.log(err);
+    logger.log(JSON.stringify(err, null, 2));
     throw new Error("Error parsing record schema");
   }
 }

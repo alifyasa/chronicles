@@ -11,6 +11,7 @@ import {
 import Toast from "react-native-toast-message";
 import { SplashScreen } from "expo-router";
 import { definedMerge } from "@/utils/sane-merge";
+import { createDefaultLogger } from "@/utils/logging";
 
 type SessionContextType = {
   session: Session | null;
@@ -29,6 +30,7 @@ export function useSession() {
   return value;
 }
 
+const logger = createDefaultLogger("PROVIDER/AUTH");
 export function SessionProvider(props: PropsWithChildren) {
   const [sessionContext, setSessionContext] = useState(defaultSessionContext);
   const updateSession = (partSession: Partial<SessionContextType>) => {
@@ -46,7 +48,7 @@ export function SessionProvider(props: PropsWithChildren) {
         };
       }
       updateSession(newSession);
-      console.log(`[AUTH] ${_event}`);
+      logger.log(_event);
       Toast.show({
         text1: "Auth Event",
         text2: _event,
