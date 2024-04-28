@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSession } from "@/providers/AuthProvider";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { RecordProvider } from "@/providers/DataProvider/Records/RecordProvider";
-import { Redirect, Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import { View } from "react-native";
+import { createDefaultLogger } from "@/utils/logging";
 
+const logger = createDefaultLogger("APP");
 export default function Layout() {
   const { session, isInitDone } = useSession();
   const theme = useCustomTheme();
 
-  if (!session && isInitDone) {
-    return <Redirect href="/(auth)/login" />;
-  }
+  useEffect(() => {
+    if (!session && isInitDone) {
+      logger.log("Redirect to Root");
+      router.replace("/");
+    }
+  }, [session, isInitDone]);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <RecordProvider>
         <Stack
-          initialRouteName="tabs"
+          initialRouteName="index"
           screenOptions={{
             headerTintColor: theme.colors.text.normal,
             headerStyle: {
@@ -28,12 +33,7 @@ export default function Layout() {
             },
           }}
         >
-          <Stack.Screen
-            name="tabs"
-            options={{
-              headerShown: false,
-            }}
-          ></Stack.Screen>
+          <Stack.Screen name="index"></Stack.Screen>
           <Stack.Screen
             name="create-record"
             options={{

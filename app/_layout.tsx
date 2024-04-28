@@ -1,7 +1,7 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, useNavigation } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
@@ -13,6 +13,8 @@ import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
 import Toast from "react-native-toast-message";
 import toastConfig from "@/components/toastConfig";
 import { View } from "react-native";
+import { createDefaultLogger } from "@/utils/logging";
+import { getRouteNamesRecursive } from "@/utils/navigation/getRouteNameRecursive";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,8 +37,18 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+const logger = createDefaultLogger("NAV");
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const nav = useNavigation();
+
+  nav.addListener("state", (event) => {
+    const routeNames: string[] = getRouteNamesRecursive(
+      event.data.state.routes,
+      ""
+    );
+    logger.log(JSON.stringify(routeNames, null, 2));
+  });
 
   const theme: CustomTheme =
     colorScheme === "dark" ? DarkBlueTheme : DefaultBlueTheme;

@@ -1,9 +1,8 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { CustomTheme } from "@/constants/themes";
 import { useSession } from "@/providers/AuthProvider";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { supabase } from "@/utils/supabase";
-import { Redirect } from "expo-router/build/link/Link";
 import { useState } from "react";
 import {
   ActivityIndicator,
@@ -12,9 +11,11 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import Text from "@/components/themed/Text";
+import { createDefaultLogger } from "@/utils/logging";
 
+const logger = createDefaultLogger("AUTH");
 export default function LoginScreen() {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
@@ -37,10 +38,12 @@ export default function LoginScreen() {
     ref?.current?.focus();
   });
 
-  if (session && isInitDone) {
-    console.log("Redirect to app");
-    return <Redirect href="/(app)/" />;
-  }
+  useEffect(() => {
+    if (session && isInitDone) {
+      logger.log("Redirect to App");
+      router.replace("/(app)/");
+    }
+  }, [session, isInitDone]);
 
   return (
     <View style={styles.container}>

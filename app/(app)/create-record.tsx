@@ -123,8 +123,6 @@ const stylesFromTheme = (theme: CustomTheme) =>
       flex: 1,
       padding: 12,
       backgroundColor: theme.colors.background,
-      borderColor: "red",
-      borderWidth: 1,
     },
     title: {
       fontSize: 24,
