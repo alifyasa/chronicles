@@ -8,7 +8,7 @@ export default function withAddRecord() {
   const __addRecord = async (
     recordName: string,
     recordDescription: string,
-    recordType: Record["type"]
+    recordType: Record["type"],
   ) => {
     setIsAddingRecord(true);
     return addRecord(recordName, recordDescription, recordType)

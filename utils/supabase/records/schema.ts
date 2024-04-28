@@ -33,7 +33,9 @@ const RecordEntrySchema = z.object({
     .string()
     .nullable()
     .transform((val) =>
-      typeof val === "string" ? (DateTime.fromSQL(val) as DateTime<true>) : null
+      typeof val === "string"
+        ? (DateTime.fromSQL(val) as DateTime<true>)
+        : null,
     )
     .refine((datetime) => datetime === null || datetime.isValid, {
       message: "Invalid DateTime string",

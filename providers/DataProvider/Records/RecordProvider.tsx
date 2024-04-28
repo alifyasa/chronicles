@@ -16,14 +16,14 @@ interface IRecordContext {
   addRecord: (
     recordName: string,
     recordDescription: string,
-    recordType: Record["type"]
+    recordType: Record["type"],
   ) => Promise<boolean>;
 
   isAddingRecordEntry: boolean;
   addRecordEntry: (
     recordId: string,
     recordMessage: string,
-    scheduledAt: RecordEntry["scheduled_at"]
+    scheduledAt: RecordEntry["scheduled_at"],
   ) => Promise<boolean>;
 }
 const defaultRecordContext: IRecordContext = {

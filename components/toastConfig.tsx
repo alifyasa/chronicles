@@ -21,12 +21,12 @@ const CustomBaseToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
         fontSize: 14,
       },
     },
-    props
+    props,
   );
   return <BaseToast {...mergedProps} />;
 };
 const CustomSuccessToast: React.FC<BaseToastProps> = (
-  props: BaseToastProps
+  props: BaseToastProps,
 ) => {
   const theme = useCustomTheme();
   const mergedProps = truthyMerge(
@@ -38,7 +38,7 @@ const CustomSuccessToast: React.FC<BaseToastProps> = (
         borderColor: theme.colors.pressable.normal,
       },
     },
-    props
+    props,
   );
   return <CustomBaseToast {...mergedProps} />;
 };
@@ -53,7 +53,7 @@ const CustomInfoToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
         borderColor: theme.colors.border,
       },
     },
-    props
+    props,
   );
   return <CustomBaseToast {...mergedProps} />;
 };
@@ -68,7 +68,7 @@ const CustomErrorToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
         borderColor: theme.colors.dangerousPressable.background.normal,
       },
     },
-    props
+    props,
   );
   return <CustomBaseToast {...mergedProps} />;
 };

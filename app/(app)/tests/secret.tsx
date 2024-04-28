@@ -25,7 +25,7 @@ export default function SecretPage() {
       "salt",
       100000,
       64,
-      "sha512"
+      "sha512",
     );
     pbkdf2Result
       .then((value) => {

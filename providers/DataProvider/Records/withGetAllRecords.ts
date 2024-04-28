@@ -12,7 +12,7 @@ export default function withGetAllRecords() {
       ...prev,
       [curr.record_id]: curr,
     }),
-    {}
+    {},
   );
   const [isFetchingRecords, setIsFetchingRecords] = useState(false);
   const getRecordCallback = useCallback(() => {
