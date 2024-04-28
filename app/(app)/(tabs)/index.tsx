@@ -1,5 +1,5 @@
 import PagerView from "react-native-pager-view";
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useCallback, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
@@ -77,7 +77,6 @@ const TabPages = memo(function TabPages(props: TabPagesProps) {
       onPageSelected={(page) => {
         // console.log(JSON.stringify(page.nativeEvent.position, null, 2));
         setPageIndex(page.nativeEvent.position);
-        console.log("PV", page.nativeEvent.position);
       }}
     >
       <View style={styles.page} key={0}>
@@ -110,27 +109,30 @@ export default function HomeTab() {
   const styles = stylesFromTheme(theme);
 
   const pagerViewRef = useRef<PagerView | null>(null);
-  const [bottomNavBarPageIndex, setBottomNavBarPageIndex] =
-    React.useState(INITIAL_PAGE_INDEX);
-  const [tabPageIndex, setTabPageIndex] = React.useState(INITIAL_PAGE_INDEX);
+  const [pageIndex, setPageIndex] = React.useState(INITIAL_PAGE_INDEX);
   const [routes] = React.useState(TABS);
-
-  useEffect(() => {
-    pagerViewRef.current?.setPage(tabPageIndex);
-    navigation.setOptions({
-      title: routes[tabPageIndex].title,
-      headerLeft: () => (
-        <View style={styles.headerLeftIcon}>
-          <RenderIcon iconName={TAB_ICONS[routes[tabPageIndex].key]} />
-        </View>
-      ),
-    });
-  }, [tabPageIndex]);
+  const setPageIndexCallback = useCallback(
+    (newPageIndex: number, setTabPage = false) => {
+      if (setTabPage) {
+        pagerViewRef.current?.setPage(newPageIndex);
+      }
+      setPageIndex(newPageIndex);
+      navigation.setOptions({
+        title: routes[newPageIndex].title,
+        headerLeft: () => (
+          <View style={styles.headerLeftIcon}>
+            <RenderIcon iconName={TAB_ICONS[routes[newPageIndex].key]} />
+          </View>
+        ),
+      });
+    },
+    [pagerViewRef]
+  );
 
   return (
     <View style={styles.container}>
       <TabPages
-        setPageIndex={setBottomNavBarPageIndex}
+        setPageIndex={setPageIndexCallback}
         pagerViewRef={pagerViewRef}
       />
       <Divider
@@ -147,11 +149,10 @@ export default function HomeTab() {
         style={{
           backgroundColor: theme.colors.background,
         }}
-        navigationState={{ index: bottomNavBarPageIndex, routes }}
+        navigationState={{ index: pageIndex, routes }}
         onTabPress={({ route }) => {
           const targetPageIndex = routes.findIndex((r) => r.key === route.key);
-          console.log("TAB", targetPageIndex);
-          setTabPageIndex(targetPageIndex);
+          setPageIndexCallback(targetPageIndex, true);
         }}
         renderIcon={({ route }) => (
           <RenderIcon iconName={TAB_ICONS[route.key]} />
