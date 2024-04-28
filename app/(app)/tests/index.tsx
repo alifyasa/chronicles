@@ -1,8 +1,10 @@
 import Text from "@/components/themed/Text";
 import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { router } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { List } from "react-native-paper";
 import Timezone from "react-native-timezone";
 
 export default function TestScreen() {
@@ -36,6 +38,12 @@ export default function TestScreen() {
           </View>
         </View>
       </View>
+      <List.Section title="New Features">
+        <List.Item
+          title="View Pager"
+          onPress={() => router.push("/tests/viewpager")}
+        ></List.Item>
+      </List.Section>
     </View>
   );
 }
@@ -64,6 +72,7 @@ const stylesFromTheme = (theme: CustomTheme) =>
       borderColor: theme.colors.border,
       borderWidth: 1,
       borderRadius: 5,
+      marginBottom: 16,
     },
     systemInformationColumn: {
       flexDirection: "column",
