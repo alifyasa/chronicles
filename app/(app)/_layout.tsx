@@ -17,7 +17,7 @@ export default function Layout() {
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <RecordProvider>
         <Stack
-          initialRouteName="(tabs)"
+          initialRouteName="tabs"
           screenOptions={{
             headerTintColor: theme.colors.text.normal,
             headerStyle: {
@@ -29,7 +29,7 @@ export default function Layout() {
           }}
         >
           <Stack.Screen
-            name="(tabs)"
+            name="tabs"
             options={{
               headerShown: false,
             }}

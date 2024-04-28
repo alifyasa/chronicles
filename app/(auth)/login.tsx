@@ -38,6 +38,7 @@ export default function LoginScreen() {
   });
 
   if (session && isInitDone) {
+    console.log("Redirect to app");
     return <Redirect href="/(app)/" />;
   }
 

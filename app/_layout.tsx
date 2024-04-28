@@ -48,6 +48,7 @@ function RootLayoutNav() {
       <CustomThemeProvider>
         <SessionProvider>
           <Stack
+            initialRouteName="(auth)/login"
             screenOptions={{
               contentStyle: {
                 backgroundColor: theme.colors.background,

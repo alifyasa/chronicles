@@ -10,6 +10,7 @@ export default function TabLayout() {
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Stack
+        initialRouteName="index"
         screenOptions={{
           title: "",
           headerTintColor: theme.colors.text.normal,
@@ -18,7 +19,9 @@ export default function TabLayout() {
           },
           navigationBarColor: theme.colors.background,
         }}
-      />
+      >
+        <Stack.Screen name="index" />
+      </Stack>
     </View>
   );
 }
