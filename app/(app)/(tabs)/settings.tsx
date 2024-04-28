@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
 
 import React from "react";
 import { useCallback, useState } from "react";
@@ -12,6 +6,7 @@ import { supabase } from "@/utils/supabase";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { CustomTheme } from "@/constants/themes";
 import { router } from "expo-router";
+import Text from "@/components/themed/Text";
 
 export default function SettingsScreen() {
   const theme = useCustomTheme();
@@ -40,7 +35,7 @@ export default function SettingsScreen() {
             marginBottom: 12,
           },
         ]}
-        onPress={() => router.push("/tests")}
+        onPress={() => router.push("/tests/")}
       >
         <Text
           style={[

@@ -3,7 +3,6 @@ import {
   Pressable,
   RefreshControl,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 
@@ -14,6 +13,7 @@ import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { CustomTheme } from "@/constants/themes";
 import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { Record } from "@/utils/supabase/records/schema";
+import Text from "@/components/themed/Text";
 
 export default function RecordListScreen() {
   const theme = useCustomTheme();
@@ -41,7 +41,12 @@ export default function RecordListScreen() {
         }
       ></FlatList>
       <Pressable
-        style={styles.floatingButtonContainer}
+        style={({ pressed }) => [
+          styles.floatingButtonContainer,
+          {
+            elevation: pressed ? 2 : 4,
+          },
+        ]}
         onPress={() => {
           router.push("/(app)/create-record");
         }}
@@ -113,7 +118,6 @@ const stylesFromTheme = (theme: CustomTheme) =>
       right: 12,
       marginBottom: 8,
       marginRight: 8,
-      elevation: 4,
       borderRadius: 90,
       width: 52,
       height: 52,

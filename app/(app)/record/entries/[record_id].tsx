@@ -5,7 +5,8 @@ import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
+import Text from "@/components/themed/Text";
 
 export default function RecordDetailScreen() {
   const theme = useCustomTheme();

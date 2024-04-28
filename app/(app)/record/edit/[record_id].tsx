@@ -4,7 +4,8 @@ import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useLocalSearchParams } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import Text from "@/components/themed/Text";
 
 export default function RecordDetailScreen() {
   const theme = useCustomTheme();

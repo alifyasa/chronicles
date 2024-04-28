@@ -1,17 +1,12 @@
 import Crypto from "react-native-aes-crypto";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ActivityIndicator, StyleSheet, TextInput, View } from "react-native";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { CustomTheme } from "@/constants/themes";
 import { throttleAsync } from "@/utils/throttle-async";
 import Timezone from "react-native-timezone";
+import Text from "@/components/themed/Text";
 
 export default function SecretPage() {
   const theme = useCustomTheme();

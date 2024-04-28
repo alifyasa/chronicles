@@ -9,12 +9,12 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   View,
 } from "react-native";
 import { z } from "zod";
 import Toast from "react-native-toast-message";
+import Text from "@/components/themed/Text";
 
 export default function CreateRecordScreen() {
   const theme = useCustomTheme();

@@ -4,10 +4,12 @@ import { Tabs } from "expo-router";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { CustomTheme } from "@/constants/themes";
 
 export default function TabLayout() {
   const theme = useCustomTheme();
+  const styles = stylesFromTheme(theme);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -59,6 +61,15 @@ export default function TabLayout() {
             tabBarIcon: ({ color }: { color: string }) => (
               <FontAwesome6 name="paper-plane" size={28} color={color} />
             ),
+            headerLeft: () => (
+              <View style={styles.headerLeftIcon}>
+                <FontAwesome6
+                  name="paper-plane"
+                  size={24}
+                  color={theme.colors.text.normal}
+                />
+              </View>
+            ),
           }}
         />
         <Tabs.Screen
@@ -66,7 +77,16 @@ export default function TabLayout() {
           options={{
             title: "Records",
             tabBarIcon: ({ color }: { color: string }) => (
-              <FontAwesome6 name="database" size={28} color={color} />
+              <FontAwesome6 name="box-archive" size={28} color={color} />
+            ),
+            headerLeft: () => (
+              <View style={styles.headerLeftIcon}>
+                <FontAwesome6
+                  name="box-archive"
+                  size={24}
+                  color={theme.colors.text.normal}
+                />
+              </View>
             ),
           }}
         />
@@ -77,9 +97,26 @@ export default function TabLayout() {
             tabBarIcon: ({ color }: { color: string }) => (
               <FontAwesome6 name="gear" size={28} color={color} />
             ),
+            headerLeft: () => (
+              <View style={styles.headerLeftIcon}>
+                <FontAwesome6
+                  name="gear"
+                  size={24}
+                  color={theme.colors.text.normal}
+                />
+              </View>
+            ),
           }}
         />
       </Tabs>
     </View>
   );
 }
+
+const stylesFromTheme = (theme: CustomTheme) =>
+  StyleSheet.create({
+    headerLeftIcon: {
+      marginLeft: 24,
+      color: theme.colors.text.normal,
+    },
+  });
