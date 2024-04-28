@@ -5,7 +5,7 @@ import Timezone from "react-native-timezone";
 import { createDefaultLogger } from "@/utils/logging";
 
 const logger = createDefaultLogger("SPBS/RCRD");
-async function addNewRecord(
+async function addRecord(
   name: Record["name"],
   description: Record["description"],
   type: Record["type"]
@@ -25,4 +25,4 @@ async function addNewRecord(
   }
 }
 
-export { addNewRecord };
+export { addRecord };

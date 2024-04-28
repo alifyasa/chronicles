@@ -15,9 +15,8 @@ import {
 import { z } from "zod";
 import Toast from "react-native-toast-message";
 import Text from "@/components/themed/Text";
-import { createDefaultLogger } from "@/utils/logging";
 
-const logger = createDefaultLogger("APP/RECORD/CREATE");
+// const logger = createDefaultLogger("APP/RECORD/CREATE");
 export default function CreateRecordScreen() {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
@@ -34,14 +33,8 @@ export default function CreateRecordScreen() {
   const [recordDescription, setRecordDescription] = useState("");
   const createRecordCallback = useCallback(() => {
     addRecord(recordName, recordDescription, "GENERAL")
-      .then(({ message, error }) => {
-        if (error) {
-          Toast.show({
-            type: "error",
-            text1: "Error",
-            text2: message,
-          });
-          logger.log(message);
+      .then((success) => {
+        if (!success) {
           return;
         }
         return router.back();

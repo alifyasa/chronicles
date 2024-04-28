@@ -5,10 +5,10 @@ import { useCallback, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { CustomTheme } from "@/constants/themes";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import Text from "@/components/themed/Text";
 
-export default function SettingsScreen() {
+export default function MessagesTab() {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
 
@@ -22,6 +22,9 @@ export default function SettingsScreen() {
     }
     logOut();
   }, []);
+  useFocusEffect(() => {
+    console.log("Messages");
+  });
 
   return (
     <View style={styles.container}>

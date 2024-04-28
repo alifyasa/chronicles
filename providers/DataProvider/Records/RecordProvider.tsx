@@ -1,18 +1,11 @@
 import React from "react";
-import {
-  PropsWithChildren,
-  createContext,
-  useCallback,
-  useContext,
-  useState,
-} from "react";
-import Toast from "react-native-toast-message";
-import { useSession } from "../../AuthProvider";
-import { Record } from "../../../utils/supabase/records/schema";
-import { getAllRecords } from "@/utils/supabase/records/getAllRecords";
-import { addNewRecord } from "@/utils/supabase/records/addNewRecord";
+import { PropsWithChildren, createContext, useContext } from "react";
+import { Record, RecordEntry } from "../../../utils/supabase/records/schema";
+import withGetAllRecords from "./withGetAllRecords";
+import withAddRecord from "./withAddRecord";
+import withAddRecordEntry from "./withAddRecordEntry";
 
-interface RecordContextInterface {
+interface IRecordContext {
   record: Record[];
   recordKV: { [key: string]: Record };
 
@@ -22,11 +15,18 @@ interface RecordContextInterface {
   isAddingRecord: boolean;
   addRecord: (
     recordName: string,
-    recordDescription: string | null,
+    recordDescription: string,
     recordType: Record["type"]
-  ) => Promise<{ error: boolean; message: string }>;
+  ) => Promise<boolean>;
+
+  isAddingRecordEntry: boolean;
+  addRecordEntry: (
+    recordId: string,
+    recordMessage: string,
+    scheduledAt: RecordEntry["scheduled_at"]
+  ) => Promise<boolean>;
 }
-const defaultRecordContext: RecordContextInterface = {
+const defaultRecordContext: IRecordContext = {
   record: [],
   recordKV: {},
 
@@ -34,81 +34,37 @@ const defaultRecordContext: RecordContextInterface = {
   fetchRecord: () => {},
 
   isAddingRecord: false,
-  addRecord: async () => ({
-    error: false,
-    message: "Placeholder Message",
-  }),
+  addRecord: async () => false,
+
+  isAddingRecordEntry: false,
+  addRecordEntry: async () => false,
 };
-const RecordContext =
-  createContext<RecordContextInterface>(defaultRecordContext);
+
+const RecordContext = createContext<IRecordContext>(defaultRecordContext);
 const useRecord = () => {
   const value = useContext(RecordContext);
   return value;
 };
 
 function RecordProvider(props: PropsWithChildren) {
-  const { isInitDone } = useSession();
-  const [record, setRecord] = useState<Record[]>([]);
-  const recordKV = record.reduce(
-    (prev, curr) => ({
-      ...prev,
-      [curr.record_id]: curr,
-    }),
-    {}
-  );
-  const [isFetching, setIsFetching] = useState(false);
-  const getRecordCallback = useCallback(() => {
-    if (isInitDone) {
-      // getRecordFromSupabase();
-      setIsFetching(true);
-      getAllRecords()
-        .then((records) => {
-          setRecord(records);
-          return;
-        })
-        .catch((err) => {
-          Toast.show({
-            type: "error",
-            text1: "Error",
-            text2: err,
-          });
-          return;
-        })
-        .finally(() => {
-          setIsFetching(false);
-        });
-    }
-  }, [isInitDone]);
-
-  const [isAddingRecord, setIsAddingRecord] = useState(false);
-  const addRecord: RecordContextInterface["addRecord"] = async (
-    recordName,
-    recordDescription,
-    recordType
-  ) => {
-    setIsAddingRecord(true);
-    return addNewRecord(recordName, recordDescription, recordType)
-      .then((result) => {
-        return {
-          error: (result as string).startsWith("FAIL"),
-          message: result,
-        };
-      })
-      .finally(() => {
-        setIsAddingRecord(false);
-      });
-  };
+  const { record, recordKV, isFetchingRecords, getAllRecords } =
+    withGetAllRecords();
+  const { addRecord, isAddingRecord } = withAddRecord();
+  const { addRecordEntry, isAddingRecordEntry } = withAddRecordEntry();
   return (
     <RecordContext.Provider
       value={{
         record,
         recordKV,
 
-        isFetchingRecord: isFetching,
-        fetchRecord: getRecordCallback,
+        isFetchingRecord: isFetchingRecords,
+        fetchRecord: getAllRecords,
 
         isAddingRecord,
         addRecord,
+
+        isAddingRecordEntry,
+        addRecordEntry,
       }}
     >
       {props.children}
