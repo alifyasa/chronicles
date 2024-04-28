@@ -40,7 +40,7 @@ export default function SettingsScreen() {
             marginBottom: 12,
           },
         ]}
-        onPress={() => router.push("/tests")}
+        onPress={() => router.push("/tests/secret")}
       >
         <Text
           style={[
@@ -52,7 +52,7 @@ export default function SettingsScreen() {
             },
           ]}
         >
-          Test Features in Development
+          Go to Secret Page
         </Text>
       </Pressable>
       <Pressable

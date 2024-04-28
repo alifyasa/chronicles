@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { useRecord } from "@/providers/DataProvider/RecordProvider";
+import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { router } from "expo-router";
 import { useCallback, useRef, useState } from "react";
 import {
@@ -13,6 +13,8 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { z } from "zod";
+import Toast from "react-native-toast-message";
 
 export default function CreateRecordScreen() {
   const theme = useCustomTheme();
@@ -29,18 +31,34 @@ export default function CreateRecordScreen() {
   const [recordName, setRecordName] = useState("");
   const [recordDescription, setRecordDescription] = useState("");
   const createRecordCallback = useCallback(() => {
-    async function createRecord() {
-      const { error, message } = await addRecord(
-        recordName.trim() || null,
-        recordDescription.trim() || null,
-        "GENERAL"
-      );
-      if (error) {
-        return console.log(message);
-      }
-      return router.back();
-    }
-    createRecord();
+    addRecord(recordName, recordDescription, "GENERAL")
+      .then(({ message, error }) => {
+        if (error) {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: message,
+          });
+          console.log(message);
+          return;
+        }
+        return router.back();
+      })
+      .catch((err) => {
+        if (err instanceof z.ZodError) {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: err.issues[0].message,
+          });
+          return;
+        }
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: err,
+        });
+      });
   }, [recordName, recordDescription]);
   return (
     <View style={styles.container}>

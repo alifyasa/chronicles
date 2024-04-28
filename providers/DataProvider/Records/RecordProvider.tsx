@@ -1,6 +1,4 @@
 import React from "react";
-import { supabase } from "@/utils/supabase";
-import { Record } from "@/utils/supabase/types";
 import {
   PropsWithChildren,
   createContext,
@@ -9,8 +7,10 @@ import {
   useState,
 } from "react";
 import Toast from "react-native-toast-message";
-import Timezone from "react-native-timezone";
-import { useSession } from "../AuthProvider";
+import { useSession } from "../../AuthProvider";
+import { Record } from "../../../utils/supabase/records/schema";
+import { getAllRecords } from "@/utils/supabase/records/getAllRecords";
+import { addNewRecord } from "@/utils/supabase/records/addNewRecord";
 
 interface RecordContextInterface {
   record: Record[];
@@ -21,7 +21,7 @@ interface RecordContextInterface {
 
   isAddingRecord: boolean;
   addRecord: (
-    recordName: string | null,
+    recordName: string,
     recordDescription: string | null,
     recordType: Record["type"]
   ) => Promise<{ error: boolean; message: string }>;
@@ -48,7 +48,7 @@ const useRecord = () => {
 
 function RecordProvider(props: PropsWithChildren) {
   const { isInitDone } = useSession();
-  const [record, setIsRecord] = useState<Record[]>([]);
+  const [record, setRecord] = useState<Record[]>([]);
   const recordKV = record.reduce(
     (prev, curr) => ({
       ...prev,
@@ -57,24 +57,26 @@ function RecordProvider(props: PropsWithChildren) {
     {}
   );
   const [isFetching, setIsFetching] = useState(false);
-  async function getRecordFromSupabase() {
-    setIsFetching(true);
-    console.log(`[RECORD] Fetching Records`);
-    const { data: record, error } = await supabase.rpc("all_records");
-    setIsFetching(false);
-    if (error || !record) {
-      return Toast.show({
-        type: "error",
-        text1: "Error Fetching Records",
-        text2: error?.message,
-      });
-    }
-    setIsRecord(record as Record[]);
-    console.log(`[RECORD] Fetched ${record?.length} Record(s)`);
-  }
   const getRecordCallback = useCallback(() => {
     if (isInitDone) {
-      getRecordFromSupabase();
+      // getRecordFromSupabase();
+      setIsFetching(true);
+      getAllRecords()
+        .then((records) => {
+          setRecord(records);
+          return;
+        })
+        .catch((err) => {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: err,
+          });
+          return;
+        })
+        .finally(() => {
+          setIsFetching(false);
+        });
     }
   }, [isInitDone]);
 
@@ -85,17 +87,16 @@ function RecordProvider(props: PropsWithChildren) {
     recordType
   ) => {
     setIsAddingRecord(true);
-    const { data } = await supabase.rpc("create_record", {
-      arg_name: recordName,
-      arg_desc: recordDescription,
-      arg_type: recordType,
-      arg_tz: Timezone.getTimeZone(),
-    });
-    setIsAddingRecord(false);
-    return {
-      error: (data as string).startsWith("FAIL"),
-      message: data,
-    };
+    return addNewRecord(recordName, recordDescription, recordType)
+      .then((result) => {
+        return {
+          error: (result as string).startsWith("FAIL"),
+          message: result,
+        };
+      })
+      .finally(() => {
+        setIsAddingRecord(false);
+      });
   };
   return (
     <RecordContext.Provider

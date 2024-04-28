@@ -1,7 +1,7 @@
 import React from "react";
 import { useSession } from "@/providers/AuthProvider";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { RecordProvider } from "@/providers/DataProvider/RecordProvider";
+import { RecordProvider } from "@/providers/DataProvider/Records/RecordProvider";
 import { Redirect, Stack } from "expo-router";
 import { View } from "react-native";
 
@@ -17,6 +17,7 @@ export default function Layout() {
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <RecordProvider>
         <Stack
+          initialRouteName="(tabs)"
           screenOptions={{
             headerTintColor: theme.colors.text.normal,
             headerStyle: {
@@ -41,9 +42,9 @@ export default function Layout() {
             }}
           ></Stack.Screen>
           <Stack.Screen
-            name="tests/secret"
+            name="tests"
             options={{
-              title: "Test: Secret",
+              title: "Development Tests",
             }}
           ></Stack.Screen>
         </Stack>

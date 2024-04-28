@@ -1,10 +1,10 @@
 import React from "react";
 import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { useRecord } from "@/providers/DataProvider/RecordProvider";
+import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function RecordDetailScreen() {
@@ -19,7 +19,10 @@ export default function RecordDetailScreen() {
     navigation.setOptions({
       title: recordKV[recordId].name,
       headerRight: () => (
-        <Pressable style={{ marginRight: 8 }}>
+        <Pressable
+          style={{ marginRight: 8 }}
+          onPress={() => router.push(`/(app)/record/edit/${recordId}`)}
+        >
           <FontAwesome6 name="pen" size={20} color={theme.colors.text.normal} />
         </Pressable>
       ),
@@ -37,7 +40,7 @@ export default function RecordDetailScreen() {
         {recordKV[recordId].type}
       </Text>
       <Text style={{ color: theme.colors.text.normal }}>
-        {recordKV[recordId].created_at}
+        {recordKV[recordId].created_at.toString()}
       </Text>
       <Text style={{ color: theme.colors.text.normal }}>
         {recordKV[recordId].description}

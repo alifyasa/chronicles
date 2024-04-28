@@ -12,7 +12,9 @@ export default function TabLayout() {
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Tabs
-        screenOptions={{
+        initialRouteName="records"
+        backBehavior="initialRoute"
+        screenOptions={() => ({
           headerShown: useClientOnlyValue(false, true),
           headerTintColor: theme.colors.text.normal,
           headerStyle: {
@@ -36,15 +38,35 @@ export default function TabLayout() {
             borderTopColor: "transparent",
             shadowColor: theme.colors.text.normal,
             height: 64,
+            // elevation: navigation.isFocused() ? 8 : 0,
           },
-        }}
+        })}
       >
+        {/* To be able to render, we NEED index.tsx. 
+            I don't want this, so I redirect index to initial route
+            then I hide index.tsx
+            */}
         <Tabs.Screen
           name="index"
           options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="messages"
+          options={{
+            title: "Messages",
+            tabBarIcon: ({ color }: { color: string }) => (
+              <FontAwesome6 name="paper-plane" size={28} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="records"
+          options={{
             title: "Records",
             tabBarIcon: ({ color }: { color: string }) => (
-              <FontAwesome6 name="folder-open" size={28} color={color} />
+              <FontAwesome6 name="database" size={28} color={color} />
             ),
           }}
         />

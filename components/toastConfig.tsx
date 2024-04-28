@@ -14,9 +14,11 @@ const CustomBaseToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
     {
       text1Style: {
         color: theme.colors.text.normal,
+        fontSize: 16,
       },
       text2Style: {
         color: theme.colors.text.normal,
+        fontSize: 14,
       },
     },
     props
