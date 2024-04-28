@@ -77,7 +77,7 @@ const TabPages = memo(function TabPages(props: TabPagesProps) {
       onPageSelected={(page) => {
         // console.log(JSON.stringify(page.nativeEvent.position, null, 2));
         setPageIndex(page.nativeEvent.position);
-        pagerViewRef.current?.setPage(page.nativeEvent.position);
+        console.log("PV", page.nativeEvent.position);
       }}
     >
       <View style={styles.page} key={0}>
@@ -110,24 +110,29 @@ export default function HomeTab() {
   const styles = stylesFromTheme(theme);
 
   const pagerViewRef = useRef<PagerView | null>(null);
-  const [pageIndex, setPageIndex] = React.useState(INITIAL_PAGE_INDEX);
+  const [bottomNavBarPageIndex, setBottomNavBarPageIndex] =
+    React.useState(INITIAL_PAGE_INDEX);
+  const [tabPageIndex, setTabPageIndex] = React.useState(INITIAL_PAGE_INDEX);
   const [routes] = React.useState(TABS);
 
   useEffect(() => {
-    pagerViewRef.current?.setPage(pageIndex);
+    pagerViewRef.current?.setPage(tabPageIndex);
     navigation.setOptions({
-      title: routes[pageIndex].title,
+      title: routes[tabPageIndex].title,
       headerLeft: () => (
         <View style={styles.headerLeftIcon}>
-          <RenderIcon iconName={TAB_ICONS[routes[pageIndex].key]} />
+          <RenderIcon iconName={TAB_ICONS[routes[tabPageIndex].key]} />
         </View>
       ),
     });
-  }, [pageIndex]);
+  }, [tabPageIndex]);
 
   return (
     <View style={styles.container}>
-      <TabPages setPageIndex={setPageIndex} pagerViewRef={pagerViewRef} />
+      <TabPages
+        setPageIndex={setBottomNavBarPageIndex}
+        pagerViewRef={pagerViewRef}
+      />
       <Divider
         style={{
           backgroundColor: theme.colors.border,
@@ -142,10 +147,11 @@ export default function HomeTab() {
         style={{
           backgroundColor: theme.colors.background,
         }}
-        navigationState={{ index: pageIndex, routes }}
+        navigationState={{ index: bottomNavBarPageIndex, routes }}
         onTabPress={({ route }) => {
-          const pageIndex = routes.findIndex((r) => r.key === route.key);
-          setPageIndex(pageIndex);
+          const targetPageIndex = routes.findIndex((r) => r.key === route.key);
+          console.log("TAB", targetPageIndex);
+          setTabPageIndex(targetPageIndex);
         }}
         renderIcon={({ route }) => (
           <RenderIcon iconName={TAB_ICONS[route.key]} />
