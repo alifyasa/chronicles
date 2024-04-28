@@ -10,7 +10,8 @@
     "test": "jest --watchAll",
     "lint": "eslint . --fix",
     "format": "prettier . --write",
-    "style": "run-s lint format"
+    "style": "run-s lint format",
+    "build:dev": "eas build -p android --profile preview"
   },
   "jest": {
     "preset": "jest-expo"

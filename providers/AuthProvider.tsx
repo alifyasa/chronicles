@@ -22,7 +22,7 @@ const defaultSessionContext: SessionContextType = {
   isInitDone: false,
 };
 export const SessionContext = createContext<SessionContextType>(
-  defaultSessionContext,
+  defaultSessionContext
 );
 export function useSession() {
   const value = useContext(SessionContext);
@@ -36,6 +36,12 @@ export function SessionProvider(props: PropsWithChildren) {
   const updateSession = (partSession: Partial<SessionContextType>) => {
     setSessionContext((prev) => definedMerge(prev, partSession));
   };
+
+  useEffect(() => {
+    if (sessionContext.isInitDone) {
+      SplashScreen.hideAsync();
+    }
+  }, [sessionContext]);
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
       let newSession: Partial<SessionContextType> = {
@@ -60,7 +66,6 @@ export function SessionProvider(props: PropsWithChildren) {
       updateSession({
         session,
       });
-      SplashScreen.hideAsync();
     });
   }, []);
 
