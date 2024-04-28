@@ -1,9 +1,13 @@
 import { useSession } from "@/providers/AuthProvider";
+import { createDefaultLogger } from "@/utils/logging";
 import { getRecordEntryById } from "@/utils/supabase/records/getRecordEntryById";
 import { Record, RecordEntry } from "@/utils/supabase/records/schema";
 import { useCallback, useState } from "react";
 import Toast from "react-native-toast-message";
 
+const logger = createDefaultLogger(
+  "PROVIDER/DATA/RECORDS/GET_RECORD_ENTRY_BY_ID"
+);
 type RecordEntriesByRecordId = {
   [record_id: string]: RecordEntry;
 };
@@ -29,6 +33,7 @@ export default function withGetRecordEntriyById(arg_id: Record["record_id"]) {
               };
             });
           });
+          logger.log(JSON.stringify(recordEntriesByRecordId, null, 2));
           return;
         })
         .catch((err) => {
