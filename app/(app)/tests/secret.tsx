@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import React from "react";
 import { useEffect, useState } from "react";
-import { useCustomTheme } from "@/providers/CustomThemeProviders";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { CustomTheme } from "@/constants/themes";
 import { throttleAsync } from "@/utils/throttle-async";
+import Timezone from "react-native-timezone";
 
 export default function SecretPage() {
   const theme = useCustomTheme();
@@ -41,6 +42,7 @@ export default function SecretPage() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.text}>{Timezone.getTimeZone()}</Text>
       <View>
         {isCalculatingPBKDF2 ? (
           <ActivityIndicator />

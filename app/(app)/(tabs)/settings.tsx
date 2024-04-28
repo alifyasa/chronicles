@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { useCallback, useState } from "react";
 import { supabase } from "@/utils/supabase";
-import { useCustomTheme } from "@/providers/CustomThemeProviders";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { CustomTheme } from "@/constants/themes";
 import { router } from "expo-router";
 

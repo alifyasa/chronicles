@@ -10,9 +10,9 @@ import {
 import React from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
-import { useCustomTheme } from "@/providers/CustomThemeProviders";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { CustomTheme } from "@/constants/themes";
-import { useRecord } from "@/providers/RecordProviders";
+import { useRecord } from "@/providers/DataProvider/RecordProvider";
 import { Record } from "@/utils/supabase/types";
 
 export default function RecordListScreen() {

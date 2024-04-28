@@ -3,7 +3,7 @@ import { Tabs } from "expo-router";
 
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useCustomTheme } from "@/providers/CustomThemeProviders";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { View } from "react-native";
 
 export default function TabLayout() {

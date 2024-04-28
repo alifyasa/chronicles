@@ -1,5 +1,5 @@
 import React from "react";
-import { useCustomTheme } from "@/providers/CustomThemeProviders";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { truthyMerge } from "@/utils/sane-merge";
 import { StyleSheet } from "react-native";
 import {

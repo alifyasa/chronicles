@@ -7,9 +7,9 @@ import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
 import { View } from "react-native";
-import { SessionProvider } from "@/providers/AuthProviders";
+import { SessionProvider } from "@/providers/AuthProvider";
 import { CustomTheme } from "@/constants/themes";
-import { CustomThemeProvider } from "@/providers/CustomThemeProviders";
+import { CustomThemeProvider } from "@/providers/CustomThemeProvider";
 import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
 import Toast from "react-native-toast-message";
 import toastConfig from "@/components/toastConfig";

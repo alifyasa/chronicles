@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { CustomTheme } from "@/constants/themes";
-import { useSession } from "@/providers/AuthProviders";
-import { useCustomTheme } from "@/providers/CustomThemeProviders";
+import { useSession } from "@/providers/AuthProvider";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { supabase } from "@/utils/supabase";
 import { Redirect } from "expo-router/build/link/Link";
 import { useState } from "react";

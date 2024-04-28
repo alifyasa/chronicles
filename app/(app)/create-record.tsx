@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProviders";
-import { useRecord } from "@/providers/RecordProviders";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { useRecord } from "@/providers/DataProvider/RecordProvider";
 import { router } from "expo-router";
 import { useCallback, useRef, useState } from "react";
 import {
@@ -33,7 +33,7 @@ export default function CreateRecordScreen() {
       const { error, message } = await addRecord(
         recordName.trim() || null,
         recordDescription.trim() || null,
-        "GENERAL",
+        "GENERAL"
       );
       if (error) {
         return console.log(message);
@@ -94,7 +94,7 @@ export default function CreateRecordScreen() {
         {isAddingRecord ? (
           <ActivityIndicator
             style={styles.floatingButtonIndicator}
-            color={theme.colors.background}
+            color={theme.colors.text.normal}
           />
         ) : (
           <Text style={styles.floatingButtonText}>Create Record</Text>

@@ -9,7 +9,8 @@ import {
   useState,
 } from "react";
 import Toast from "react-native-toast-message";
-import { useSession } from "./AuthProviders";
+import Timezone from "react-native-timezone";
+import { useSession } from "../AuthProvider";
 
 interface RecordContextInterface {
   record: Record[];
@@ -85,9 +86,10 @@ function RecordProvider(props: PropsWithChildren) {
   ) => {
     setIsAddingRecord(true);
     const { data } = await supabase.rpc("create_record", {
-      record_name: recordName,
-      record_description: recordDescription,
-      record_type_: recordType,
+      arg_name: recordName,
+      arg_desc: recordDescription,
+      arg_type: recordType,
+      arg_tz: Timezone.getTimeZone(),
     });
     setIsAddingRecord(false);
     return {

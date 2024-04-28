@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProviders";
-import { useRecord } from "@/providers/RecordProviders";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { useRecord } from "@/providers/DataProvider/RecordProvider";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useLocalSearchParams } from "expo-router";
