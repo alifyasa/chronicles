@@ -48,7 +48,7 @@ export default function RecordsTab() {
           },
         ]}
         onPress={() => {
-          router.push("/(app)/create-record");
+          router.push("/(app)/record/create");
         }}
       >
         <FontAwesome6 name="plus" size={32} style={styles.floatingButtonIcon} />

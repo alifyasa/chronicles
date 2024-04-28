@@ -4,11 +4,11 @@ import { RecordEntry, RecordEntrySchema } from "./schema";
 import Timezone from "react-native-timezone";
 import { createDefaultLogger } from "@/utils/logging";
 
-const logger = createDefaultLogger("SPBS/RCRD");
+const logger = createDefaultLogger("SUPABASE/RECORD");
 async function addRecordEntry(
   record_id: RecordEntry["message"],
   message: RecordEntry["message"],
-  scheduled_at: RecordEntry["scheduled_at"],
+  scheduled_at: RecordEntry["scheduled_at"]
 ) {
   const schemaParser = RecordEntrySchema.shape;
   try {

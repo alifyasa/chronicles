@@ -14,6 +14,7 @@ import {
 import { router, useFocusEffect } from "expo-router";
 import Text from "@/components/themed/Text";
 import { createDefaultLogger } from "@/utils/logging";
+import { SplashScreen } from "expo-router";
 
 const logger = createDefaultLogger("AUTH");
 export default function LoginScreen() {
@@ -39,10 +40,17 @@ export default function LoginScreen() {
   });
 
   useEffect(() => {
-    if (session && isInitDone) {
+    if (!isInitDone) {
+      return;
+    }
+
+    if (session) {
       logger.log("Redirect to App");
       router.replace("/(app)/");
     }
+
+    logger.log("Hiding Splash Screen");
+    SplashScreen.hideAsync();
   }, [session, isInitDone]);
 
   return (

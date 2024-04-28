@@ -9,7 +9,6 @@ import {
   useState,
 } from "react";
 import Toast from "react-native-toast-message";
-import { SplashScreen } from "expo-router";
 import { definedMerge } from "@/utils/sane-merge";
 import { createDefaultLogger } from "@/utils/logging";
 
@@ -37,11 +36,6 @@ export function SessionProvider(props: PropsWithChildren) {
     setSessionContext((prev) => definedMerge(prev, partSession));
   };
 
-  useEffect(() => {
-    if (sessionContext.isInitDone) {
-      SplashScreen.hideAsync();
-    }
-  }, [sessionContext]);
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
       let newSession: Partial<SessionContextType> = {

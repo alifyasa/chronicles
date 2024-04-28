@@ -35,12 +35,6 @@ export default function Layout() {
         >
           <Stack.Screen name="index"></Stack.Screen>
           <Stack.Screen
-            name="create-record"
-            options={{
-              title: "Create Record",
-            }}
-          ></Stack.Screen>
-          <Stack.Screen
             name="tests"
             options={{
               title: "Development Tests",

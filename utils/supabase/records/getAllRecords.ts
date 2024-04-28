@@ -3,7 +3,7 @@ import { supabase } from "..";
 import { RecordSchema } from "./schema";
 import { createDefaultLogger } from "@/utils/logging";
 
-const logger = createDefaultLogger("SPBS/RCRD");
+const logger = createDefaultLogger("SUPABASE/RECORD");
 async function getAllRecords() {
   logger.log(`Fetching Records`);
   const { data: records, error } = await supabase.rpc("all_records");
