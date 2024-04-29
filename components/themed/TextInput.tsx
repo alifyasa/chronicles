@@ -55,11 +55,12 @@ const TextInput = forwardRef<RNTextInput, TextInputProps>(
         />
       </Animated.View>
     );
-  },
+  }
 );
 const stylesFromTheme = (theme: CustomTheme) =>
   StyleSheet.create({
     animationView: {
+      flex: 1,
       borderWidth: 1,
       borderRadius: 5,
       borderColor: theme.colors.border,

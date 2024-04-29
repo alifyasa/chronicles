@@ -1,6 +1,9 @@
 import { addRecordEntry } from "@/utils/supabase/records/addRecordEntry";
+
 import { useState } from "react";
+
 import Toast from "react-native-toast-message";
+import { z } from "zod";
 
 export const defaultWithAddRecordEntry: ReturnType<typeof withAddRecordEntry> =
   {
@@ -9,12 +12,9 @@ export const defaultWithAddRecordEntry: ReturnType<typeof withAddRecordEntry> =
   };
 export function withAddRecordEntry() {
   const [isAddingRecordEntry, setIsAddingRecordEntry] = useState(false);
-  const __addRecordEntry = async (
-    recordName: string,
-    recordDescription: string,
-  ) => {
+  const __addRecordEntry = async (recordId: string, entryMessage: string) => {
     setIsAddingRecordEntry(true);
-    return addRecordEntry(recordName, recordDescription, null)
+    return addRecordEntry(recordId, entryMessage, null)
       .then((result) => {
         if (result.startsWith("FAIL")) {
           Toast.show({
@@ -32,6 +32,14 @@ export function withAddRecordEntry() {
         return true;
       })
       .catch((err) => {
+        if (err instanceof z.ZodError) {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: err.issues[0].message,
+          });
+          return;
+        }
         Toast.show({
           type: "error",
           text1: "Error",

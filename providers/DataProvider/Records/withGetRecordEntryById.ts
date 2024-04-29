@@ -1,13 +1,12 @@
 import { useSession } from "@/providers/AuthProvider";
-import { createDefaultLogger } from "@/utils/logging";
 import { getRecordEntryById } from "@/utils/supabase/records/getRecordEntryById";
 import { Record, RecordEntry } from "@/utils/supabase/records/schema";
 import { useCallback, useState } from "react";
 import Toast from "react-native-toast-message";
 
-const logger = createDefaultLogger(
-  "PROVIDER/DATA/RECORDS/GET_RECORD_ENTRY_BY_ID",
-);
+// const logger = createDefaultLogger(
+//   "PROVIDER/DATA/RECORDS/GET_RECORD_ENTRY_BY_ID"
+// );
 export const defaultWithGetAllRecordEntriesById: ReturnType<
   typeof withGetRecordEntriesById
 > = {
@@ -16,7 +15,7 @@ export const defaultWithGetAllRecordEntriesById: ReturnType<
   recordEntriesByRecordId: {},
 };
 type RecordEntriesByRecordId = {
-  [record_id: string]: RecordEntry;
+  [record_id: string]: RecordEntry[];
 };
 export function withGetRecordEntriesById() {
   const { isInitDone } = useSession();
@@ -29,20 +28,12 @@ export function withGetRecordEntriesById() {
         setIsFetchingRecordEntries(true);
         getRecordEntryById(arg_id)
           .then((__recordEntriesByRecordId) => {
-            __recordEntriesByRecordId.forEach((recordEntries) => {
-              setRecordEntriesByRecordId((prev) => {
-                const { [recordEntries.record_id]: sameKey, ...restPrev } =
-                  prev;
-                return {
-                  ...restPrev,
-                  [recordEntries.record_id]: {
-                    ...sameKey,
-                    ...recordEntries,
-                  },
-                };
-              });
+            setRecordEntriesByRecordId((prev) => {
+              return {
+                ...prev,
+                [arg_id]: __recordEntriesByRecordId,
+              };
             });
-            logger.log(JSON.stringify(recordEntriesByRecordId, null, 2));
             return;
           })
           .catch((err) => {
@@ -58,7 +49,7 @@ export function withGetRecordEntriesById() {
           });
       }
     },
-    [isInitDone],
+    [isInitDone]
   );
 
   return {

@@ -33,22 +33,14 @@ const RecordEntrySchema = z.object({
     .string()
     .nullable()
     .transform((val) =>
-      typeof val === "string"
-        ? (DateTime.fromSQL(val) as DateTime<true>)
-        : null,
+      typeof val === "string" ? (DateTime.fromSQL(val) as DateTime<true>) : null
     )
     .refine((datetime) => datetime === null || datetime.isValid, {
       message: "Invalid DateTime string",
     }),
 
   record_id: z.string(),
-  message: z
-    .string()
-    .trim()
-    .max(400)
-    // If empty string, make it null instead
-    .transform((str) => (str.length === 0 ? null : str))
-    .nullable(),
+  message: z.string().trim().min(1).max(400),
 });
 type RecordEntry = z.infer<typeof RecordEntrySchema>;
 

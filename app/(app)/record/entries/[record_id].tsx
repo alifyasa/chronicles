@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
@@ -7,21 +7,31 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { router, useLocalSearchParams } from "expo-router";
 import {
   Pressable,
-  ScrollView,
   StyleSheet,
   View,
   TextInput as RNTextInput,
+  ActivityIndicator,
+  FlatList,
 } from "react-native";
 import Text from "@/components/themed/Text";
 import TextInput from "@/components/themed/TextInput";
+import Toast from "react-native-toast-message";
 
 export default function RecordDetailScreen() {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
 
   const { record_id: recordId }: { record_id: string } = useLocalSearchParams();
-  const { allRecordsKV } = useRecord();
+  const {
+    allRecordsKV,
+    addRecordEntry,
+    isAddingRecordEntry,
+    recordEntriesByRecordId,
+    fetchRecordEntriesById,
+  } = useRecord();
   const chatRef = useRef<RNTextInput | null>(null);
+
+  const [message, setMessage] = useState("");
 
   const navigation = useNavigation();
   useFocusEffect(() => {
@@ -37,34 +47,84 @@ export default function RecordDetailScreen() {
       ),
     });
   });
+
+  useEffect(() => {
+    if (!isAddingRecordEntry) {
+      fetchRecordEntriesById(recordId);
+    }
+  }, [isAddingRecordEntry]);
+
+  const sendMessage = useCallback(() => {
+    addRecordEntry(recordId, message)
+      .then((success) => {
+        if (!success) {
+          return;
+        }
+        setMessage("");
+        chatRef.current?.blur();
+        return;
+      })
+      .catch((err) => {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: JSON.stringify(err),
+        });
+      });
+  }, [recordId, message]);
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <Text style={{ color: theme.colors.text.normal }}>
-          {allRecordsKV[recordId].record_id}
-        </Text>
-        <Text style={{ color: theme.colors.text.normal }}>
-          {allRecordsKV[recordId].name}
-        </Text>
-        <Text style={{ color: theme.colors.text.normal }}>
-          {allRecordsKV[recordId].type}
-        </Text>
-        <Text style={{ color: theme.colors.text.normal }}>
-          {allRecordsKV[recordId].created_at.toString()}
-        </Text>
-        <Text style={{ color: theme.colors.text.normal }}>
-          {allRecordsKV[recordId].description}
-        </Text>
-      </ScrollView>
-      <TextInput
-        style={[styles.floatingContainer]}
-        ref={(ref) => (chatRef.current = ref)}
-        multiline
-        scrollEnabled
-        placeholder="Type something here..."
-        maxLength={400}
-        placeholderTextColor={theme.colors.text.dim}
+      {/* <ScrollView
+        style={{
+          flex: 1,
+        }}
+      > */}
+      <FlatList
+        data={recordEntriesByRecordId[recordId]}
+        renderItem={(item) => {
+          return (
+            <View>
+              <Text>{item.item.message}</Text>
+            </View>
+          );
+        }}
       />
+      {/* </ScrollView> */}
+      <View
+        style={{
+          flex: 0,
+          flexDirection: "row",
+          alignItems: "flex-end",
+        }}
+      >
+        <TextInput
+          ref={(ref) => (chatRef.current = ref)}
+          multiline
+          scrollEnabled
+          placeholder="Type something here..."
+          maxLength={400}
+          placeholderTextColor={theme.colors.text.dim}
+          value={message}
+          onChangeText={setMessage}
+          onKeyPress={({ nativeEvent: { key } }) => {
+            if (key === "Enter") {
+              sendMessage();
+            }
+          }}
+        />
+        <Pressable style={styles.sendIconContainer} onPress={sendMessage}>
+          {isAddingRecordEntry ? (
+            <ActivityIndicator size={23} color={theme.colors.text.normal} />
+          ) : (
+            <FontAwesome6
+              name="paper-plane"
+              size={23}
+              color={theme.colors.text.normal}
+              style={styles.sendIcon}
+            />
+          )}
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -76,7 +136,18 @@ const stylesFromTheme = (theme: CustomTheme) =>
       backgroundColor: theme.colors.background,
       padding: 12,
     },
-    floatingContainer: {
-      marginTop: 12,
+    sendIconContainer: {
+      borderRadius: 90,
+      flex: 0,
+      width: 46,
+      height: 46,
+      marginLeft: 8,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme.colors.pressable.normal,
+    },
+    sendIcon: {
+      position: "relative",
+      right: 2,
     },
   });
