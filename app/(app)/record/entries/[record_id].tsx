@@ -9,10 +9,10 @@ import {
   Pressable,
   StyleSheet,
   View,
-  TextInput as RNTextInput,
   ActivityIndicator,
   FlatList,
   RefreshControl,
+  TextInput as RNTextInput,
 } from "react-native";
 import Text from "@/components/themed/Text";
 import TextInput from "@/components/themed/TextInput";
@@ -77,7 +77,7 @@ export default function RecordDetailScreen() {
         if (!success) {
           return;
         }
-        setMessage("");
+        chatRef.current?.clear();
         return;
       })
       .catch((err) => {
