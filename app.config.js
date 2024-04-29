@@ -4,12 +4,12 @@ const IS_DEV = process.env.APP_VARIANT === "development";
 
 export default {
   expo: {
-    name: IS_DEV ? "(DEV) Chronicle" : "Chronicle",
+    name: IS_DEV ? "(DEV) Chronicles" : "Chronicles",
     slug: "records",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
-    scheme: "chronicle",
+    scheme: "chronicles",
     userInterfaceStyle: "automatic",
     assetBundlePatterns: ["**/*"],
     ios: {
@@ -30,7 +30,7 @@ export default {
         foregroundImage: "./assets/images/adaptive-icon.png",
         backgroundColor: "#ffffff",
       },
-      package: IS_DEV ? "id.alifyasa.chronicles.dev" : "id.alifyasa.chronicles",
+      package: IS_DEV ? "id.alifyasa.chronicles-dev" : "id.alifyasa.chronicles",
       splash: {
         image: "./assets/images/splash.png",
         resizeMode: "contain",
