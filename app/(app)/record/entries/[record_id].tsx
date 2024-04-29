@@ -3,7 +3,7 @@ import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { router, useLocalSearchParams } from "expo-router";
 import {
   Pressable,
@@ -27,6 +27,7 @@ export default function RecordDetailScreen() {
   const { record_id: recordId }: { record_id: string } = useLocalSearchParams();
   const {
     allRecordsKV,
+    fetchAllRecords,
     addRecordEntry,
     isAddingRecordEntry,
     recordEntriesByRecordId,
@@ -38,8 +39,19 @@ export default function RecordDetailScreen() {
   const [message, setMessage] = useState("");
   const flatListRef = useRef<FlatList | null>(null);
 
+  useEffect(() => {
+    if (!allRecordsKV[recordId]) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Record not Found",
+      });
+      router.back();
+    }
+  }, []);
+
   const navigation = useNavigation();
-  useFocusEffect(() => {
+  useEffect(() => {
     navigation.setOptions({
       title: allRecordsKV[recordId].name,
       headerRight: () => (
@@ -51,7 +63,7 @@ export default function RecordDetailScreen() {
         </Pressable>
       ),
     });
-  });
+  }, [allRecordsKV[recordId].name]);
 
   useEffect(() => {
     if (!isAddingRecordEntry) {
@@ -66,7 +78,6 @@ export default function RecordDetailScreen() {
           return;
         }
         setMessage("");
-        chatRef.current?.blur();
         return;
       })
       .catch((err) => {
@@ -84,7 +95,10 @@ export default function RecordDetailScreen() {
         refreshControl={
           <RefreshControl
             refreshing={isFetchingRecordEntries}
-            onRefresh={() => fetchRecordEntriesById(recordId)}
+            onRefresh={() => {
+              fetchRecordEntriesById(recordId);
+              fetchAllRecords();
+            }}
           />
         }
         inverted
@@ -123,13 +137,14 @@ export default function RecordDetailScreen() {
       >
         <TextInput
           ref={(ref) => (chatRef.current = ref)}
+          textAlignVertical="bottom"
           multiline
           scrollEnabled
           placeholder="Type something here..."
           maxLength={400}
           placeholderTextColor={theme.colors.text.dim}
           value={message}
-          onChangeText={setMessage}
+          onChangeText={(newText) => setMessage(newText.replace("\n", ""))}
           onKeyPress={({ nativeEvent: { key } }) => {
             if (key === "Enter") {
               sendMessage();
