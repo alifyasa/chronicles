@@ -28,7 +28,7 @@ const TextInput = forwardRef<RNTextInput, TextInputProps>(
         toValue: newHeight,
         duration: 300, // Adjust animation duration as needed
         useNativeDriver: false,
-        easing: Easing.in(Easing.quad),
+        easing: Easing.out(Easing.quad),
       }).start();
     };
     return (
