@@ -24,11 +24,6 @@ export function withAddRecordEntry() {
           });
           return false;
         }
-        Toast.show({
-          type: "success",
-          text1: "Success",
-          text2: result,
-        });
         return true;
       })
       .catch((err) => {
