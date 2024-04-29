@@ -19,8 +19,8 @@ export default function RecordsTab() {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
 
-  const { record, isFetchingRecord, fetchRecord: fetchRecord } = useRecord();
-  useFocusEffect(fetchRecord);
+  const { allRecords, fetchAllRecords, isFetchingAllRecords } = useRecord();
+  useFocusEffect(fetchAllRecords);
   return (
     <View style={styles.container}>
       <FlatList
@@ -31,12 +31,12 @@ export default function RecordsTab() {
             styles.floatingButtonContainer.height +
             2 * styles.floatingButtonContainer.bottom,
         }}
-        data={record}
+        data={allRecords}
         renderItem={({ item: record }) => DisplayRecord(record, theme)}
         refreshControl={
           <RefreshControl
-            refreshing={isFetchingRecord}
-            onRefresh={fetchRecord}
+            refreshing={isFetchingAllRecords}
+            onRefresh={fetchAllRecords}
           />
         }
       ></FlatList>

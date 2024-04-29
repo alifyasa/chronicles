@@ -8,7 +8,7 @@ const logger = createDefaultLogger("SUPABASE/RECORD");
 async function addRecord(
   name: Record["name"],
   description: Record["description"],
-  type: Record["type"]
+  type: Record["type"],
 ) {
   const schemaParser = RecordSchema.shape;
   try {

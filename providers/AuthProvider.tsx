@@ -21,7 +21,7 @@ const defaultSessionContext: SessionContextType = {
   isInitDone: false,
 };
 export const SessionContext = createContext<SessionContextType>(
-  defaultSessionContext
+  defaultSessionContext,
 );
 export function useSession() {
   const value = useContext(SessionContext);

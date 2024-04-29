@@ -6,12 +6,12 @@ import { useCallback, useState } from "react";
 import Toast from "react-native-toast-message";
 
 const logger = createDefaultLogger(
-  "PROVIDER/DATA/RECORDS/GET_RECORD_ENTRY_BY_ID"
+  "PROVIDER/DATA/RECORDS/GET_RECORD_ENTRY_BY_ID",
 );
 export const defaultWithGetAllRecordEntriesById: ReturnType<
   typeof withGetRecordEntriesById
 > = {
-  getRecordEntriesByIdCallback: () => {},
+  fetchRecordEntriesById: () => {},
   isFetchingRecordEntries: false,
   recordEntriesByRecordId: {},
 };
@@ -23,7 +23,7 @@ export function withGetRecordEntriesById() {
   const [recordEntriesByRecordId, setRecordEntriesByRecordId] =
     useState<RecordEntriesByRecordId>({});
   const [isFetchingRecordEntries, setIsFetchingRecordEntries] = useState(false);
-  const getRecordEntriesByIdCallback = useCallback(
+  const fetchRecordEntriesById = useCallback(
     (arg_id: Record["record_id"]) => {
       if (isInitDone) {
         setIsFetchingRecordEntries(true);
@@ -58,12 +58,12 @@ export function withGetRecordEntriesById() {
           });
       }
     },
-    [isInitDone]
+    [isInitDone],
   );
 
   return {
     recordEntriesByRecordId,
     isFetchingRecordEntries,
-    getRecordEntriesByIdCallback,
+    fetchRecordEntriesById,
   };
 }

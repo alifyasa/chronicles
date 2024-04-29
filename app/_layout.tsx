@@ -44,7 +44,7 @@ function RootLayoutNav() {
 
   nav.addListener("state", (event) => {
     const routeNames: string[] = getRouteNamesRecursive(
-      event.data.state.routes
+      event.data.state.routes,
     );
     logger.log(JSON.stringify(routeNames, null, 2));
   });

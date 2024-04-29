@@ -12,12 +12,12 @@ export default function RecordDetailScreen() {
   const styles = stylesFromTheme(theme);
 
   const { record_id: recordId }: { record_id: string } = useLocalSearchParams();
-  const { recordKV } = useRecord();
+  const { allRecordsKV } = useRecord();
 
   const navigation = useNavigation();
   useFocusEffect(() => {
     navigation.setOptions({
-      title: `Edit ${recordKV[recordId].name}`,
+      title: `Edit ${allRecordsKV[recordId].name}`,
     });
   });
   return (

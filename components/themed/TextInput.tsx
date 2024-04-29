@@ -55,7 +55,7 @@ const TextInput = forwardRef<RNTextInput, TextInputProps>(
         />
       </Animated.View>
     );
-  }
+  },
 );
 const stylesFromTheme = (theme: CustomTheme) =>
   StyleSheet.create({

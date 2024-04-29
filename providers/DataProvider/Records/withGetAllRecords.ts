@@ -5,28 +5,28 @@ import { useCallback, useState } from "react";
 import Toast from "react-native-toast-message";
 
 export const defaultWithGetAllRecords: ReturnType<typeof withGetAllRecords> = {
-  getAllRecords: async () => {},
-  isFetchingRecords: false,
-  record: [],
-  recordKV: {},
+  allRecords: [],
+  allRecordsKV: {},
+  fetchAllRecords: async () => {},
+  isFetchingAllRecords: false,
 };
 export function withGetAllRecords() {
   const { isInitDone } = useSession();
-  const [record, setRecord] = useState<Record[]>([]);
-  const recordKV: { [key: string]: Record } = record.reduce(
+  const [allRecords, setAllRecords] = useState<Record[]>([]);
+  const allRecordsKV: { [key: string]: Record } = allRecords.reduce(
     (prev, curr) => ({
       ...prev,
       [curr.record_id]: curr,
     }),
-    {}
+    {},
   );
-  const [isFetchingRecords, setIsFetchingRecords] = useState(false);
-  const getRecordCallback = useCallback(() => {
+  const [isFetchingAllRecords, setIsFetchingAllRecords] = useState(false);
+  const fetchAllRecords = useCallback(() => {
     if (isInitDone) {
-      setIsFetchingRecords(true);
+      setIsFetchingAllRecords(true);
       getAllRecords()
         .then((records) => {
-          setRecord(records);
+          setAllRecords(records);
           return;
         })
         .catch((err) => {
@@ -38,15 +38,15 @@ export function withGetAllRecords() {
           return;
         })
         .finally(() => {
-          setIsFetchingRecords(false);
+          setIsFetchingAllRecords(false);
         });
     }
   }, [isInitDone]);
 
   return {
-    record,
-    recordKV,
-    isFetchingRecords,
-    getAllRecords: getRecordCallback,
+    allRecords,
+    allRecordsKV,
+    isFetchingAllRecords,
+    fetchAllRecords,
   };
 }

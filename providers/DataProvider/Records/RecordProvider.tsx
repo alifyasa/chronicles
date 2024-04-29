@@ -29,22 +29,22 @@ const useRecord = () => {
 };
 
 function RecordProvider(props: PropsWithChildren) {
-  const { record, recordKV, isFetchingRecords, getAllRecords } =
+  const { allRecords, allRecordsKV, fetchAllRecords, isFetchingAllRecords } =
     withGetAllRecords();
   const { addRecord, isAddingRecord } = withAddRecord();
   const { addRecordEntry, isAddingRecordEntry } = withAddRecordEntry();
   const {
     recordEntriesByRecordId,
     isFetchingRecordEntries,
-    getRecordEntriesByIdCallback,
+    fetchRecordEntriesById,
   } = withGetRecordEntriesById();
   return (
     <RecordContext.Provider
       value={{
-        record,
-        recordKV,
-        isFetchingRecords,
-        getAllRecords,
+        allRecords,
+        allRecordsKV,
+        isFetchingAllRecords,
+        fetchAllRecords,
 
         isAddingRecord,
         addRecord,
@@ -54,7 +54,7 @@ function RecordProvider(props: PropsWithChildren) {
 
         recordEntriesByRecordId,
         isFetchingRecordEntries,
-        getRecordEntriesByIdCallback,
+        fetchRecordEntriesById,
       }}
     >
       {props.children}

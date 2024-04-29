@@ -7,7 +7,7 @@ interface Route {
 
 const getRouteNamesRecursive = (
   routes: Route[],
-  parent: string = ""
+  parent: string = "",
 ): string[] => {
   return routes.flatMap((route: Route) => {
     const currentName = `${parent}/${route.name}`;

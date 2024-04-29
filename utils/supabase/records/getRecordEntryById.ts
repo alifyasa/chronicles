@@ -10,7 +10,7 @@ async function getRecordEntryById(record_id: Record["record_id"]) {
     "all_record_entry_by_id",
     {
       arg_rid: RecordSchema.shape.record_id.parse(record_id),
-    }
+    },
   );
   if (error || !records) {
     throw new Error(`Error fetching records: ${error?.message}`);
@@ -21,7 +21,7 @@ async function getRecordEntryById(record_id: Record["record_id"]) {
       records.map((recordEntry: object) => ({
         record_id,
         ...recordEntry,
-      }))
+      })),
     );
   } catch (err) {
     logger.log(JSON.stringify(err, null, 2));

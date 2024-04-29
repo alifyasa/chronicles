@@ -11,7 +11,7 @@ export function withAddRecordEntry() {
   const [isAddingRecordEntry, setIsAddingRecordEntry] = useState(false);
   const __addRecordEntry = async (
     recordName: string,
-    recordDescription: string
+    recordDescription: string,
   ) => {
     setIsAddingRecordEntry(true);
     return addRecordEntry(recordName, recordDescription, null)

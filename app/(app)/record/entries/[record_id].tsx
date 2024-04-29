@@ -20,13 +20,13 @@ export default function RecordDetailScreen() {
   const styles = stylesFromTheme(theme);
 
   const { record_id: recordId }: { record_id: string } = useLocalSearchParams();
-  const { recordKV } = useRecord();
+  const { allRecordsKV } = useRecord();
   const chatRef = useRef<RNTextInput | null>(null);
 
   const navigation = useNavigation();
   useFocusEffect(() => {
     navigation.setOptions({
-      title: recordKV[recordId].name,
+      title: allRecordsKV[recordId].name,
       headerRight: () => (
         <Pressable
           style={{ marginRight: 8 }}
@@ -41,19 +41,19 @@ export default function RecordDetailScreen() {
     <View style={styles.container}>
       <ScrollView>
         <Text style={{ color: theme.colors.text.normal }}>
-          {recordKV[recordId].record_id}
+          {allRecordsKV[recordId].record_id}
         </Text>
         <Text style={{ color: theme.colors.text.normal }}>
-          {recordKV[recordId].name}
+          {allRecordsKV[recordId].name}
         </Text>
         <Text style={{ color: theme.colors.text.normal }}>
-          {recordKV[recordId].type}
+          {allRecordsKV[recordId].type}
         </Text>
         <Text style={{ color: theme.colors.text.normal }}>
-          {recordKV[recordId].created_at.toString()}
+          {allRecordsKV[recordId].created_at.toString()}
         </Text>
         <Text style={{ color: theme.colors.text.normal }}>
-          {recordKV[recordId].description}
+          {allRecordsKV[recordId].description}
         </Text>
       </ScrollView>
       <TextInput
