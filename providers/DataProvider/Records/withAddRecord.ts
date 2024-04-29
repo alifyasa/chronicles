@@ -1,6 +1,6 @@
 import { addRecord } from "@/utils/supabase/records/addRecord";
 import { Record } from "@/utils/supabase/records/schema";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Toast from "react-native-toast-message";
 
 export const defaultWithAddRecord: ReturnType<typeof withAddRecord> = {
@@ -8,13 +8,19 @@ export const defaultWithAddRecord: ReturnType<typeof withAddRecord> = {
   addRecord: async () => false,
 };
 export function withAddRecord() {
-  const [isAddingRecord, setIsAddingRecord] = useState(false);
+  // const [isAddingRecord, setIsAddingRecord] = useState(false);
+  const [addingRecordProcessCount, setAddingRecordProcessCount] = useState(0);
+  const isAddingRecord = useMemo(
+    () => addingRecordProcessCount >= 1,
+    [addingRecordProcessCount]
+  );
+
   const __addRecord = async (
     recordName: string,
     recordDescription: string,
-    recordType: Record["type"],
+    recordType: Record["type"]
   ) => {
-    setIsAddingRecord(true);
+    setAddingRecordProcessCount((prev) => prev + 1);
     return addRecord(recordName, recordDescription, recordType)
       .then((result) => {
         if (result.startsWith("FAIL")) {
@@ -41,7 +47,7 @@ export function withAddRecord() {
         return false;
       })
       .finally(() => {
-        setIsAddingRecord(false);
+        setAddingRecordProcessCount((prev) => prev - 1);
       });
   };
   return {

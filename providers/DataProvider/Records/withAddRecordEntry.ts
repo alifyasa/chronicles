@@ -1,6 +1,6 @@
 import { addRecordEntry } from "@/utils/supabase/records/addRecordEntry";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import Toast from "react-native-toast-message";
 import { z } from "zod";
@@ -11,9 +11,15 @@ export const defaultWithAddRecordEntry: ReturnType<typeof withAddRecordEntry> =
     isAddingRecordEntry: false,
   };
 export function withAddRecordEntry() {
-  const [isAddingRecordEntry, setIsAddingRecordEntry] = useState(false);
+  // const [isAddingRecordEntry, setIsAddingRecordEntry] = useState(false);
+  const [addingRecordEntryProcessCount, setAddingRecordEntryProcessCount] =
+    useState(0);
+  const isAddingRecordEntry = useMemo(
+    () => addingRecordEntryProcessCount >= 1,
+    [addingRecordEntryProcessCount]
+  );
   const __addRecordEntry = async (recordId: string, entryMessage: string) => {
-    setIsAddingRecordEntry(true);
+    setAddingRecordEntryProcessCount((prev) => prev + 1);
     return addRecordEntry(recordId, entryMessage, null)
       .then((result) => {
         if (result.startsWith("FAIL")) {
@@ -43,7 +49,7 @@ export function withAddRecordEntry() {
         return false;
       })
       .finally(() => {
-        setIsAddingRecordEntry(false);
+        setAddingRecordEntryProcessCount((prev) => prev - 1);
       });
   };
 
