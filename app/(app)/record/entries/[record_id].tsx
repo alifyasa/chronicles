@@ -143,13 +143,7 @@ export default function RecordDetailScreen() {
           placeholder="Type something here..."
           maxLength={400}
           placeholderTextColor={theme.colors.text.dim}
-          value={message}
           onChangeText={(newText) => setMessage(newText.replace("\n", ""))}
-          onKeyPress={({ nativeEvent: { key } }) => {
-            if (key === "Enter") {
-              sendMessage();
-            }
-          }}
         />
         <Pressable style={styles.sendIconContainer} onPress={sendMessage}>
           {isAddingRecordEntry ? (
