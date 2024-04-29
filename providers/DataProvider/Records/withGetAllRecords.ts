@@ -13,7 +13,7 @@ export const defaultWithGetAllRecords: ReturnType<typeof withGetAllRecords> = {
 export function withGetAllRecords() {
   const { isInitDone } = useSession();
   const [record, setRecord] = useState<Record[]>([]);
-  const recordKV = record.reduce(
+  const recordKV: { [key: string]: Record } = record.reduce(
     (prev, curr) => ({
       ...prev,
       [curr.record_id]: curr,
