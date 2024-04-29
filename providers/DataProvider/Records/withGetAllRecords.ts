@@ -4,7 +4,13 @@ import { Record } from "@/utils/supabase/records/schema";
 import { useCallback, useState } from "react";
 import Toast from "react-native-toast-message";
 
-export default function withGetAllRecords() {
+export const defaultWithGetAllRecords: ReturnType<typeof withGetAllRecords> = {
+  getAllRecords: async () => {},
+  isFetchingRecords: false,
+  record: [],
+  recordKV: {},
+};
+export function withGetAllRecords() {
   const { isInitDone } = useSession();
   const [record, setRecord] = useState<Record[]>([]);
   const recordKV = record.reduce(
@@ -12,7 +18,7 @@ export default function withGetAllRecords() {
       ...prev,
       [curr.record_id]: curr,
     }),
-    {},
+    {}
   );
   const [isFetchingRecords, setIsFetchingRecords] = useState(false);
   const getRecordCallback = useCallback(() => {

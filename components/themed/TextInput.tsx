@@ -26,7 +26,7 @@ const TextInput = forwardRef<RNTextInput, TextInputProps>(
       // Animate height change
       Animated.timing(animationHeight, {
         toValue: newHeight,
-        duration: 400, // Adjust animation duration as needed
+        duration: 300, // Adjust animation duration as needed
         useNativeDriver: false,
         easing: Easing.in(Easing.quad),
       }).start();

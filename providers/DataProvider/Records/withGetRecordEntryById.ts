@@ -8,51 +8,62 @@ import Toast from "react-native-toast-message";
 const logger = createDefaultLogger(
   "PROVIDER/DATA/RECORDS/GET_RECORD_ENTRY_BY_ID"
 );
+export const defaultWithGetAllRecordEntriesById: ReturnType<
+  typeof withGetRecordEntriesById
+> = {
+  getRecordEntriesByIdCallback: () => {},
+  isFetchingRecordEntries: false,
+  recordEntriesByRecordId: {},
+};
 type RecordEntriesByRecordId = {
   [record_id: string]: RecordEntry;
 };
-export default function withGetRecordEntriyById(arg_id: Record["record_id"]) {
+export function withGetRecordEntriesById() {
   const { isInitDone } = useSession();
   const [recordEntriesByRecordId, setRecordEntriesByRecordId] =
     useState<RecordEntriesByRecordId>({});
   const [isFetchingRecordEntries, setIsFetchingRecordEntries] = useState(false);
-  const getRecordCallback = useCallback(() => {
-    if (isInitDone) {
-      setIsFetchingRecordEntries(true);
-      getRecordEntryById(arg_id)
-        .then((__recordEntriesByRecordId) => {
-          __recordEntriesByRecordId.forEach((recordEntries) => {
-            setRecordEntriesByRecordId((prev) => {
-              const { [recordEntries.record_id]: sameKey, ...restPrev } = prev;
-              return {
-                ...restPrev,
-                [recordEntries.record_id]: {
-                  ...sameKey,
-                  ...recordEntries,
-                },
-              };
+  const getRecordEntriesByIdCallback = useCallback(
+    (arg_id: Record["record_id"]) => {
+      if (isInitDone) {
+        setIsFetchingRecordEntries(true);
+        getRecordEntryById(arg_id)
+          .then((__recordEntriesByRecordId) => {
+            __recordEntriesByRecordId.forEach((recordEntries) => {
+              setRecordEntriesByRecordId((prev) => {
+                const { [recordEntries.record_id]: sameKey, ...restPrev } =
+                  prev;
+                return {
+                  ...restPrev,
+                  [recordEntries.record_id]: {
+                    ...sameKey,
+                    ...recordEntries,
+                  },
+                };
+              });
             });
+            logger.log(JSON.stringify(recordEntriesByRecordId, null, 2));
+            return;
+          })
+          .catch((err) => {
+            Toast.show({
+              type: "error",
+              text1: "Error",
+              text2: err,
+            });
+            return;
+          })
+          .finally(() => {
+            setIsFetchingRecordEntries(false);
           });
-          logger.log(JSON.stringify(recordEntriesByRecordId, null, 2));
-          return;
-        })
-        .catch((err) => {
-          Toast.show({
-            type: "error",
-            text1: "Error",
-            text2: err,
-          });
-          return;
-        })
-        .finally(() => {
-          setIsFetchingRecordEntries(false);
-        });
-    }
-  }, [isInitDone]);
+      }
+    },
+    [isInitDone]
+  );
 
   return {
-    record: recordEntriesByRecordId,
-    isFetchingRecords: isFetchingRecordEntries,
-    getAllRecords: getRecordCallback,
+    recordEntriesByRecordId,
+    isFetchingRecordEntries,
+    getRecordEntriesByIdCallback,
   };
 }

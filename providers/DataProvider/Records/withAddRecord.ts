@@ -3,12 +3,16 @@ import { Record } from "@/utils/supabase/records/schema";
 import { useState } from "react";
 import Toast from "react-native-toast-message";
 
-export default function withAddRecord() {
+export const defaultWithAddRecord: ReturnType<typeof withAddRecord> = {
+  isAddingRecord: false,
+  addRecord: async () => false,
+};
+export function withAddRecord() {
   const [isAddingRecord, setIsAddingRecord] = useState(false);
   const __addRecord = async (
     recordName: string,
     recordDescription: string,
-    recordType: Record["type"],
+    recordType: Record["type"]
   ) => {
     setIsAddingRecord(true);
     return addRecord(recordName, recordDescription, recordType)

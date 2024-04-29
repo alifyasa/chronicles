@@ -2,11 +2,16 @@ import { addRecordEntry } from "@/utils/supabase/records/addRecordEntry";
 import { useState } from "react";
 import Toast from "react-native-toast-message";
 
-export default function withAddRecordEntry() {
+export const defaultWithAddRecordEntry: ReturnType<typeof withAddRecordEntry> =
+  {
+    addRecordEntry: async () => false,
+    isAddingRecordEntry: false,
+  };
+export function withAddRecordEntry() {
   const [isAddingRecordEntry, setIsAddingRecordEntry] = useState(false);
   const __addRecordEntry = async (
     recordName: string,
-    recordDescription: string,
+    recordDescription: string
   ) => {
     setIsAddingRecordEntry(true);
     return addRecordEntry(recordName, recordDescription, null)

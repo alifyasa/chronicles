@@ -1,46 +1,28 @@
 import React from "react";
 import { PropsWithChildren, createContext, useContext } from "react";
-import { Record, RecordEntry } from "../../../utils/supabase/records/schema";
-import withGetAllRecords from "./withGetAllRecords";
-import withAddRecord from "./withAddRecord";
-import withAddRecordEntry from "./withAddRecordEntry";
+import { defaultWithAddRecord, withAddRecord } from "./withAddRecord";
+import {
+  defaultWithAddRecordEntry,
+  withAddRecordEntry,
+} from "./withAddRecordEntry";
+import {
+  defaultWithGetAllRecords,
+  withGetAllRecords,
+} from "./withGetAllRecords";
+import {
+  defaultWithGetAllRecordEntriesById,
+  withGetRecordEntriesById,
+} from "./withGetRecordEntryById";
 
-interface IRecordContext {
-  record: Record[];
-  recordKV: { [key: string]: Record };
-
-  isFetchingRecord: boolean;
-  fetchRecord: () => void;
-
-  isAddingRecord: boolean;
-  addRecord: (
-    recordName: string,
-    recordDescription: string,
-    recordType: Record["type"],
-  ) => Promise<boolean>;
-
-  isAddingRecordEntry: boolean;
-  addRecordEntry: (
-    recordId: string,
-    recordMessage: string,
-    scheduledAt: RecordEntry["scheduled_at"],
-  ) => Promise<boolean>;
-}
-const defaultRecordContext: IRecordContext = {
-  record: [],
-  recordKV: {},
-
-  isFetchingRecord: false,
-  fetchRecord: () => {},
-
-  isAddingRecord: false,
-  addRecord: async () => false,
-
-  isAddingRecordEntry: false,
-  addRecordEntry: async () => false,
+const defaultRecordContext = {
+  ...defaultWithAddRecord,
+  ...defaultWithAddRecordEntry,
+  ...defaultWithGetAllRecords,
+  ...defaultWithGetAllRecordEntriesById,
 };
+type RecordContextType = typeof defaultRecordContext;
 
-const RecordContext = createContext<IRecordContext>(defaultRecordContext);
+const RecordContext = createContext<RecordContextType>(defaultRecordContext);
 const useRecord = () => {
   const value = useContext(RecordContext);
   return value;
@@ -51,20 +33,28 @@ function RecordProvider(props: PropsWithChildren) {
     withGetAllRecords();
   const { addRecord, isAddingRecord } = withAddRecord();
   const { addRecordEntry, isAddingRecordEntry } = withAddRecordEntry();
+  const {
+    recordEntriesByRecordId,
+    isFetchingRecordEntries,
+    getRecordEntriesByIdCallback,
+  } = withGetRecordEntriesById();
   return (
     <RecordContext.Provider
       value={{
         record,
         recordKV,
-
-        isFetchingRecord: isFetchingRecords,
-        fetchRecord: getAllRecords,
+        isFetchingRecords,
+        getAllRecords,
 
         isAddingRecord,
         addRecord,
 
         isAddingRecordEntry,
         addRecordEntry,
+
+        recordEntriesByRecordId,
+        isFetchingRecordEntries,
+        getRecordEntriesByIdCallback,
       }}
     >
       {props.children}
