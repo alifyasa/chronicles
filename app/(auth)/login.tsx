@@ -47,6 +47,7 @@ export default function LoginScreen() {
     if (session) {
       logger.log("Redirect to App");
       router.replace("/(app)/");
+      return;
     }
 
     logger.log("Hiding Splash Screen");

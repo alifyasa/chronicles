@@ -30,6 +30,20 @@ export default function RecordsTab() {
           paddingBottom:
             styles.floatingButtonContainer.height +
             2 * styles.floatingButtonContainer.bottom,
+          flexGrow: 1,
+        }}
+        ListEmptyComponent={() => {
+          return (
+            <View
+              style={{
+                flexGrow: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text>No Records Yet</Text>
+            </View>
+          );
         }}
         data={allRecords}
         renderItem={({ item: record }) => DisplayRecord(record, theme)}

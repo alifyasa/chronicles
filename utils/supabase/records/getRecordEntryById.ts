@@ -16,7 +16,6 @@ async function getRecordEntryById(record_id: Record["record_id"]) {
     throw new Error(`Error fetching records: ${error?.message}`);
   }
   logger.log(`Fetched ${records?.length} Record Entry`);
-  logger.log(JSON.stringify(records, null, 2));
   try {
     return z.array(RecordEntrySchema).parse(
       records.map((recordEntry: object) => ({

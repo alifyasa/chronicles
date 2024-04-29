@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSession } from "@/providers/AuthProvider";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { RecordProvider } from "@/providers/DataProvider/Records/RecordProvider";
-import { Stack, router } from "expo-router";
+import { SplashScreen, Stack, router } from "expo-router";
 import { View } from "react-native";
 import { createDefaultLogger } from "@/utils/logging";
 
@@ -12,10 +12,14 @@ export default function Layout() {
   const theme = useCustomTheme();
 
   useEffect(() => {
-    if (!session && isInitDone) {
+    if (!isInitDone) return;
+    if (!session) {
       logger.log("Redirect to Root");
       router.replace("/");
+      return;
     }
+    logger.log("Hiding Splash Screen");
+    SplashScreen.hideAsync();
   }, [session, isInitDone]);
 
   return (

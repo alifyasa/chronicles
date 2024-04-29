@@ -12,10 +12,13 @@ import {
   TextInput as RNTextInput,
   ActivityIndicator,
   FlatList,
+  RefreshControl,
 } from "react-native";
 import Text from "@/components/themed/Text";
 import TextInput from "@/components/themed/TextInput";
 import Toast from "react-native-toast-message";
+import { DateTime } from "luxon";
+import { RecordEntry } from "@/utils/supabase/records/schema";
 
 export default function RecordDetailScreen() {
   const theme = useCustomTheme();
@@ -28,10 +31,12 @@ export default function RecordDetailScreen() {
     isAddingRecordEntry,
     recordEntriesByRecordId,
     fetchRecordEntriesById,
+    isFetchingRecordEntries,
   } = useRecord();
   const chatRef = useRef<RNTextInput | null>(null);
 
   const [message, setMessage] = useState("");
+  const flatListRef = useRef<FlatList | null>(null);
 
   const navigation = useNavigation();
   useFocusEffect(() => {
@@ -74,27 +79,46 @@ export default function RecordDetailScreen() {
   }, [recordId, message]);
   return (
     <View style={styles.container}>
-      {/* <ScrollView
-        style={{
-          flex: 1,
-        }}
-      > */}
       <FlatList
+        refreshing={isFetchingRecordEntries}
+        refreshControl={
+          <RefreshControl
+            refreshing={isFetchingRecordEntries}
+            onRefresh={() => fetchRecordEntriesById(recordId)}
+          />
+        }
+        inverted
+        ref={(ref) => (flatListRef.current = ref)}
         data={recordEntriesByRecordId[recordId]}
-        renderItem={(item) => {
+        keyExtractor={(item) => item.entry_id}
+        contentContainerStyle={{
+          gap: 12,
+          flexGrow: 1,
+        }}
+        ListEmptyComponent={() => {
           return (
-            <View>
-              <Text>{item.item.message}</Text>
+            <View
+              style={{
+                transform: [{ scale: -1 }],
+                flexGrow: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text>No Message in this Record</Text>
             </View>
           );
         }}
+        renderItem={({ item: recordEntry }) => (
+          <RenderRecordEntry recordEntry={recordEntry} />
+        )}
       />
-      {/* </ScrollView> */}
       <View
         style={{
           flex: 0,
           flexDirection: "row",
           alignItems: "flex-end",
+          marginTop: 12,
         }}
       >
         <TextInput
@@ -128,6 +152,38 @@ export default function RecordDetailScreen() {
     </View>
   );
 }
+
+const RenderRecordEntry = (props: { recordEntry: RecordEntry }) => {
+  const theme = useCustomTheme();
+  return (
+    <View
+      style={{
+        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: theme.colors.border,
+        borderRadius: 5,
+      }}
+    >
+      <Text
+        style={{
+          padding: 12,
+          borderBottomWidth: StyleSheet.hairlineWidth,
+          borderColor: theme.colors.border,
+          fontSize: 14,
+          color: theme.colors.text.dim,
+        }}
+      >
+        {props.recordEntry.created_at.toLocaleString(DateTime.DATETIME_FULL)}
+      </Text>
+      <Text
+        style={{
+          padding: 12,
+        }}
+      >
+        {props.recordEntry.message}
+      </Text>
+    </View>
+  );
+};
 
 const stylesFromTheme = (theme: CustomTheme) =>
   StyleSheet.create({

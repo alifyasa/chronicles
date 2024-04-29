@@ -64,6 +64,7 @@ const stylesFromTheme = (theme: CustomTheme) =>
       borderWidth: 1,
       borderRadius: 5,
       borderColor: theme.colors.border,
+      backgroundColor: theme.colors.background,
     },
     textInput: {
       flex: 1,
