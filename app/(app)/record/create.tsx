@@ -1,5 +1,7 @@
 import React from "react";
 import { CustomTheme } from "@/constants/themes";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { router } from "expo-router";
 import { useCallback, useRef, useState } from "react";
 import {
@@ -14,15 +16,12 @@ import { z } from "zod";
 import Toast from "react-native-toast-message";
 import Text from "@/components/themed/Text";
 import TextInput from "@/components/themed/TextInput";
-import { themeStore } from "@/stores";
-import { recordStore } from "@/stores";
-import { observer } from "mobx-react";
 
 // const logger = createDefaultLogger("APP/RECORD/CREATE");
-function CreateRecordScreen() {
-  const theme = themeStore.theme;
+export default function CreateRecordScreen() {
+  const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
-  const { isAddingRecord, addRecord } = recordStore;
+  const { isAddingRecord, addRecord } = useRecord();
 
   const inputRefs = useRef<(RNTextInput | null)[]>([]);
   const focusNextInput = (index: number) => {
@@ -37,11 +36,7 @@ function CreateRecordScreen() {
     addRecord(recordName, recordDescription, "GENERAL")
       .then((success) => {
         if (!success) {
-          Toast.show({
-            type: "error",
-            text1: "Error",
-            text2: "Failed Adding Record",
-          });
+          return;
         }
         return router.back();
       })
@@ -168,6 +163,3 @@ const stylesFromTheme = (theme: CustomTheme) =>
       alignItems: "center",
     },
   });
-
-const ObserverCreateRecordScreen = observer(CreateRecordScreen);
-export default ObserverCreateRecordScreen;

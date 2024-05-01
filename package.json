@@ -11,9 +11,7 @@
     "lint": "eslint . --fix",
     "format": "prettier . --write",
     "style": "run-s lint format",
-    "build:preview": "eas build -p android --profile preview",
-    "build:dev": "eas build -p android --profile development",
-    "run:dev": " APP_VARIANT=development npx expo run:android"
+    "build:dev": "eas build -p android --profile preview"
   },
   "jest": {
     "preset": "jest-expo"
@@ -46,8 +44,7 @@
     "react-native-toast-message": "^2.2.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.6",
-    "zod": "^3.23.4",
-    "expo-dev-client": "~3.3.11"
+    "zod": "^3.23.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

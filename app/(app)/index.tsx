@@ -2,13 +2,13 @@ import PagerView from "react-native-pager-view";
 import React, { memo, useCallback, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { CustomTheme } from "@/constants/themes";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { BottomNavigation, Divider } from "react-native-paper";
 import MessagesTab from "./tabs/messages";
 import SettingsTab from "./tabs/settings";
+import RecordsTab from "./tabs/records";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-import { themeStore } from "@/stores";
-import { RecordsTab } from "./tabs/records";
 
 const INITIAL_PAGE_INDEX = 1;
 const TABS = [
@@ -65,7 +65,7 @@ interface TabPagesProps {
   pagerViewRef: React.MutableRefObject<PagerView | null>;
 }
 const TabPages = memo(function TabPages(props: TabPagesProps) {
-  const theme = themeStore.theme;
+  const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
   const { setPageIndex, pagerViewRef } = props;
 
@@ -93,7 +93,7 @@ const TabPages = memo(function TabPages(props: TabPagesProps) {
 });
 
 function RenderIcon(props: { iconName: string }) {
-  const theme = themeStore.theme;
+  const theme = useCustomTheme();
   return (
     <FontAwesome6
       size={24}
@@ -104,7 +104,7 @@ function RenderIcon(props: { iconName: string }) {
 }
 
 export default function HomeTab() {
-  const theme = themeStore.theme;
+  const theme = useCustomTheme();
   const navigation = useNavigation();
   const styles = stylesFromTheme(theme);
 
@@ -126,7 +126,7 @@ export default function HomeTab() {
         ),
       });
     },
-    [pagerViewRef]
+    [pagerViewRef],
   );
 
   return (
