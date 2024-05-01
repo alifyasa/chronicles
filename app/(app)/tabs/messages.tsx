@@ -3,13 +3,13 @@ import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
 import React from "react";
 import { useCallback, useState } from "react";
 import { supabase } from "@/utils/supabase";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { CustomTheme } from "@/constants/themes";
-import { router } from "expo-router";
 import Text from "@/components/themed/Text";
+import { recordStore, themeStore } from "@/stores";
+import { observer } from "mobx-react";
 
-export default function MessagesTab() {
-  const theme = useCustomTheme();
+function MessagesTab() {
+  const theme = themeStore.theme;
   const styles = stylesFromTheme(theme);
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -35,7 +35,7 @@ export default function MessagesTab() {
             marginBottom: 12,
           },
         ]}
-        onPress={() => router.push("/tests/secret")}
+        onPress={() => console.log(recordStore.records.slice())}
       >
         <Text
           style={[
@@ -93,3 +93,6 @@ const stylesFromTheme = (theme: CustomTheme) =>
       alignItems: "center",
     },
   });
+
+const ObserverMessageTab = observer(MessagesTab);
+export default ObserverMessageTab;

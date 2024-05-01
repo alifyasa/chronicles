@@ -1,24 +1,36 @@
 import React from "react";
 import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import Text from "@/components/themed/Text";
+import { themeStore } from "@/stores";
+import { recordStore } from "@/stores";
+import Toast from "react-native-toast-message";
+import { makeAutoObservable } from "mobx";
+import { observer } from "mobx-react";
 
-export default function RecordDetailScreen() {
-  const theme = useCustomTheme();
+function RecordEditScreen() {
+  const theme = themeStore.theme;
   const styles = stylesFromTheme(theme);
 
-  const { record_id: recordId }: { record_id: string } = useLocalSearchParams();
-  const { allRecordsKV } = useRecord();
+  const { record_id: recordId } = useLocalSearchParams<{ record_id: string }>();
+  const allRecordsKV = recordStore.recordsKV;
 
   const navigation = useNavigation();
   useFocusEffect(() => {
-    navigation.setOptions({
-      title: `Edit ${allRecordsKV[recordId].name}`,
-    });
+    if (recordId) {
+      navigation.setOptions({
+        title: `Edit ${allRecordsKV[recordId].name}`,
+      });
+    } else {
+      Toast.show({
+        type: "Error",
+        text1: "Error",
+        text2: "Record ID does not exist",
+      });
+      router.replace("/");
+    }
   });
   return (
     <View style={styles.container}>
@@ -37,3 +49,6 @@ const stylesFromTheme = (theme: CustomTheme) =>
       padding: 12,
     },
   });
+
+const ObserverRecordEditScreen = observer(RecordEditScreen);
+export default ObserverRecordEditScreen;

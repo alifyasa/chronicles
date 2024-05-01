@@ -1,9 +1,10 @@
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { themeStore } from "@/stores";
+import { observer } from "mobx-react";
 import React from "react";
 import { Text as RNText, TextProps as RNTextProps } from "react-native";
 
-export default function Text(props: RNTextProps) {
-  const theme = useCustomTheme();
+function Text(props: RNTextProps) {
+  const { theme } = themeStore;
   const { style, ...restProps } = props;
   return (
     <RNText
@@ -18,3 +19,5 @@ export default function Text(props: RNTextProps) {
     />
   );
 }
+
+export default observer(Text);

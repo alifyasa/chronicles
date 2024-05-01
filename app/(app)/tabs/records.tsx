@@ -7,71 +7,69 @@ import {
 } from "react-native";
 
 import React from "react";
-import { FontAwesome6 } from "@expo/vector-icons";
-import { router, useFocusEffect } from "expo-router";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { router } from "expo-router";
 import { CustomTheme } from "@/constants/themes";
-import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { Record } from "@/utils/supabase/records/schema";
 import Text from "@/components/themed/Text";
+import { recordStore, themeStore } from "@/stores";
+import { observer } from "mobx-react";
 
-export default function RecordsTab() {
-  const theme = useCustomTheme();
+export const RecordsTab = observer(() => {
+  const theme = themeStore.theme;
   const styles = stylesFromTheme(theme);
 
-  const { allRecords, fetchAllRecords, isFetchingAllRecords } = useRecord();
-  useFocusEffect(fetchAllRecords);
   return (
     <View style={styles.container}>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          gap: 12,
-          paddingBottom:
-            styles.floatingButtonContainer.height +
-            2 * styles.floatingButtonContainer.bottom,
-          flexGrow: 1,
-        }}
-        ListEmptyComponent={() => {
-          return (
-            <View
-              style={{
-                flexGrow: 1,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text>No Records Yet</Text>
-            </View>
-          );
-        }}
-        data={allRecords}
-        renderItem={({ item: record }) => DisplayRecord(record, theme)}
-        refreshControl={
-          <RefreshControl
-            refreshing={isFetchingAllRecords}
-            onRefresh={fetchAllRecords}
-          />
-        }
-      ></FlatList>
-      <Pressable
-        style={({ pressed }) => [
-          styles.floatingButtonContainer,
-          {
-            elevation: pressed ? 2 : 4,
-          },
-        ]}
-        onPress={() => {
-          router.push("/(app)/record/create");
-        }}
-      >
-        <FontAwesome6 name="plus" size={32} style={styles.floatingButtonIcon} />
-      </Pressable>
+      <Text>
+        {JSON.stringify(recordStore.fetchingRecordsTaskCount, null, 2)}
+      </Text>
+      <RecordsList />
     </View>
   );
-}
+});
 
-function DisplayRecord(record: Record, theme: CustomTheme) {
+const RecordsList = observer(() => {
+  const { theme } = themeStore;
+  const styles = stylesFromTheme(theme);
+  const { records, fetchRecords, isFetchingRecords } = recordStore;
+  return (
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        gap: 12,
+        paddingBottom:
+          styles.floatingButtonContainer.height +
+          2 * styles.floatingButtonContainer.bottom,
+        flexGrow: 1,
+      }}
+      ListEmptyComponent={() => {
+        return (
+          <View
+            style={{
+              flexGrow: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text>No Records Yet</Text>
+          </View>
+        );
+      }}
+      data={records}
+      renderItem={({ item: record }) => DisplayRecord(record, theme)}
+      refreshControl={
+        <RefreshControl
+          refreshing={isFetchingRecords}
+          onRefresh={() => {
+            fetchRecords();
+          }}
+        />
+      }
+    ></FlatList>
+  );
+});
+
+const DisplayRecord = observer((record: Record, theme: CustomTheme) => {
   const styles = stylesFromTheme(theme);
   return (
     <Pressable
@@ -108,7 +106,7 @@ function DisplayRecord(record: Record, theme: CustomTheme) {
       </Text>
     </Pressable>
   );
-}
+});
 
 const stylesFromTheme = (theme: CustomTheme) =>
   StyleSheet.create({

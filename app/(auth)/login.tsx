@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { CustomTheme } from "@/constants/themes";
-import { useSession } from "@/providers/AuthProvider";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { supabase } from "@/utils/supabase";
 import { useState } from "react";
 import {
@@ -15,12 +13,13 @@ import { router, useFocusEffect } from "expo-router";
 import Text from "@/components/themed/Text";
 import { createDefaultLogger } from "@/utils/logging";
 import { SplashScreen } from "expo-router";
+import { authStore, themeStore } from "@/stores";
 
 const logger = createDefaultLogger("AUTH");
 export default function LoginScreen() {
-  const theme = useCustomTheme();
+  const theme = themeStore.theme;
   const styles = stylesFromTheme(theme);
-  const { session, isInitDone } = useSession();
+  const { session, isInitDone } = authStore;
   const ref = useRef<TextInput | null>(null);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

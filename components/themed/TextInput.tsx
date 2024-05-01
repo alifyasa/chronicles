@@ -1,5 +1,6 @@
 import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { themeStore } from "@/stores";
+import { observer } from "mobx-react";
 import React, { forwardRef, useState } from "react";
 import {
   Animated,
@@ -11,7 +12,7 @@ import {
 
 const TextInput = forwardRef<RNTextInput, TextInputProps>(
   function TextInput(props, ref) {
-    const theme = useCustomTheme();
+    const { theme } = themeStore;
     const { style, ...restProps } = props;
     const defaultStyles = stylesFromTheme(theme);
 
@@ -77,4 +78,4 @@ const stylesFromTheme = (theme: CustomTheme) =>
     },
   });
 
-export default TextInput;
+export default observer(TextInput);

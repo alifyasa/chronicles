@@ -6,9 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
-import { SessionProvider } from "@/providers/AuthProvider";
 import { CustomTheme } from "@/constants/themes";
-import { CustomThemeProvider } from "@/providers/CustomThemeProvider";
 import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
 import Toast from "react-native-toast-message";
 import toastConfig from "@/components/toastConfig";
@@ -44,7 +42,7 @@ function RootLayoutNav() {
 
   nav.addListener("state", (event) => {
     const routeNames: string[] = getRouteNamesRecursive(
-      event.data.state.routes,
+      event.data.state.routes
     );
     logger.log(JSON.stringify(routeNames, null, 2));
   });
@@ -56,34 +54,30 @@ function RootLayoutNav() {
     // https://github.com/expo/expo/issues/27099#issuecomment-1959010092
     // style={{ flex: 1, backgroundColor: theme.colors.background }}
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <CustomThemeProvider>
-        <SessionProvider>
-          <Stack
-            initialRouteName="(auth)/login"
-            screenOptions={{
-              contentStyle: {
-                backgroundColor: theme.colors.background,
-              },
-              headerShown: false,
-              statusBarStyle: "auto",
-            }}
-          >
-            <Stack.Screen
-              name="(app)"
-              options={{
-                headerShown: false,
-              }}
-            ></Stack.Screen>
-            <Stack.Screen
-              name="(auth)/login"
-              options={{
-                headerShown: false,
-              }}
-            ></Stack.Screen>
-          </Stack>
-          <Toast config={toastConfig} />
-        </SessionProvider>
-      </CustomThemeProvider>
+      <Stack
+        initialRouteName="(auth)/login"
+        screenOptions={{
+          contentStyle: {
+            backgroundColor: theme.colors.background,
+          },
+          headerShown: false,
+          statusBarStyle: "auto",
+        }}
+      >
+        <Stack.Screen
+          name="(app)"
+          options={{
+            headerShown: false,
+          }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="(auth)/login"
+          options={{
+            headerShown: false,
+          }}
+        ></Stack.Screen>
+      </Stack>
+      <Toast config={toastConfig} />
     </View>
   );
 }

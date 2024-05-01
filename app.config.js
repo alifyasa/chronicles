@@ -30,7 +30,7 @@ export default {
         foregroundImage: "./assets/images/adaptive-icon.png",
         backgroundColor: "#ffffff",
       },
-      package: IS_DEV ? "id.alifyasa.chronicles-dev" : "id.alifyasa.chronicles",
+      package: IS_DEV ? "id.alifyasa.chronicles_dev" : "id.alifyasa.chronicles",
       splash: {
         image: "./assets/images/splash.png",
         resizeMode: "contain",

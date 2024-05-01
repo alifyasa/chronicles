@@ -1,13 +1,13 @@
 import Text from "@/components/themed/Text";
 import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { themeStore } from "@/stores";
 import { Link } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import Timezone from "react-native-timezone";
 
 export default function TestScreen() {
-  const theme = useCustomTheme();
+  const theme = themeStore.theme;
   const styles = stylesFromTheme(theme);
   return (
     <View style={styles.container}>
@@ -38,9 +38,9 @@ export default function TestScreen() {
         </View>
       </View>
       <Text style={styles.heading}>Bleeding New Features</Text>
-      <Link href="/tests/viewpager">
+      {/* <Link href="/tests/viewpager">
         <Text>ViewPager</Text>
-      </Link>
+      </Link> */}
     </View>
   );
 }

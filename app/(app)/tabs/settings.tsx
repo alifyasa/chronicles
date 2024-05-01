@@ -3,13 +3,14 @@ import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
 import React from "react";
 import { useCallback, useState } from "react";
 import { supabase } from "@/utils/supabase";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { CustomTheme } from "@/constants/themes";
 import { router } from "expo-router";
 import Text from "@/components/themed/Text";
+import { observer } from "mobx-react";
+import { themeStore } from "@/stores";
 
-export default function SettingsTab() {
-  const theme = useCustomTheme();
+function SettingsTab() {
+  const theme = themeStore.theme;
   const styles = stylesFromTheme(theme);
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -93,3 +94,6 @@ const stylesFromTheme = (theme: CustomTheme) =>
       alignItems: "center",
     },
   });
+
+const ObserverSettingsTab = observer(SettingsTab);
+export default ObserverSettingsTab;

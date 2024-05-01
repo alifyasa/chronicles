@@ -1,15 +1,15 @@
 import { addRecord } from "@/utils/supabase/records/addRecord";
 import { getAllRecords } from "@/utils/supabase/records/getAllRecords";
 import { Record, RecordSchema } from "@/utils/supabase/records/schema";
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable, observable, observe } from "mobx";
 
 class RecordStore {
-  constructor() {
-    makeAutoObservable(this);
-  }
-
+  @observable
   records: Record[] = [];
-  get recordsKV() {
+  setRecords(records: Record[]) {
+    this.records = records;
+  }
+  get recordsKV(): { [record_id: string]: Record } {
     return this.records.reduce(
       (prev, curr) => ({
         ...prev,
@@ -44,9 +44,17 @@ class RecordStore {
     const record_type = RecordSchema.shape.type.parse(recordType);
 
     this.addRecordTaskCount++;
-    await addRecord(record_name, record_desc, record_type);
+    const result = await addRecord(record_name, record_desc, record_type);
+    if (result.startsWith("FAIL")) {
+      return false;
+    }
     await this.fetchRecords();
     this.fetchingRecordsTaskCount--;
+    return true;
+  }
+
+  constructor() {
+    makeAutoObservable(this);
   }
 }
 const recordStore = new RecordStore();

@@ -1,7 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { router, useLocalSearchParams } from "expo-router";
@@ -19,28 +16,49 @@ import TextInput from "@/components/themed/TextInput";
 import Toast from "react-native-toast-message";
 import { DateTime } from "luxon";
 import { RecordEntry } from "@/utils/supabase/records/schema";
+import { themeStore } from "@/stores";
+import { recordStore } from "@/stores";
+import { recordEntryStore } from "@/stores";
+import { CustomTheme } from "@/constants/themes";
+import { observer } from "mobx-react";
 
-export default function RecordDetailScreen() {
-  const theme = useCustomTheme();
+function RecordEntriesScreen() {
+  const theme = themeStore.theme;
   const styles = stylesFromTheme(theme);
 
-  const { record_id: recordId }: { record_id: string } = useLocalSearchParams();
+  const { record_id: recordId } = useLocalSearchParams<{ record_id: string }>();
+  const { recordsKV, fetchRecords } = recordStore;
   const {
-    allRecordsKV,
-    fetchAllRecords,
     addRecordEntry,
     isAddingRecordEntry,
-    recordEntriesByRecordId,
-    fetchRecordEntriesById,
+    recordEntries,
+    fetchRecordEntries,
     isFetchingRecordEntries,
-  } = useRecord();
+  } = recordEntryStore;
   const chatRef = useRef<RNTextInput | null>(null);
 
   const [message, setMessage] = useState("");
   const flatListRef = useRef<FlatList | null>(null);
 
+  const navigation = useNavigation();
   useEffect(() => {
-    if (!allRecordsKV[recordId]) {
+    if (recordId) {
+      navigation.setOptions({
+        title: recordsKV[recordId].name,
+        headerRight: () => (
+          <Pressable
+            style={{ marginRight: 8 }}
+            onPress={() => router.push(`/(app)/record/edit/${recordId}`)}
+          >
+            <FontAwesome6
+              name="pen"
+              size={20}
+              color={theme.colors.text.normal}
+            />
+          </Pressable>
+        ),
+      });
+    } else {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -48,33 +66,25 @@ export default function RecordDetailScreen() {
       });
       router.back();
     }
-  }, []);
-
-  const navigation = useNavigation();
-  useEffect(() => {
-    navigation.setOptions({
-      title: allRecordsKV[recordId].name,
-      headerRight: () => (
-        <Pressable
-          style={{ marginRight: 8 }}
-          onPress={() => router.push(`/(app)/record/edit/${recordId}`)}
-        >
-          <FontAwesome6 name="pen" size={20} color={theme.colors.text.normal} />
-        </Pressable>
-      ),
-    });
-  }, [allRecordsKV[recordId].name]);
+  }, [recordsKV, recordId]);
 
   useEffect(() => {
-    if (!isAddingRecordEntry) {
-      fetchRecordEntriesById(recordId);
-    }
+    if (!recordId) return;
+    if (isAddingRecordEntry) return;
+    fetchRecordEntries(recordId);
   }, [isAddingRecordEntry]);
+  console.log(recordEntries[recordId]);
 
   const sendMessage = useCallback(() => {
+    if (!recordId) return;
     addRecordEntry(recordId, message)
       .then((success) => {
         if (!success) {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: JSON.stringify("Failed adding record entry"),
+          });
           return;
         }
         chatRef.current?.clear();
@@ -96,14 +106,15 @@ export default function RecordDetailScreen() {
           <RefreshControl
             refreshing={isFetchingRecordEntries}
             onRefresh={() => {
-              fetchRecordEntriesById(recordId);
-              fetchAllRecords();
+              if (!recordId) return;
+              fetchRecordEntries(recordId);
+              fetchRecords();
             }}
           />
         }
         inverted
         ref={(ref) => (flatListRef.current = ref)}
-        data={recordEntriesByRecordId[recordId]}
+        data={recordEntries[recordId]}
         keyExtractor={(item) => item.entry_id}
         contentContainerStyle={{
           gap: 12,
@@ -163,7 +174,7 @@ export default function RecordDetailScreen() {
 }
 
 const RenderRecordEntry = (props: { recordEntry: RecordEntry }) => {
-  const theme = useCustomTheme();
+  const theme = themeStore.theme;
   return (
     <View
       style={{
@@ -216,3 +227,6 @@ const stylesFromTheme = (theme: CustomTheme) =>
       right: 2,
     },
   });
+
+const ObserverRecordEntriesScreen = observer(RecordEntriesScreen);
+export default ObserverRecordEntriesScreen;
