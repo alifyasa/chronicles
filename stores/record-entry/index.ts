@@ -1,10 +1,11 @@
+import { makeAutoObservable } from "mobx";
+
 import { addRecordEntry } from "@/utils/supabase/records/addRecordEntry";
 import { getRecordEntryById } from "@/utils/supabase/records/getRecordEntryById";
 import {
   RecordEntry,
   RecordEntrySchema,
 } from "@/utils/supabase/records/schema";
-import { makeAutoObservable } from "mobx";
 
 class RecordEntryStore {
   constructor() {

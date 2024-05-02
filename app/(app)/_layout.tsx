@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
-import { RecordProvider } from "@/providers/DataProvider/Records/RecordProvider";
-import { SplashScreen, Stack, router } from "expo-router";
-import { View } from "react-native";
-import { createDefaultLogger } from "@/utils/logging";
+import { router, SplashScreen, Stack } from "expo-router";
 import { autorun } from "mobx";
-import { authStore, themeStore } from "@/stores";
 import { observer } from "mobx-react";
+import React, { useEffect } from "react";
+import { View } from "react-native";
+
+import { RecordProvider } from "@/providers/DataProvider/Records/RecordProvider";
+import { authStore, themeStore } from "@/stores";
+import { createDefaultLogger } from "@/utils/logging";
 
 const logger = createDefaultLogger("APP");
 const Layout = () => {

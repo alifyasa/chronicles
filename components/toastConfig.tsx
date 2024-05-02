@@ -1,12 +1,13 @@
 import React from "react";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { truthyMerge } from "@/utils/sane-merge";
 import { StyleSheet } from "react-native";
 import {
   BaseToast,
   BaseToastProps,
   ToastConfig,
 } from "react-native-toast-message";
+
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { truthyMerge } from "@/utils/sane-merge";
 
 const CustomBaseToast: React.FC<BaseToastProps> = (props: BaseToastProps) => {
   const theme = useCustomTheme();

@@ -1,12 +1,12 @@
-import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
-
+import { router } from "expo-router";
 import React from "react";
 import { useCallback, useState } from "react";
-import { supabase } from "@/utils/supabase";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { CustomTheme } from "@/constants/themes";
-import { router } from "expo-router";
+import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
+
 import Text from "@/components/themed/Text";
+import { CustomTheme } from "@/constants/themes";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { supabase } from "@/utils/supabase";
 
 export default function SettingsTab() {
   const theme = useCustomTheme();

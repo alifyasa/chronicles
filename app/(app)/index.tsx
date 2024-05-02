@@ -1,15 +1,17 @@
-import PagerView from "react-native-pager-view";
-import React, { memo, useCallback, useRef } from "react";
-import { StyleSheet, View } from "react-native";
-import { CustomTheme } from "@/constants/themes";
-import { BottomNavigation, Divider } from "react-native-paper";
-import MessagesTab from "./tabs/messages";
-import SettingsTab from "./tabs/settings";
-import RecordsTab from "./tabs/records";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-import { themeStore } from "@/stores";
 import { observer } from "mobx-react";
+import React, { memo, useCallback, useRef } from "react";
+import { StyleSheet, View } from "react-native";
+import PagerView from "react-native-pager-view";
+import { BottomNavigation, Divider } from "react-native-paper";
+
+import { CustomTheme } from "@/constants/themes";
+import { themeStore } from "@/stores";
+
+import MessagesTab from "./tabs/messages";
+import RecordsTab from "./tabs/records";
+import SettingsTab from "./tabs/settings";
 
 const INITIAL_PAGE_INDEX = 1;
 const TABS = [
@@ -92,7 +94,7 @@ const TabPages = observer(
         </View>
       </PagerView>
     );
-  })
+  }),
 );
 
 const RenderIcon = observer((props: { iconName: string }) => {
@@ -129,7 +131,7 @@ const HomeTab = () => {
         ),
       });
     },
-    [pagerViewRef]
+    [pagerViewRef],
   );
 
   return (

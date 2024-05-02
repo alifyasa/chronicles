@@ -1,6 +1,7 @@
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import React from "react";
 import { Text as RNText, TextProps as RNTextProps } from "react-native";
+
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 
 export default function Text(props: RNTextProps) {
   const theme = useCustomTheme();

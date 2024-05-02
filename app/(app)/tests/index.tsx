@@ -1,10 +1,11 @@
-import Text from "@/components/themed/Text";
-import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { Link } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import Timezone from "react-native-timezone";
+
+import Text from "@/components/themed/Text";
+import { CustomTheme } from "@/constants/themes";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 
 export default function TestScreen() {
   const theme = useCustomTheme();

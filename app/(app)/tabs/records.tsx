@@ -1,3 +1,7 @@
+import { FontAwesome6 } from "@expo/vector-icons";
+import { router, useFocusEffect } from "expo-router";
+import { observer } from "mobx-react";
+import React from "react";
 import {
   FlatList,
   Pressable,
@@ -6,21 +10,18 @@ import {
   View,
 } from "react-native";
 
-import React from "react";
-import { FontAwesome6 } from "@expo/vector-icons";
-import { router, useFocusEffect } from "expo-router";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { CustomTheme } from "@/constants/themes";
-import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
-import { Record } from "@/utils/supabase/records/schema";
 import Text from "@/components/themed/Text";
+import { CustomTheme } from "@/constants/themes";
+import { recordStore, themeStore } from "@/stores";
+import { Record } from "@/utils/supabase/records/schema";
 
-export default function RecordsTab() {
-  const theme = useCustomTheme();
+const RecordsTab = () => {
+  const theme = themeStore.theme;
   const styles = stylesFromTheme(theme);
 
-  const { allRecords, fetchAllRecords, isFetchingAllRecords } = useRecord();
-  useFocusEffect(fetchAllRecords);
+  useFocusEffect(() => {
+    recordStore.fetchRecords();
+  });
   return (
     <View style={styles.container}>
       <FlatList
@@ -45,12 +46,12 @@ export default function RecordsTab() {
             </View>
           );
         }}
-        data={allRecords}
+        data={recordStore.records}
         renderItem={({ item: record }) => DisplayRecord(record, theme)}
         refreshControl={
           <RefreshControl
-            refreshing={isFetchingAllRecords}
-            onRefresh={fetchAllRecords}
+            refreshing={recordStore.isFetchingRecords}
+            onRefresh={recordStore.fetchRecords}
           />
         }
       ></FlatList>
@@ -69,7 +70,7 @@ export default function RecordsTab() {
       </Pressable>
     </View>
   );
-}
+};
 
 function DisplayRecord(record: Record, theme: CustomTheme) {
   const styles = stylesFromTheme(theme);
@@ -156,3 +157,5 @@ const stylesFromTheme = (theme: CustomTheme) =>
       marginBottom: 8,
     },
   });
+
+export default observer(RecordsTab);

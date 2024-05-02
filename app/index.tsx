@@ -1,7 +1,8 @@
-import { authStore } from "@/stores";
 import { Redirect } from "expo-router";
 import { observer } from "mobx-react";
 import React from "react";
+
+import { authStore } from "@/stores";
 
 // const logger = createDefaultLogger("ROOT");
 const RedirectToAuth = () => {

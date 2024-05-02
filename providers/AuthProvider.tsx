@@ -1,16 +1,17 @@
-import React from "react";
-import { supabase } from "@/utils/supabase";
 import { Session } from "@supabase/supabase-js";
+import React from "react";
 import {
-  PropsWithChildren,
   createContext,
+  PropsWithChildren,
   useContext,
   useEffect,
   useState,
 } from "react";
 import Toast from "react-native-toast-message";
-import { definedMerge } from "@/utils/sane-merge";
+
 import { createDefaultLogger } from "@/utils/logging";
+import { definedMerge } from "@/utils/sane-merge";
+import { supabase } from "@/utils/supabase";
 
 type SessionContextType = {
   session: Session | null;

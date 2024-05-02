@@ -1,8 +1,10 @@
+import Timezone from "react-native-timezone";
 import { z } from "zod";
+
+import { createDefaultLogger } from "@/utils/logging";
+
 import { supabase } from "..";
 import { RecordEntry, RecordEntrySchema } from "./schema";
-import Timezone from "react-native-timezone";
-import { createDefaultLogger } from "@/utils/logging";
 
 const logger = createDefaultLogger("SUPABASE/RECORD");
 async function addRecordEntry(

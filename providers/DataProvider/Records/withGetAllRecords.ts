@@ -1,8 +1,9 @@
+import { useCallback, useMemo, useState } from "react";
+import Toast from "react-native-toast-message";
+
 import { useSession } from "@/providers/AuthProvider";
 import { getAllRecords } from "@/utils/supabase/records/getAllRecords";
 import { Record } from "@/utils/supabase/records/schema";
-import { useCallback, useMemo, useState } from "react";
-import Toast from "react-native-toast-message";
 
 export const defaultWithGetAllRecords: ReturnType<typeof withGetAllRecords> = {
   allRecords: [],
@@ -18,13 +19,13 @@ export function withGetAllRecords() {
       ...prev,
       [curr.record_id]: curr,
     }),
-    {}
+    {},
   );
   const [fetchingAllRecordsProcessCount, setFetchingAllRecordsProcessCount] =
     useState(0);
   const isFetchingAllRecords = useMemo(
     () => fetchingAllRecordsProcessCount >= 1,
-    [fetchingAllRecordsProcessCount]
+    [fetchingAllRecordsProcessCount],
   );
   const fetchAllRecords = useCallback(() => {
     if (isInitDone) {

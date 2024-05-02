@@ -1,8 +1,9 @@
-import { authStore } from "./auth/auth";
-import { themeStore } from "./theme";
-import { recordStore } from "./records";
-import { recordEntryStore } from "./record-entry";
 import { configure } from "mobx";
+
+import { authStore } from "./auth/auth";
+import { recordEntryStore } from "./record-entry";
+import { recordStore } from "./records";
+import { themeStore } from "./theme";
 interface SavedToAsyncStorage {
   initFromAsyncStorage: () => Promise<void>;
 }
@@ -15,9 +16,9 @@ configure({
   disableErrorBoundaries: false,
 });
 export {
-  SavedToAsyncStorage,
   authStore,
-  themeStore,
-  recordStore,
   recordEntryStore,
+  recordStore,
+  SavedToAsyncStorage,
+  themeStore,
 };

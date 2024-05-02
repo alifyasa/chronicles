@@ -1,5 +1,5 @@
-import { CustomTheme } from ".";
 import { BluePalette } from "../palettes/BluePalette";
+import { CustomTheme } from ".";
 
 export const DefaultBlueTheme: CustomTheme = {
   dark: false,

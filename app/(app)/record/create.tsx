@@ -1,8 +1,5 @@
-import React from "react";
-import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { router } from "expo-router";
+import React from "react";
 import { useCallback, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -12,10 +9,14 @@ import {
   TextInput as RNTextInput,
   View,
 } from "react-native";
-import { z } from "zod";
 import Toast from "react-native-toast-message";
+import { z } from "zod";
+
 import Text from "@/components/themed/Text";
 import TextInput from "@/components/themed/TextInput";
+import { CustomTheme } from "@/constants/themes";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 
 // const logger = createDefaultLogger("APP/RECORD/CREATE");
 export default function CreateRecordScreen() {

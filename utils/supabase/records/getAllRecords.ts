@@ -1,7 +1,9 @@
 import { z } from "zod";
+
+import { createDefaultLogger } from "@/utils/logging";
+
 import { supabase } from "..";
 import { RecordSchema } from "./schema";
-import { createDefaultLogger } from "@/utils/logging";
 
 const logger = createDefaultLogger("SUPABASE/RECORD");
 async function getAllRecords() {

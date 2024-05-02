@@ -1,13 +1,14 @@
-import Crypto from "react-native-aes-crypto";
-import { ActivityIndicator, StyleSheet, TextInput, View } from "react-native";
 import React from "react";
 import { useEffect, useState } from "react";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { CustomTheme } from "@/constants/themes";
-import { throttleAsync } from "@/utils/throttle-async";
+import { ActivityIndicator, StyleSheet, TextInput, View } from "react-native";
+import Crypto from "react-native-aes-crypto";
 import Timezone from "react-native-timezone";
+
 import Text from "@/components/themed/Text";
+import { CustomTheme } from "@/constants/themes";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { createDefaultLogger } from "@/utils/logging";
+import { throttleAsync } from "@/utils/throttle-async";
 
 const logger = createDefaultLogger("APP/DEV/SECRET");
 export default function SecretPage() {

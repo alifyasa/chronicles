@@ -1,18 +1,18 @@
-import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Stack, useNavigation } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import React from "react";
 import { useEffect } from "react";
-
-import { useColorScheme } from "@/components/useColorScheme";
-import { SessionProvider } from "@/providers/AuthProvider";
-import { CustomTheme } from "@/constants/themes";
-import { CustomThemeProvider } from "@/providers/CustomThemeProvider";
-import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
-import Toast from "react-native-toast-message";
-import toastConfig from "@/components/toastConfig";
 import { View } from "react-native";
+import Toast from "react-native-toast-message";
+
+import toastConfig from "@/components/toastConfig";
+import { useColorScheme } from "@/components/useColorScheme";
+import { CustomTheme } from "@/constants/themes";
+import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
+import { SessionProvider } from "@/providers/AuthProvider";
+import { CustomThemeProvider } from "@/providers/CustomThemeProvider";
 import { createDefaultLogger } from "@/utils/logging";
 import { getRouteNamesRecursive } from "@/utils/navigation/getRouteNameRecursive";
 

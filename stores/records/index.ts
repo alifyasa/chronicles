@@ -1,7 +1,8 @@
+import { makeAutoObservable, observable } from "mobx";
+
 import { addRecord } from "@/utils/supabase/records/addRecord";
 import { getAllRecords } from "@/utils/supabase/records/getAllRecords";
 import { Record, RecordSchema } from "@/utils/supabase/records/schema";
-import { makeAutoObservable, observable } from "mobx";
 
 class RecordStore {
   @observable
@@ -15,7 +16,7 @@ class RecordStore {
         ...prev,
         [curr.record_id]: curr,
       }),
-      {}
+      {},
     );
   }
 
@@ -37,7 +38,7 @@ class RecordStore {
   async addRecord(
     recordName: string,
     recordDescription: string,
-    recordType: Record["type"]
+    recordType: Record["type"],
   ) {
     const record_name = RecordSchema.shape.name.parse(recordName);
     const record_desc = RecordSchema.shape.description.parse(recordDescription);

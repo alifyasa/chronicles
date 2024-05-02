@@ -1,7 +1,7 @@
+import { router, useFocusEffect } from "expo-router";
+import { SplashScreen } from "expo-router";
+import { autorun, trace } from "mobx";
 import React, { useEffect, useRef } from "react";
-import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { supabase } from "@/utils/supabase";
 import { useState } from "react";
 import {
   ActivityIndicator,
@@ -10,12 +10,13 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { router, useFocusEffect } from "expo-router";
+
 import Text from "@/components/themed/Text";
-import { createDefaultLogger } from "@/utils/logging";
-import { SplashScreen } from "expo-router";
+import { CustomTheme } from "@/constants/themes";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { authStore } from "@/stores";
-import { autorun, trace } from "mobx";
+import { createDefaultLogger } from "@/utils/logging";
+import { supabase } from "@/utils/supabase";
 
 const logger = createDefaultLogger("AUTH");
 const LoginScreen = () => {

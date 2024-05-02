@@ -1,13 +1,14 @@
-import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import React, { forwardRef, useState } from "react";
 import {
   Animated,
   Easing,
-  TextInput as RNTextInput,
   StyleSheet,
+  TextInput as RNTextInput,
   TextInputProps,
 } from "react-native";
+
+import { CustomTheme } from "@/constants/themes";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
 
 const TextInput = forwardRef<RNTextInput, TextInputProps>(
   function TextInput(props, ref) {
@@ -55,7 +56,7 @@ const TextInput = forwardRef<RNTextInput, TextInputProps>(
         />
       </Animated.View>
     );
-  }
+  },
 );
 const stylesFromTheme = (theme: CustomTheme) =>
   StyleSheet.create({

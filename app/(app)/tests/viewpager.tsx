@@ -1,12 +1,14 @@
-import PagerView from "react-native-pager-view";
 import React, { memo, useRef } from "react";
 import { StyleSheet, View } from "react-native";
+import PagerView from "react-native-pager-view";
+import { BottomNavigation, Divider } from "react-native-paper";
+
 import { CustomTheme } from "@/constants/themes";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
+
 import MessagesTab from "../tabs/messages";
 import RecordsTab from "../tabs/records";
 import SettingsTab from "../tabs/settings";
-import { BottomNavigation, Divider } from "react-native-paper";
 
 /**
  * Ada dua bagian:

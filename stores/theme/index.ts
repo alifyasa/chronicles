@@ -1,7 +1,8 @@
-import { CustomTheme } from "@/constants/themes";
-import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
 import { makeAutoObservable } from "mobx";
 import { ColorSchemeName } from "react-native";
+
+import { CustomTheme } from "@/constants/themes";
+import { DarkBlueTheme, DefaultBlueTheme } from "@/constants/themes/BlueTheme";
 
 class ThemeStore {
   constructor() {

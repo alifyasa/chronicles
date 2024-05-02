@@ -1,7 +1,8 @@
-import { addRecord } from "@/utils/supabase/records/addRecord";
-import { Record } from "@/utils/supabase/records/schema";
 import { useMemo, useState } from "react";
 import Toast from "react-native-toast-message";
+
+import { addRecord } from "@/utils/supabase/records/addRecord";
+import { Record } from "@/utils/supabase/records/schema";
 
 export const defaultWithAddRecord: ReturnType<typeof withAddRecord> = {
   isAddingRecord: false,
@@ -12,13 +13,13 @@ export function withAddRecord() {
   const [addingRecordProcessCount, setAddingRecordProcessCount] = useState(0);
   const isAddingRecord = useMemo(
     () => addingRecordProcessCount >= 1,
-    [addingRecordProcessCount]
+    [addingRecordProcessCount],
   );
 
   const __addRecord = async (
     recordName: string,
     recordDescription: string,
-    recordType: Record["type"]
+    recordType: Record["type"],
   ) => {
     setAddingRecordProcessCount((prev) => prev + 1);
     return addRecord(recordName, recordDescription, recordType)

@@ -1,7 +1,9 @@
 import { z } from "zod";
+
+import { createDefaultLogger } from "@/utils/logging";
+
 import { supabase } from "..";
 import { Record, RecordEntrySchema, RecordSchema } from "./schema";
-import { createDefaultLogger } from "@/utils/logging";
 
 const logger = createDefaultLogger("SUPABASE/RECORD_ENTRY");
 async function getRecordEntryById(record_id: Record["record_id"]) {
@@ -10,7 +12,7 @@ async function getRecordEntryById(record_id: Record["record_id"]) {
     "all_record_entry_by_id",
     {
       arg_rid: RecordSchema.shape.record_id.parse(record_id),
-    }
+    },
   );
   if (error || !records) {
     throw new Error(`Error fetching records: ${error?.message}`);
@@ -21,7 +23,7 @@ async function getRecordEntryById(record_id: Record["record_id"]) {
       records.map((recordEntry: object) => ({
         record_id,
         ...recordEntry,
-      }))
+      })),
     );
   } catch (err) {
     logger.log(JSON.stringify(err, null, 2));

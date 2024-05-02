@@ -1,10 +1,11 @@
-import { supabase } from "@/utils/supabase";
 import { AuthChangeEvent, Session } from "@supabase/supabase-js";
 import { makeAutoObservable, runInAction } from "mobx";
 
+import { supabase } from "@/utils/supabase";
+
 type AuthStateChangeCallback = (
   ev: AuthChangeEvent,
-  session: Session | null
+  session: Session | null,
 ) => void;
 
 class AuthStore {
@@ -22,7 +23,7 @@ class AuthStore {
 
   addAuthStateChangeCallback(
     eventName: string,
-    callback: AuthStateChangeCallback
+    callback: AuthStateChangeCallback,
   ) {
     this.stateChangeCallbacks[eventName] = callback;
   }

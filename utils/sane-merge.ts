@@ -54,4 +54,4 @@ function definedMerge<T extends Mergable>(...objects: T[]): Required<T> {
     return result;
   }, {} as Mergable) as Required<T>;
 }
-export { truthyMerge, definedMerge };
+export { definedMerge, truthyMerge };

@@ -1,23 +1,24 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
-import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { router, useLocalSearchParams } from "expo-router";
+import { DateTime } from "luxon";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Pressable,
-  StyleSheet,
-  View,
   ActivityIndicator,
   FlatList,
+  Pressable,
   RefreshControl,
+  StyleSheet,
   TextInput as RNTextInput,
+  View,
 } from "react-native";
+import Toast from "react-native-toast-message";
+
 import Text from "@/components/themed/Text";
 import TextInput from "@/components/themed/TextInput";
-import Toast from "react-native-toast-message";
-import { DateTime } from "luxon";
+import { CustomTheme } from "@/constants/themes";
+import { useCustomTheme } from "@/providers/CustomThemeProvider";
+import { useRecord } from "@/providers/DataProvider/Records/RecordProvider";
 import { RecordEntry } from "@/utils/supabase/records/schema";
 
 export default function RecordDetailScreen() {

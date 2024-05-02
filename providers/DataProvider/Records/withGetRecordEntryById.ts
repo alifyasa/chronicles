@@ -1,8 +1,9 @@
+import { useCallback, useMemo, useState } from "react";
+import Toast from "react-native-toast-message";
+
 import { useSession } from "@/providers/AuthProvider";
 import { getRecordEntryById } from "@/utils/supabase/records/getRecordEntryById";
 import { Record, RecordEntry } from "@/utils/supabase/records/schema";
-import { useCallback, useMemo, useState } from "react";
-import Toast from "react-native-toast-message";
 
 // const logger = createDefaultLogger(
 //   "PROVIDER/DATA/RECORDS/GET_RECORD_ENTRY_BY_ID"
@@ -28,7 +29,7 @@ export function withGetRecordEntriesById() {
   ] = useState(0);
   const isFetchingRecordEntries = useMemo(
     () => fetchingRecordEntriesProcessCount >= 1,
-    [fetchingRecordEntriesProcessCount]
+    [fetchingRecordEntriesProcessCount],
   );
   const fetchRecordEntriesById = useCallback(
     (arg_id: Record["record_id"]) => {
@@ -57,7 +58,7 @@ export function withGetRecordEntriesById() {
           });
       }
     },
-    [isInitDone]
+    [isInitDone],
   );
 
   return {
