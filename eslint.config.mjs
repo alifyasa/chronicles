@@ -18,9 +18,9 @@ export default [
       },
     },
     plugins: {
-      tseslint,
+      "typescript-eslint": tseslint,
       "unused-imports": unusedImports,
-      eslintConfigPrettier,
+      "eslint-config-prettier": eslintConfigPrettier,
       "simple-import-sort": simpleImportSort,
     },
     rules: {
