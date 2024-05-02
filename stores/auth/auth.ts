@@ -1,6 +1,6 @@
 import { supabase } from "@/utils/supabase";
 import { AuthChangeEvent, Session } from "@supabase/supabase-js";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 type AuthStateChangeCallback = (
   ev: AuthChangeEvent,
@@ -42,10 +42,12 @@ class AuthStore {
     });
     supabase.auth.onAuthStateChange((ev, session) => {
       this.setSession(session);
-      for (const key in this.stateChangeCallbacks) {
-        const callbackFunc = this.stateChangeCallbacks[key];
-        callbackFunc(ev, session);
-      }
+      runInAction(() => {
+        for (const key in this.stateChangeCallbacks) {
+          const callbackFunc = this.stateChangeCallbacks[key];
+          callbackFunc(ev, session);
+        }
+      });
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
       this.setSession(session);

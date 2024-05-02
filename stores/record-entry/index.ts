@@ -35,9 +35,13 @@ class RecordEntryStore {
     const entry_message = RecordEntrySchema.shape.message.parse(entryMessage);
 
     this.addRecordEntryTaskCount++;
-    await addRecordEntry(record_id, entry_message, null);
+    const result = await addRecordEntry(record_id, entry_message, null);
+    if (result.startsWith("FAIL")) {
+      return false;
+    }
     await this.fetchRecordEntries(record_id);
     this.fetchingRecordEntriesTaskCount--;
+    return true;
   }
 }
 const recordEntryStore = new RecordEntryStore();

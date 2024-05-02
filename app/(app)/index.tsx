@@ -2,13 +2,14 @@ import PagerView from "react-native-pager-view";
 import React, { memo, useCallback, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { CustomTheme } from "@/constants/themes";
-import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { BottomNavigation, Divider } from "react-native-paper";
 import MessagesTab from "./tabs/messages";
 import SettingsTab from "./tabs/settings";
 import RecordsTab from "./tabs/records";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
+import { themeStore } from "@/stores";
+import { observer } from "mobx-react";
 
 const INITIAL_PAGE_INDEX = 1;
 const TABS = [
@@ -64,36 +65,38 @@ interface TabPagesProps {
   setPageIndex: (newIndex: number) => void;
   pagerViewRef: React.MutableRefObject<PagerView | null>;
 }
-const TabPages = memo(function TabPages(props: TabPagesProps) {
-  const theme = useCustomTheme();
-  const styles = stylesFromTheme(theme);
-  const { setPageIndex, pagerViewRef } = props;
+const TabPages = observer(
+  memo(function TabPages(props: TabPagesProps) {
+    const theme = themeStore.theme;
+    const styles = stylesFromTheme(theme);
+    const { setPageIndex, pagerViewRef } = props;
 
-  return (
-    <PagerView
-      ref={(ref) => (pagerViewRef.current = ref)}
-      style={styles.container}
-      initialPage={1}
-      onPageSelected={(page) => {
-        // console.log(JSON.stringify(page.nativeEvent.position, null, 2));
-        setPageIndex(page.nativeEvent.position);
-      }}
-    >
-      <View style={styles.page} key={0}>
-        <MessagesTab />
-      </View>
-      <View style={styles.page} key={1}>
-        <RecordsTab />
-      </View>
-      <View style={styles.page} key={2}>
-        <SettingsTab />
-      </View>
-    </PagerView>
-  );
-});
+    return (
+      <PagerView
+        ref={(ref) => (pagerViewRef.current = ref)}
+        style={styles.container}
+        initialPage={1}
+        onPageSelected={(page) => {
+          // console.log(JSON.stringify(page.nativeEvent.position, null, 2));
+          setPageIndex(page.nativeEvent.position);
+        }}
+      >
+        <View style={styles.page} key={0}>
+          <MessagesTab />
+        </View>
+        <View style={styles.page} key={1}>
+          <RecordsTab />
+        </View>
+        <View style={styles.page} key={2}>
+          <SettingsTab />
+        </View>
+      </PagerView>
+    );
+  })
+);
 
-function RenderIcon(props: { iconName: string }) {
-  const theme = useCustomTheme();
+const RenderIcon = observer((props: { iconName: string }) => {
+  const theme = themeStore.theme;
   return (
     <FontAwesome6
       size={24}
@@ -101,10 +104,10 @@ function RenderIcon(props: { iconName: string }) {
       color={theme.colors.text.normal}
     />
   );
-}
+});
 
-export default function HomeTab() {
-  const theme = useCustomTheme();
+const HomeTab = () => {
+  const theme = themeStore.theme;
   const navigation = useNavigation();
   const styles = stylesFromTheme(theme);
 
@@ -126,7 +129,7 @@ export default function HomeTab() {
         ),
       });
     },
-    [pagerViewRef],
+    [pagerViewRef]
   );
 
   return (
@@ -160,7 +163,7 @@ export default function HomeTab() {
       />
     </View>
   );
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const stylesFromTheme = (theme: CustomTheme) =>
@@ -175,3 +178,5 @@ const stylesFromTheme = (theme: CustomTheme) =>
       color: theme.colors.text.normal,
     },
   });
+
+export default observer(HomeTab);

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { CustomTheme } from "@/constants/themes";
-import { useSession } from "@/providers/AuthProvider";
 import { useCustomTheme } from "@/providers/CustomThemeProvider";
 import { supabase } from "@/utils/supabase";
 import { useState } from "react";
@@ -15,12 +14,13 @@ import { router, useFocusEffect } from "expo-router";
 import Text from "@/components/themed/Text";
 import { createDefaultLogger } from "@/utils/logging";
 import { SplashScreen } from "expo-router";
+import { authStore } from "@/stores";
+import { autorun, trace } from "mobx";
 
 const logger = createDefaultLogger("AUTH");
-export default function LoginScreen() {
+const LoginScreen = () => {
   const theme = useCustomTheme();
   const styles = stylesFromTheme(theme);
-  const { session, isInitDone } = useSession();
   const ref = useRef<TextInput | null>(null);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -39,20 +39,26 @@ export default function LoginScreen() {
     ref?.current?.focus();
   });
 
+  trace(authStore, "isInitDone");
+  trace(authStore, "session");
   useEffect(() => {
-    if (!isInitDone) {
-      return;
-    }
+    autorun((reaction) => {
+      reaction.trace();
+      if (!authStore.isInitDone) {
+        logger.log("Init Not Done");
+        return;
+      }
 
-    if (session) {
-      logger.log("Redirect to App");
-      router.replace("/(app)/");
-      return;
-    }
+      if (authStore.session) {
+        logger.log("Redirect to App");
+        router.replace("/(app)/");
+        return;
+      }
 
-    logger.log("Hiding Splash Screen");
-    SplashScreen.hideAsync();
-  }, [session, isInitDone]);
+      logger.log("Hiding Splash Screen");
+      SplashScreen.hideAsync();
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -89,7 +95,7 @@ export default function LoginScreen() {
       </Pressable>
     </View>
   );
-}
+};
 
 const stylesFromTheme = (theme: CustomTheme) =>
   StyleSheet.create({
@@ -143,3 +149,5 @@ const stylesFromTheme = (theme: CustomTheme) =>
       alignItems: "center",
     },
   });
+
+export default LoginScreen;
